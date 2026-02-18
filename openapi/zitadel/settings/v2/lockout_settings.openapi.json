@@ -1,0 +1,51 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.settings.v2"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.settings.v2.ResourceOwnerType": {
+        "type": "string",
+        "title": "ResourceOwnerType",
+        "enum": [
+          "RESOURCE_OWNER_TYPE_UNSPECIFIED",
+          "RESOURCE_OWNER_TYPE_INSTANCE",
+          "RESOURCE_OWNER_TYPE_ORG"
+        ]
+      },
+      "zitadel.settings.v2.LockoutSettings": {
+        "type": "object",
+        "properties": {
+          "maxPasswordAttempts": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "max_password_attempts",
+            "format": "int64",
+            "description": "The amount of failed password attempts before the account gets locked.\n Attempts are reset as soon as the password is entered correctly or the password is reset.\n If set to 0 the account will never be locked."
+          },
+          "resourceOwnerType": {
+            "title": "resource_owner_type",
+            "description": "ResourceOwnerType returns if the settings is managed on the organization explicitly or\n fell back on the instance settings.",
+            "$ref": "#/components/schemas/zitadel.settings.v2.ResourceOwnerType"
+          },
+          "maxOtpAttempts": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "max_otp_attempts",
+            "format": "int64",
+            "description": "THe amount of failed OTP (TOTP, SMS, Email) attempts before the account gets locked.\n Attempts are reset as soon as the OTP is entered correctly.\n If set to 0 the account will never be locked."
+          }
+        },
+        "title": "LockoutSettings",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

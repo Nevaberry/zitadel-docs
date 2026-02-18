@@ -1,0 +1,1338 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.instance.v2beta"
+  },
+  "paths": {
+    "/v2beta/instances/{instance_id}": {
+      "get": {
+        "tags": [
+          "zitadel.instance.v2beta.InstanceService"
+        ],
+        "summary": "GetInstance",
+        "description": "Get Instance\n\n Deprecated: please move to the corresponding endpoint under instance service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Returns the instance in the current context.\n\n The instance_id in the input message will be used in the future.\n\n Required permissions:\n   - `iam.read`",
+        "operationId": "zitadel.instance.v2beta.InstanceService.GetInstance",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2beta.GetInstanceResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "zitadel.instance.v2beta.InstanceService"
+        ],
+        "summary": "UpdateInstance",
+        "description": "Update Instance\n\n Deprecated: please move to the corresponding endpoint under instance service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Updates instance in context with the provided name.\n\n The instance_id in the input message will be used in the future.\n\n Required permissions:\n   - `iam.write`",
+        "operationId": "zitadel.instance.v2beta.InstanceService.UpdateInstance",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "description": "used only to identify the instance to change.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id",
+              "description": "used only to identify the instance to change."
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "instanceName": {
+                    "type": "string",
+                    "title": "instance_name"
+                  }
+                },
+                "title": "UpdateInstanceRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2beta.UpdateInstanceResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "zitadel.instance.v2beta.InstanceService"
+        ],
+        "summary": "DeleteInstance",
+        "description": "Delete Instance\n\n Deprecated: please move to the corresponding endpoint under instance service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Deletes an instance with the given ID.\n\n Required permissions:\n   - `system.instance.delete`",
+        "operationId": "zitadel.instance.v2beta.InstanceService.DeleteInstance",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2beta.DeleteInstanceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/instances/search": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2beta.InstanceService"
+        ],
+        "summary": "ListInstances",
+        "description": "List Instances\n\n Deprecated: please move to the corresponding endpoint under instance service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Lists instances matching the given query.\n The query can be used to filter either by instance ID or domain.\n The request is paginated and returns 100 results by default.\n\n Required permissions:\n  - `system.instance.read`",
+        "operationId": "zitadel.instance.v2beta.InstanceService.ListInstances",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.instance.v2beta.ListInstancesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2beta.ListInstancesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/instances/{instance_id}/custom-domains": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2beta.InstanceService"
+        ],
+        "summary": "AddCustomDomain",
+        "description": "Add Custom Domain\n\n Deprecated: please move to the corresponding endpoint under instance service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Adds a Custom Domain to the instance in context.\n\n The instance_id in the input message will be used in the future\n\n Required permissions:\n   - `system.domain.write`",
+        "operationId": "zitadel.instance.v2beta.InstanceService.AddCustomDomain",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "title": "domain"
+                  }
+                },
+                "title": "AddCustomDomainRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2beta.AddCustomDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/instances/{instance_id}/custom-domains/{domain}": {
+      "delete": {
+        "tags": [
+          "zitadel.instance.v2beta.InstanceService"
+        ],
+        "summary": "RemoveCustomDomain",
+        "description": "Remove Custom Domain\n\n Deprecated: please move to the corresponding endpoint under instance service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Removes a Custom Domain from the instance.\n\n The instance_id in the input message will be used in the future.\n\n Required permissions:\n  - `system.domain.write`",
+        "operationId": "zitadel.instance.v2beta.InstanceService.RemoveCustomDomain",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          },
+          {
+            "name": "domain",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "domain"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2beta.RemoveCustomDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/instances/{instance_id}/custom-domains/search": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2beta.InstanceService"
+        ],
+        "summary": "ListCustomDomains",
+        "description": "List Custom Domains\n\n Deprecated: please move to the corresponding endpoint under instance service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Lists Custom Domains of the instance.\n\n The instance_id in the input message will be used in the future.\n\n Required permissions:\n  - `iam.read`",
+        "operationId": "zitadel.instance.v2beta.InstanceService.ListCustomDomains",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pagination": {
+                    "title": "pagination",
+                    "description": "Pagination and sorting.",
+                    "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationRequest"
+                  },
+                  "sortingColumn": {
+                    "title": "sorting_column",
+                    "description": "The field the result is sorted by.",
+                    "$ref": "#/components/schemas/zitadel.instance.v2beta.DomainFieldName"
+                  },
+                  "queries": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/zitadel.instance.v2beta.DomainSearchQuery"
+                    },
+                    "title": "queries",
+                    "description": "Criteria the client is looking for."
+                  }
+                },
+                "title": "ListCustomDomainsRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2beta.ListCustomDomainsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/instances/{instance_id}/trusted-domains": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2beta.InstanceService"
+        ],
+        "summary": "AddTrustedDomain",
+        "description": "Add Trusted Domain\n\n Deprecated: please move to the corresponding endpoint under instance service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Adds a trusted domain to the instance.\n\n The instance_id in the input message will be used in the future.\n\n Required permissions:\n  - `iam.write`",
+        "operationId": "zitadel.instance.v2beta.InstanceService.AddTrustedDomain",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "title": "domain"
+                  }
+                },
+                "title": "AddTrustedDomainRequest",
+                "required": [
+                  "domain"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2beta.AddTrustedDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/instances/{instance_id}/trusted-domains/{domain}": {
+      "delete": {
+        "tags": [
+          "zitadel.instance.v2beta.InstanceService"
+        ],
+        "summary": "RemoveTrustedDomain",
+        "description": "Remove Trusted Domain\n\n Deprecated: please move to the corresponding endpoint under instance service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Removes a trusted domain from the instance.\n\n The instance_id in the input message will be used in the future.\n\n Required permissions:\n  - `iam.write`",
+        "operationId": "zitadel.instance.v2beta.InstanceService.RemoveTrustedDomain",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          },
+          {
+            "name": "domain",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "domain"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2beta.RemoveTrustedDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/instances/{instance_id}/trusted-domains/search": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2beta.InstanceService"
+        ],
+        "summary": "ListTrustedDomains",
+        "description": "List Trusted Domains\n\n Deprecated: please move to the corresponding endpoint under instance service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Lists trusted domains of the instance.\n\n The instance_id in the input message will be used in the future.\n\n Required permissions:\n   - `iam.read`",
+        "operationId": "zitadel.instance.v2beta.InstanceService.ListTrustedDomains",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pagination": {
+                    "title": "pagination",
+                    "description": "Pagination and sorting.",
+                    "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationRequest"
+                  },
+                  "sortingColumn": {
+                    "title": "sorting_column",
+                    "description": "The field the result is sorted by.",
+                    "$ref": "#/components/schemas/zitadel.instance.v2beta.TrustedDomainFieldName"
+                  },
+                  "queries": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/zitadel.instance.v2beta.TrustedDomainSearchQuery"
+                    },
+                    "title": "queries",
+                    "description": "Criteria the client is looking for."
+                  }
+                },
+                "title": "ListTrustedDomainsRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2beta.ListTrustedDomainsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "zitadel.instance.v2beta.DomainFieldName": {
+        "type": "string",
+        "title": "DomainFieldName",
+        "enum": [
+          "DOMAIN_FIELD_NAME_UNSPECIFIED",
+          "DOMAIN_FIELD_NAME_DOMAIN",
+          "DOMAIN_FIELD_NAME_PRIMARY",
+          "DOMAIN_FIELD_NAME_GENERATED",
+          "DOMAIN_FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.instance.v2beta.FieldName": {
+        "type": "string",
+        "title": "FieldName",
+        "enum": [
+          "FIELD_NAME_UNSPECIFIED",
+          "FIELD_NAME_ID",
+          "FIELD_NAME_NAME",
+          "FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.instance.v2beta.State": {
+        "type": "string",
+        "title": "State",
+        "enum": [
+          "STATE_UNSPECIFIED",
+          "STATE_CREATING",
+          "STATE_RUNNING",
+          "STATE_STOPPING",
+          "STATE_STOPPED"
+        ]
+      },
+      "zitadel.instance.v2beta.TrustedDomainFieldName": {
+        "type": "string",
+        "title": "TrustedDomainFieldName",
+        "enum": [
+          "TRUSTED_DOMAIN_FIELD_NAME_UNSPECIFIED",
+          "TRUSTED_DOMAIN_FIELD_NAME_DOMAIN",
+          "TRUSTED_DOMAIN_FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.object.v2.TextQueryMethod": {
+        "type": "string",
+        "title": "TextQueryMethod",
+        "enum": [
+          "TEXT_QUERY_METHOD_EQUALS",
+          "TEXT_QUERY_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_STARTS_WITH",
+          "TEXT_QUERY_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_CONTAINS",
+          "TEXT_QUERY_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_ENDS_WITH",
+          "TEXT_QUERY_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "1s",
+          "1.000340012s"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.filter.v2beta.PaginationRequest": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "offset",
+            "format": "int64",
+            "description": "Starting point for retrieval, in combination of offset used to query a set list of objects."
+          },
+          "limit": {
+            "type": "integer",
+            "title": "limit",
+            "description": "limit is the maximum amount of objects returned. The default is set to 100\n with a maximum of 1000 in the runtime configuration.\n If the limit exceeds the maximum configured Zitadel will throw an error.\n If no limit is present the default is taken."
+          },
+          "asc": {
+            "type": "boolean",
+            "title": "asc",
+            "description": "Asc is the sorting order. If true the list is sorted ascending, if false\n the list is sorted descending. The default is descending."
+          }
+        },
+        "title": "PaginationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2beta.PaginationResponse": {
+        "type": "object",
+        "properties": {
+          "totalResult": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "total_result",
+            "format": "int64",
+            "description": "Absolute number of objects matching the query, regardless of applied limit."
+          },
+          "appliedLimit": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "applied_limit",
+            "format": "int64",
+            "description": "Applied limit from query, defines maximum amount of objects per request, to compare if all objects are returned."
+          }
+        },
+        "title": "PaginationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.AddCustomDomainRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          }
+        },
+        "title": "AddCustomDomainRequest",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.AddCustomDomainResponse": {
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "title": "creation_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "AddCustomDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.AddTrustedDomainRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          }
+        },
+        "title": "AddTrustedDomainRequest",
+        "required": [
+          "domain"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.AddTrustedDomainResponse": {
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "title": "creation_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "AddTrustedDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.DeleteInstanceRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          }
+        },
+        "title": "DeleteInstanceRequest",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.DeleteInstanceResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeleteInstanceResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.Domain": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          },
+          "primary": {
+            "type": "boolean",
+            "title": "primary"
+          },
+          "generated": {
+            "type": "boolean",
+            "title": "generated"
+          }
+        },
+        "title": "Domain",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.DomainGeneratedQuery": {
+        "type": "object",
+        "properties": {
+          "generated": {
+            "type": "boolean",
+            "title": "generated"
+          }
+        },
+        "title": "DomainGeneratedQuery",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.DomainPrimaryQuery": {
+        "type": "object",
+        "properties": {
+          "primary": {
+            "type": "boolean",
+            "title": "primary"
+          }
+        },
+        "title": "DomainPrimaryQuery",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.DomainQuery": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.object.v2.TextQueryMethod"
+          }
+        },
+        "title": "DomainQuery",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.DomainSearchQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "domainQuery": {
+                "title": "domain_query",
+                "$ref": "#/components/schemas/zitadel.instance.v2beta.DomainQuery"
+              }
+            },
+            "title": "domain_query",
+            "required": [
+              "domainQuery"
+            ]
+          },
+          {
+            "properties": {
+              "generatedQuery": {
+                "title": "generated_query",
+                "$ref": "#/components/schemas/zitadel.instance.v2beta.DomainGeneratedQuery"
+              }
+            },
+            "title": "generated_query",
+            "required": [
+              "generatedQuery"
+            ]
+          },
+          {
+            "properties": {
+              "primaryQuery": {
+                "title": "primary_query",
+                "$ref": "#/components/schemas/zitadel.instance.v2beta.DomainPrimaryQuery"
+              }
+            },
+            "title": "primary_query",
+            "required": [
+              "primaryQuery"
+            ]
+          }
+        ],
+        "title": "DomainSearchQuery",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.DomainsQuery": {
+        "type": "object",
+        "properties": {
+          "domains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "domains"
+          }
+        },
+        "title": "DomainsQuery",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.GetInstanceRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          }
+        },
+        "title": "GetInstanceRequest",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.GetInstanceResponse": {
+        "type": "object",
+        "properties": {
+          "instance": {
+            "title": "instance",
+            "$ref": "#/components/schemas/zitadel.instance.v2beta.Instance"
+          }
+        },
+        "title": "GetInstanceResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.IdsQuery": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ids"
+          }
+        },
+        "title": "IdsQuery",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.Instance": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "change_date is the timestamp when the object was changed\n\n on read: the timestamp of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "state": {
+            "title": "state",
+            "$ref": "#/components/schemas/zitadel.instance.v2beta.State"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "version": {
+            "type": "string",
+            "title": "version"
+          },
+          "domains": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v2beta.Domain"
+            },
+            "title": "domains"
+          }
+        },
+        "title": "Instance",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.ListCustomDomainsRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "Pagination and sorting.",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationRequest"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "description": "The field the result is sorted by.",
+            "$ref": "#/components/schemas/zitadel.instance.v2beta.DomainFieldName"
+          },
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v2beta.DomainSearchQuery"
+            },
+            "title": "queries",
+            "description": "Criteria the client is looking for."
+          }
+        },
+        "title": "ListCustomDomainsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.ListCustomDomainsResponse": {
+        "type": "object",
+        "properties": {
+          "domains": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v2beta.Domain"
+            },
+            "title": "domains"
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "Contains the total number of domains matching the query and the applied limit.",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationResponse"
+          }
+        },
+        "title": "ListCustomDomainsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.ListInstancesRequest": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v2beta.Query"
+            },
+            "title": "queries",
+            "description": "Criteria the client is looking for."
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "Pagination and sorting.",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationRequest"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "description": "The field the result is sorted by.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.instance.v2beta.FieldName"
+          }
+        },
+        "title": "ListInstancesRequest",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.ListInstancesResponse": {
+        "type": "object",
+        "properties": {
+          "instances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v2beta.Instance"
+            },
+            "title": "instances",
+            "description": "The list of instances."
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "Contains the total number of instances matching the query and the applied limit.",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationResponse"
+          }
+        },
+        "title": "ListInstancesResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.ListTrustedDomainsRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "Pagination and sorting.",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationRequest"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "description": "The field the result is sorted by.",
+            "$ref": "#/components/schemas/zitadel.instance.v2beta.TrustedDomainFieldName"
+          },
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v2beta.TrustedDomainSearchQuery"
+            },
+            "title": "queries",
+            "description": "Criteria the client is looking for."
+          }
+        },
+        "title": "ListTrustedDomainsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.ListTrustedDomainsResponse": {
+        "type": "object",
+        "properties": {
+          "trustedDomain": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v2beta.TrustedDomain"
+            },
+            "title": "trusted_domain"
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "Contains the total number of domains matching the query and the applied limit.",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationResponse"
+          }
+        },
+        "title": "ListTrustedDomainsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.Query": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "domainQuery": {
+                "title": "domain_query",
+                "$ref": "#/components/schemas/zitadel.instance.v2beta.DomainsQuery"
+              }
+            },
+            "title": "domain_query",
+            "required": [
+              "domainQuery"
+            ]
+          },
+          {
+            "properties": {
+              "idQuery": {
+                "title": "id_query",
+                "$ref": "#/components/schemas/zitadel.instance.v2beta.IdsQuery"
+              }
+            },
+            "title": "id_query",
+            "required": [
+              "idQuery"
+            ]
+          }
+        ],
+        "title": "Query",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.RemoveCustomDomainRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          }
+        },
+        "title": "RemoveCustomDomainRequest",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.RemoveCustomDomainResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "RemoveCustomDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.RemoveTrustedDomainRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          }
+        },
+        "title": "RemoveTrustedDomainRequest",
+        "required": [
+          "domain"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.RemoveTrustedDomainResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "RemoveTrustedDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.TrustedDomain": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          }
+        },
+        "title": "TrustedDomain",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.TrustedDomainSearchQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "domainQuery": {
+                "title": "domain_query",
+                "$ref": "#/components/schemas/zitadel.instance.v2beta.DomainQuery"
+              }
+            },
+            "title": "domain_query",
+            "required": [
+              "domainQuery"
+            ]
+          }
+        ],
+        "title": "TrustedDomainSearchQuery",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.UpdateInstanceRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id",
+            "description": "used only to identify the instance to change."
+          },
+          "instanceName": {
+            "type": "string",
+            "title": "instance_name"
+          }
+        },
+        "title": "UpdateInstanceRequest",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2beta.UpdateInstanceResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "UpdateInstanceResponse",
+        "additionalProperties": false
+      },
+      "connect-protocol-version": {
+        "type": "number",
+        "title": "Connect-Protocol-Version",
+        "enum": [
+          1
+        ],
+        "description": "Define the version of the Connect protocol",
+        "const": 1
+      },
+      "connect-timeout-header": {
+        "type": "number",
+        "title": "Connect-Timeout-Ms",
+        "description": "Define the timeout, in ms"
+      },
+      "connect.error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "examples": [
+              "not_found"
+            ],
+            "enum": [
+              "canceled",
+              "unknown",
+              "invalid_argument",
+              "deadline_exceeded",
+              "not_found",
+              "already_exists",
+              "permission_denied",
+              "resource_exhausted",
+              "failed_precondition",
+              "aborted",
+              "out_of_range",
+              "unimplemented",
+              "internal",
+              "unavailable",
+              "data_loss",
+              "unauthenticated"
+            ],
+            "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+          },
+          "message": {
+            "type": "string",
+            "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+          },
+          "detail": {
+            "$ref": "#/components/schemas/google.protobuf.Any"
+          }
+        },
+        "title": "Connect Error",
+        "additionalProperties": true,
+        "description": "Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation"
+      },
+      "google.protobuf.Any": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string",
+            "format": "binary"
+          },
+          "debug": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true,
+        "description": "Contains an arbitrary serialized message along with a @type that describes the type of the serialized message."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "zitadel.instance.v2beta.InstanceService",
+      "description": "Service to manage instances and their domains.\n The service provides methods to create, update, delete and list instances and their domains.\n\n Deprecated: use instance service v2 instead. This service will be removed in the next major version of ZITADEL."
+    }
+  ]
+}

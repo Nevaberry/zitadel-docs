@@ -1,0 +1,1396 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.session.v2beta"
+  },
+  "paths": {
+    "/v2beta/sessions/search": {
+      "post": {
+        "tags": [
+          "zitadel.session.v2beta.SessionService"
+        ],
+        "summary": "ListSessions",
+        "description": "Search sessions\n\n Deprecated: please move to the corresponding endpoint under session service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.session.v2beta.SessionService.ListSessions",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.session.v2beta.ListSessionsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.session.v2beta.ListSessionsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/sessions/{session_id}": {
+      "get": {
+        "tags": [
+          "zitadel.session.v2beta.SessionService"
+        ],
+        "summary": "GetSession",
+        "description": "GetSession a session\n\n Deprecated: please move to the corresponding endpoint under session service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.session.v2beta.SessionService.GetSession",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "session_id"
+            }
+          },
+          {
+            "name": "sessionToken",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "session_token"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.session.v2beta.GetSessionResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "zitadel.session.v2beta.SessionService"
+        ],
+        "summary": "DeleteSession",
+        "description": "Terminate a session\n\n Deprecated: please move to the corresponding endpoint under session service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.session.v2beta.SessionService.DeleteSession",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "session_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sessionToken": {
+                    "type": "string",
+                    "title": "session_token",
+                    "nullable": true
+                  }
+                },
+                "title": "DeleteSessionRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.session.v2beta.DeleteSessionResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "zitadel.session.v2beta.SessionService"
+        ],
+        "summary": "SetSession",
+        "description": "Update a session\n\n Deprecated: please move to the corresponding endpoint under session service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.session.v2beta.SessionService.SetSession",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "session_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sessionToken": {
+                    "type": "string",
+                    "title": "session_token"
+                  },
+                  "checks": {
+                    "title": "checks",
+                    "$ref": "#/components/schemas/zitadel.session.v2beta.Checks"
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "title": "metadata",
+                    "additionalProperties": {
+                      "type": "string",
+                      "title": "value",
+                      "format": "byte"
+                    }
+                  },
+                  "challenges": {
+                    "title": "challenges",
+                    "$ref": "#/components/schemas/zitadel.session.v2beta.RequestChallenges"
+                  },
+                  "lifetime": {
+                    "title": "lifetime",
+                    "nullable": true,
+                    "$ref": "#/components/schemas/google.protobuf.Duration"
+                  }
+                },
+                "title": "SetSessionRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.session.v2beta.SetSessionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/sessions": {
+      "post": {
+        "tags": [
+          "zitadel.session.v2beta.SessionService"
+        ],
+        "summary": "CreateSession",
+        "description": "Create a new session\n\n Deprecated: please move to the corresponding endpoint under session service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.session.v2beta.SessionService.CreateSession",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.session.v2beta.CreateSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.session.v2beta.CreateSessionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "google.protobuf.NullValue": {
+        "type": "string",
+        "title": "NullValue",
+        "enum": [
+          "NULL_VALUE"
+        ],
+        "description": "`NullValue` is a singleton enumeration to represent the null value for the\n `Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`."
+      },
+      "zitadel.session.v2beta.SessionFieldName": {
+        "type": "string",
+        "title": "SessionFieldName",
+        "enum": [
+          "SESSION_FIELD_NAME_UNSPECIFIED",
+          "SESSION_FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.session.v2beta.UserVerificationRequirement": {
+        "type": "string",
+        "title": "UserVerificationRequirement",
+        "enum": [
+          "USER_VERIFICATION_REQUIREMENT_UNSPECIFIED",
+          "USER_VERIFICATION_REQUIREMENT_REQUIRED",
+          "USER_VERIFICATION_REQUIREMENT_PREFERRED",
+          "USER_VERIFICATION_REQUIREMENT_DISCOURAGED"
+        ]
+      },
+      "zitadel.v1.TimestampQueryMethod": {
+        "type": "string",
+        "title": "TimestampQueryMethod",
+        "enum": [
+          "TIMESTAMP_QUERY_METHOD_EQUALS",
+          "TIMESTAMP_QUERY_METHOD_GREATER",
+          "TIMESTAMP_QUERY_METHOD_GREATER_OR_EQUALS",
+          "TIMESTAMP_QUERY_METHOD_LESS",
+          "TIMESTAMP_QUERY_METHOD_LESS_OR_EQUALS"
+        ]
+      },
+      "google.protobuf.Duration": {
+        "type": "string",
+        "format": "duration",
+        "description": "A Duration represents a signed, fixed-length span of time represented\n as a count of seconds and fractions of seconds at nanosecond\n resolution. It is independent of any calendar and concepts like \"day\"\n or \"month\". It is related to Timestamp in that the difference between\n two Timestamp values is a Duration and it can be added or subtracted\n from a Timestamp. Range is approximately +-10,000 years.\n\n # Examples\n\n Example 1: Compute Duration from two Timestamps in pseudo code.\n\n     Timestamp start = ...;\n     Timestamp end = ...;\n     Duration duration = ...;\n\n     duration.seconds = end.seconds - start.seconds;\n     duration.nanos = end.nanos - start.nanos;\n\n     if (duration.seconds \u003c 0 \u0026\u0026 duration.nanos \u003e 0) {\n       duration.seconds += 1;\n       duration.nanos -= 1000000000;\n     } else if (duration.seconds \u003e 0 \u0026\u0026 duration.nanos \u003c 0) {\n       duration.seconds -= 1;\n       duration.nanos += 1000000000;\n     }\n\n Example 2: Compute Timestamp from Timestamp + Duration in pseudo code.\n\n     Timestamp start = ...;\n     Duration duration = ...;\n     Timestamp end = ...;\n\n     end.seconds = start.seconds + duration.seconds;\n     end.nanos = start.nanos + duration.nanos;\n\n     if (end.nanos \u003c 0) {\n       end.seconds -= 1;\n       end.nanos += 1000000000;\n     } else if (end.nanos \u003e= 1000000000) {\n       end.seconds += 1;\n       end.nanos -= 1000000000;\n     }\n\n Example 3: Compute Duration from datetime.timedelta in Python.\n\n     td = datetime.timedelta(days=3, minutes=10)\n     duration = Duration()\n     duration.FromTimedelta(td)\n\n # JSON Mapping\n\n In JSON format, the Duration type is encoded as a string rather than an\n object, where the string ends in the suffix \"s\" (indicating seconds) and\n is preceded by the number of seconds, with nanoseconds expressed as\n fractional seconds. For example, 3 seconds with 0 nanoseconds should be\n encoded in JSON format as \"3s\", while 3 seconds and 1 nanosecond should\n be expressed in JSON format as \"3.000000001s\", and 3 seconds and 1\n microsecond should be expressed in JSON format as \"3.000001s\"."
+      },
+      "google.protobuf.ListValue": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/google.protobuf.Value"
+            },
+            "title": "values",
+            "description": "Repeated field of dynamically typed values."
+          }
+        },
+        "title": "ListValue",
+        "additionalProperties": false,
+        "description": "`ListValue` is a wrapper around a repeated field of values.\n\n The JSON representation for `ListValue` is JSON array."
+      },
+      "google.protobuf.Struct": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/google.protobuf.Value"
+        },
+        "description": "`Struct` represents a structured data value, consisting of fields\n which map to dynamically typed values. In some languages, `Struct`\n might be supported by a native representation. For example, in\n scripting languages like JS a struct is represented as an\n object. The details of that representation are described together\n with the proto support for the language.\n\n The JSON representation for `Struct` is JSON object."
+      },
+      "google.protobuf.Struct.FieldsEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "title": "value",
+            "$ref": "#/components/schemas/google.protobuf.Value"
+          }
+        },
+        "title": "FieldsEntry",
+        "additionalProperties": false
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "1s",
+          "1.000340012s"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "google.protobuf.Value": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "array"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true
+          }
+        ],
+        "description": "`Value` represents a dynamically typed value which can be either\n null, a number, a string, a boolean, a recursive struct value, or a\n list of values. A producer of value is expected to set one of these\n variants. Absence of any variant indicates an error.\n\n The JSON representation for `Value` is JSON value."
+      },
+      "zitadel.object.v2beta.Details": {
+        "type": "object",
+        "properties": {
+          "sequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "sequence",
+            "format": "int64",
+            "description": "sequence represents the order of events. It's always counting\n\n on read: the sequence of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "change_date is the timestamp when the object was changed\n\n on read: the timestamp of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "resourceOwner": {
+            "type": "string",
+            "title": "resource_owner",
+            "description": "resource_owner is the organization or instance_id an object belongs to"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "creation_date is the timestamp where the first operation on the object was made",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "Details",
+        "additionalProperties": false
+      },
+      "zitadel.object.v2beta.ListDetails": {
+        "type": "object",
+        "properties": {
+          "totalResult": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "total_result",
+            "format": "int64"
+          },
+          "processedSequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "processed_sequence",
+            "format": "int64"
+          },
+          "timestamp": {
+            "title": "timestamp",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "ListDetails",
+        "additionalProperties": false
+      },
+      "zitadel.object.v2beta.ListQuery": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "offset",
+            "format": "int64"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "limit"
+          },
+          "asc": {
+            "type": "boolean",
+            "title": "asc"
+          }
+        },
+        "title": "ListQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.Challenges": {
+        "type": "object",
+        "properties": {
+          "webAuthN": {
+            "title": "web_auth_n",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2beta.Challenges.WebAuthN"
+          },
+          "otpSms": {
+            "type": "string",
+            "title": "otp_sms",
+            "nullable": true
+          },
+          "otpEmail": {
+            "type": "string",
+            "title": "otp_email",
+            "nullable": true
+          }
+        },
+        "title": "Challenges",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.Challenges.WebAuthN": {
+        "type": "object",
+        "properties": {
+          "publicKeyCredentialRequestOptions": {
+            "title": "public_key_credential_request_options",
+            "$ref": "#/components/schemas/google.protobuf.Struct"
+          }
+        },
+        "title": "WebAuthN",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.CheckIDPIntent": {
+        "type": "object",
+        "properties": {
+          "idpIntentId": {
+            "type": "string",
+            "title": "idp_intent_id"
+          },
+          "idpIntentToken": {
+            "type": "string",
+            "title": "idp_intent_token"
+          }
+        },
+        "title": "CheckIDPIntent",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.CheckOTP": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "code"
+          }
+        },
+        "title": "CheckOTP",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.CheckPassword": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "title": "password"
+          }
+        },
+        "title": "CheckPassword",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.CheckTOTP": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "code"
+          }
+        },
+        "title": "CheckTOTP",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.CheckUser": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "loginName": {
+                "type": "string",
+                "title": "login_name"
+              }
+            },
+            "title": "login_name",
+            "required": [
+              "loginName"
+            ]
+          },
+          {
+            "properties": {
+              "userId": {
+                "type": "string",
+                "title": "user_id"
+              }
+            },
+            "title": "user_id",
+            "required": [
+              "userId"
+            ]
+          }
+        ],
+        "title": "CheckUser",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.CheckWebAuthN": {
+        "type": "object",
+        "properties": {
+          "credentialAssertionData": {
+            "title": "credential_assertion_data",
+            "$ref": "#/components/schemas/google.protobuf.Struct"
+          }
+        },
+        "title": "CheckWebAuthN",
+        "required": [
+          "credentialAssertionData"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.Checks": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "title": "user",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2beta.CheckUser"
+          },
+          "password": {
+            "title": "password",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2beta.CheckPassword"
+          },
+          "webAuthN": {
+            "title": "web_auth_n",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2beta.CheckWebAuthN"
+          },
+          "idpIntent": {
+            "title": "idp_intent",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2beta.CheckIDPIntent"
+          },
+          "totp": {
+            "title": "totp",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2beta.CheckTOTP"
+          },
+          "otpSms": {
+            "title": "otp_sms",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2beta.CheckOTP"
+          },
+          "otpEmail": {
+            "title": "otp_email",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2beta.CheckOTP"
+          }
+        },
+        "title": "Checks",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.CreateSessionRequest": {
+        "type": "object",
+        "properties": {
+          "checks": {
+            "title": "checks",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.Checks"
+          },
+          "metadata": {
+            "type": "object",
+            "title": "metadata",
+            "additionalProperties": {
+              "type": "string",
+              "title": "value",
+              "format": "byte"
+            }
+          },
+          "challenges": {
+            "title": "challenges",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.RequestChallenges"
+          },
+          "userAgent": {
+            "title": "user_agent",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.UserAgent"
+          },
+          "lifetime": {
+            "title": "lifetime",
+            "nullable": true,
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          }
+        },
+        "title": "CreateSessionRequest",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.CreateSessionRequest.MetadataEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "type": "string",
+            "title": "value",
+            "format": "byte"
+          }
+        },
+        "title": "MetadataEntry",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.CreateSessionResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.Details"
+          },
+          "sessionId": {
+            "type": "string",
+            "title": "session_id"
+          },
+          "sessionToken": {
+            "type": "string",
+            "title": "session_token"
+          },
+          "challenges": {
+            "title": "challenges",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.Challenges"
+          }
+        },
+        "title": "CreateSessionResponse",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.CreationDateQuery": {
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "title": "creation_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TimestampQueryMethod"
+          }
+        },
+        "title": "CreationDateQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.DeleteSessionRequest": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "title": "session_id"
+          },
+          "sessionToken": {
+            "type": "string",
+            "title": "session_token",
+            "nullable": true
+          }
+        },
+        "title": "DeleteSessionRequest",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.DeleteSessionResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.Details"
+          }
+        },
+        "title": "DeleteSessionResponse",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.Factors": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "title": "user",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.UserFactor"
+          },
+          "password": {
+            "title": "password",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.PasswordFactor"
+          },
+          "webAuthN": {
+            "title": "web_auth_n",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.WebAuthNFactor"
+          },
+          "intent": {
+            "title": "intent",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.IntentFactor"
+          },
+          "totp": {
+            "title": "totp",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.TOTPFactor"
+          },
+          "otpSms": {
+            "title": "otp_sms",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.OTPFactor"
+          },
+          "otpEmail": {
+            "title": "otp_email",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.OTPFactor"
+          }
+        },
+        "title": "Factors",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.GetSessionRequest": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "title": "session_id"
+          },
+          "sessionToken": {
+            "type": "string",
+            "title": "session_token",
+            "nullable": true
+          }
+        },
+        "title": "GetSessionRequest",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.GetSessionResponse": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "title": "session",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.Session"
+          }
+        },
+        "title": "GetSessionResponse",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.IDsQuery": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ids"
+          }
+        },
+        "title": "IDsQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.IntentFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "IntentFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.ListSessionsRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "title": "query",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.ListQuery"
+          },
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.session.v2beta.SearchQuery"
+            },
+            "title": "queries"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.SessionFieldName"
+          }
+        },
+        "title": "ListSessionsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.ListSessionsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.ListDetails"
+          },
+          "sessions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.session.v2beta.Session"
+            },
+            "title": "sessions"
+          }
+        },
+        "title": "ListSessionsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.OTPFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "OTPFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.PasswordFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "PasswordFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.RequestChallenges": {
+        "type": "object",
+        "properties": {
+          "webAuthN": {
+            "title": "web_auth_n",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2beta.RequestChallenges.WebAuthN"
+          },
+          "otpSms": {
+            "title": "otp_sms",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2beta.RequestChallenges.OTPSMS"
+          },
+          "otpEmail": {
+            "title": "otp_email",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2beta.RequestChallenges.OTPEmail"
+          }
+        },
+        "title": "RequestChallenges",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.RequestChallenges.OTPEmail": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "returnCode": {
+                "title": "return_code",
+                "$ref": "#/components/schemas/zitadel.session.v2beta.RequestChallenges.OTPEmail.ReturnCode"
+              }
+            },
+            "title": "return_code",
+            "required": [
+              "returnCode"
+            ]
+          },
+          {
+            "properties": {
+              "sendCode": {
+                "title": "send_code",
+                "$ref": "#/components/schemas/zitadel.session.v2beta.RequestChallenges.OTPEmail.SendCode"
+              }
+            },
+            "title": "send_code",
+            "required": [
+              "sendCode"
+            ]
+          }
+        ],
+        "title": "OTPEmail",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.RequestChallenges.OTPEmail.ReturnCode": {
+        "type": "object",
+        "title": "ReturnCode",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.RequestChallenges.OTPEmail.SendCode": {
+        "type": "object",
+        "properties": {
+          "urlTemplate": {
+            "type": "string",
+            "title": "url_template",
+            "nullable": true
+          }
+        },
+        "title": "SendCode",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.RequestChallenges.OTPSMS": {
+        "type": "object",
+        "properties": {
+          "returnCode": {
+            "type": "boolean",
+            "title": "return_code"
+          }
+        },
+        "title": "OTPSMS",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.RequestChallenges.WebAuthN": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          },
+          "userVerificationRequirement": {
+            "title": "user_verification_requirement",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.UserVerificationRequirement"
+          }
+        },
+        "title": "WebAuthN",
+        "required": [
+          "domain",
+          "userVerificationRequirement"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.SearchQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "creationDateQuery": {
+                "title": "creation_date_query",
+                "$ref": "#/components/schemas/zitadel.session.v2beta.CreationDateQuery"
+              }
+            },
+            "title": "creation_date_query",
+            "required": [
+              "creationDateQuery"
+            ]
+          },
+          {
+            "properties": {
+              "idsQuery": {
+                "title": "ids_query",
+                "$ref": "#/components/schemas/zitadel.session.v2beta.IDsQuery"
+              }
+            },
+            "title": "ids_query",
+            "required": [
+              "idsQuery"
+            ]
+          },
+          {
+            "properties": {
+              "userIdQuery": {
+                "title": "user_id_query",
+                "$ref": "#/components/schemas/zitadel.session.v2beta.UserIDQuery"
+              }
+            },
+            "title": "user_id_query",
+            "required": [
+              "userIdQuery"
+            ]
+          }
+        ],
+        "title": "SearchQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.Session": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "sequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "sequence",
+            "format": "int64"
+          },
+          "factors": {
+            "title": "factors",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.Factors"
+          },
+          "metadata": {
+            "type": "object",
+            "title": "metadata",
+            "additionalProperties": {
+              "type": "string",
+              "title": "value",
+              "format": "byte"
+            }
+          },
+          "userAgent": {
+            "title": "user_agent",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.UserAgent"
+          },
+          "expirationDate": {
+            "title": "expiration_date",
+            "nullable": true,
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "Session",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.Session.MetadataEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "type": "string",
+            "title": "value",
+            "format": "byte"
+          }
+        },
+        "title": "MetadataEntry",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.SetSessionRequest": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "title": "session_id"
+          },
+          "sessionToken": {
+            "type": "string",
+            "title": "session_token"
+          },
+          "checks": {
+            "title": "checks",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.Checks"
+          },
+          "metadata": {
+            "type": "object",
+            "title": "metadata",
+            "additionalProperties": {
+              "type": "string",
+              "title": "value",
+              "format": "byte"
+            }
+          },
+          "challenges": {
+            "title": "challenges",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.RequestChallenges"
+          },
+          "lifetime": {
+            "title": "lifetime",
+            "nullable": true,
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          }
+        },
+        "title": "SetSessionRequest",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.SetSessionRequest.MetadataEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "type": "string",
+            "title": "value",
+            "format": "byte"
+          }
+        },
+        "title": "MetadataEntry",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.SetSessionResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.Details"
+          },
+          "sessionToken": {
+            "type": "string",
+            "title": "session_token"
+          },
+          "challenges": {
+            "title": "challenges",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.Challenges"
+          }
+        },
+        "title": "SetSessionResponse",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.TOTPFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "TOTPFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.UserAgent": {
+        "type": "object",
+        "properties": {
+          "fingerprintId": {
+            "type": "string",
+            "title": "fingerprint_id",
+            "nullable": true
+          },
+          "ip": {
+            "type": "string",
+            "title": "ip",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "title": "description",
+            "nullable": true
+          },
+          "header": {
+            "type": "object",
+            "title": "header",
+            "additionalProperties": {
+              "title": "value",
+              "$ref": "#/components/schemas/zitadel.session.v2beta.UserAgent.HeaderValues"
+            }
+          }
+        },
+        "title": "UserAgent",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.UserAgent.HeaderEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "title": "value",
+            "$ref": "#/components/schemas/zitadel.session.v2beta.UserAgent.HeaderValues"
+          }
+        },
+        "title": "HeaderEntry",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.UserAgent.HeaderValues": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "values"
+          }
+        },
+        "title": "HeaderValues",
+        "additionalProperties": false,
+        "description": "A header may have multiple values.\n In Go, headers are defined\n as map[string][]string, but protobuf\n doesn't allow this scheme."
+      },
+      "zitadel.session.v2beta.UserFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "loginName": {
+            "type": "string",
+            "title": "login_name"
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id"
+          }
+        },
+        "title": "UserFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.UserIDQuery": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          }
+        },
+        "title": "UserIDQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2beta.WebAuthNFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "userVerified": {
+            "type": "boolean",
+            "title": "user_verified"
+          }
+        },
+        "title": "WebAuthNFactor",
+        "additionalProperties": false
+      },
+      "connect-protocol-version": {
+        "type": "number",
+        "title": "Connect-Protocol-Version",
+        "enum": [
+          1
+        ],
+        "description": "Define the version of the Connect protocol",
+        "const": 1
+      },
+      "connect-timeout-header": {
+        "type": "number",
+        "title": "Connect-Timeout-Ms",
+        "description": "Define the timeout, in ms"
+      },
+      "connect.error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "examples": [
+              "not_found"
+            ],
+            "enum": [
+              "canceled",
+              "unknown",
+              "invalid_argument",
+              "deadline_exceeded",
+              "not_found",
+              "already_exists",
+              "permission_denied",
+              "resource_exhausted",
+              "failed_precondition",
+              "aborted",
+              "out_of_range",
+              "unimplemented",
+              "internal",
+              "unavailable",
+              "data_loss",
+              "unauthenticated"
+            ],
+            "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+          },
+          "message": {
+            "type": "string",
+            "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+          },
+          "detail": {
+            "$ref": "#/components/schemas/google.protobuf.Any"
+          }
+        },
+        "title": "Connect Error",
+        "additionalProperties": true,
+        "description": "Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation"
+      },
+      "google.protobuf.Any": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string",
+            "format": "binary"
+          },
+          "debug": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true,
+        "description": "Contains an arbitrary serialized message along with a @type that describes the type of the serialized message."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "zitadel.session.v2beta.SessionService",
+      "description": "Deprecated: use session service v2 instead. This service will be removed in the next major version of ZITADEL."
+    }
+  ]
+}

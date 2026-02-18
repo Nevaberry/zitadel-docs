@@ -1,0 +1,496 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.session.v2"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.session.v2.SessionFieldName": {
+        "type": "string",
+        "title": "SessionFieldName",
+        "enum": [
+          "SESSION_FIELD_NAME_UNSPECIFIED",
+          "SESSION_FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.v1.TimestampQueryMethod": {
+        "type": "string",
+        "title": "TimestampQueryMethod",
+        "enum": [
+          "TIMESTAMP_QUERY_METHOD_EQUALS",
+          "TIMESTAMP_QUERY_METHOD_GREATER",
+          "TIMESTAMP_QUERY_METHOD_GREATER_OR_EQUALS",
+          "TIMESTAMP_QUERY_METHOD_LESS",
+          "TIMESTAMP_QUERY_METHOD_LESS_OR_EQUALS"
+        ]
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "1s",
+          "1.000340012s"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.session.v2.CreationDateQuery": {
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The creation date to compare the session's creation date against.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "method": {
+            "title": "method",
+            "description": "The method of comparison to use for the creation date.\n This defines whether to search for sessions created before, after, or exactly at the specified date.",
+            "$ref": "#/components/schemas/zitadel.v1.TimestampQueryMethod"
+          }
+        },
+        "title": "CreationDateQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.CreatorQuery": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID of the user who created the session. If empty, the calling user's ID is used.",
+            "nullable": true
+          }
+        },
+        "title": "CreatorQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.ExpirationDateQuery": {
+        "type": "object",
+        "properties": {
+          "expirationDate": {
+            "title": "expiration_date",
+            "description": "The expiration date to compare the session's expiration date against.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "method": {
+            "title": "method",
+            "description": "The method of comparison to use for the expiration date.\n This defines whether to search for sessions expiring before, after, or exactly at the specified date.",
+            "$ref": "#/components/schemas/zitadel.v1.TimestampQueryMethod"
+          }
+        },
+        "title": "ExpirationDateQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.Factors": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "title": "user",
+            "$ref": "#/components/schemas/zitadel.session.v2.UserFactor"
+          },
+          "password": {
+            "title": "password",
+            "$ref": "#/components/schemas/zitadel.session.v2.PasswordFactor"
+          },
+          "webAuthN": {
+            "title": "web_auth_n",
+            "$ref": "#/components/schemas/zitadel.session.v2.WebAuthNFactor"
+          },
+          "intent": {
+            "title": "intent",
+            "$ref": "#/components/schemas/zitadel.session.v2.IntentFactor"
+          },
+          "totp": {
+            "title": "totp",
+            "$ref": "#/components/schemas/zitadel.session.v2.TOTPFactor"
+          },
+          "otpSms": {
+            "title": "otp_sms",
+            "$ref": "#/components/schemas/zitadel.session.v2.OTPFactor"
+          },
+          "otpEmail": {
+            "title": "otp_email",
+            "$ref": "#/components/schemas/zitadel.session.v2.OTPFactor"
+          },
+          "recoveryCode": {
+            "title": "recovery_code",
+            "$ref": "#/components/schemas/zitadel.session.v2.RecoveryCodeFactor"
+          }
+        },
+        "title": "Factors",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.IDsQuery": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ids",
+            "description": "List of session IDs to search for.\n If multiple IDs are provided, sessions matching any of the IDs will be returned."
+          }
+        },
+        "title": "IDsQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.IntentFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "description": "The timestamp when the intent was last verified.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "IntentFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.OTPFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "description": "The timestamp when the OTP was last verified either by SMS or Email.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "OTPFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.PasswordFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "description": "The timestamp when the password was last verified.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "PasswordFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.RecoveryCodeFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "description": "The timestamp when the Recovery Code was last verified.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "RecoveryCodeFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.SearchQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "creationDateQuery": {
+                "title": "creation_date_query",
+                "description": "Search for sessions based on their creation date.\n This can be used to find sessions created before or after a certain date.",
+                "$ref": "#/components/schemas/zitadel.session.v2.CreationDateQuery"
+              }
+            },
+            "title": "creation_date_query",
+            "required": [
+              "creationDateQuery"
+            ]
+          },
+          {
+            "properties": {
+              "creatorQuery": {
+                "title": "creator_query",
+                "description": "Search for sessions created by a specific user.",
+                "$ref": "#/components/schemas/zitadel.session.v2.CreatorQuery"
+              }
+            },
+            "title": "creator_query",
+            "required": [
+              "creatorQuery"
+            ]
+          },
+          {
+            "properties": {
+              "expirationDateQuery": {
+                "title": "expiration_date_query",
+                "description": "Search for sessions based on their expiration date.\n This can be used to find sessions that are set to expire before or after a certain date.",
+                "$ref": "#/components/schemas/zitadel.session.v2.ExpirationDateQuery"
+              }
+            },
+            "title": "expiration_date_query",
+            "required": [
+              "expirationDateQuery"
+            ]
+          },
+          {
+            "properties": {
+              "idsQuery": {
+                "title": "ids_query",
+                "description": "Search for sessions with the given IDs.",
+                "$ref": "#/components/schemas/zitadel.session.v2.IDsQuery"
+              }
+            },
+            "title": "ids_query",
+            "required": [
+              "idsQuery"
+            ]
+          },
+          {
+            "properties": {
+              "userAgentQuery": {
+                "title": "user_agent_query",
+                "description": "Search for sessions based on the user agent used to create the session.\n It can be used to find sessions created from a specific device or browser.\n This is typically done for providing a list of active sessions to the user\n in a user interface.",
+                "$ref": "#/components/schemas/zitadel.session.v2.UserAgentQuery"
+              }
+            },
+            "title": "user_agent_query",
+            "required": [
+              "userAgentQuery"
+            ]
+          },
+          {
+            "properties": {
+              "userIdQuery": {
+                "title": "user_id_query",
+                "description": "Search for sessions of the given user ID.",
+                "$ref": "#/components/schemas/zitadel.session.v2.UserIDQuery"
+              }
+            },
+            "title": "user_id_query",
+            "required": [
+              "userIdQuery"
+            ]
+          }
+        ],
+        "title": "SearchQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.Session": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Unique identifier of the session."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp the session was created.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp the session was last updated.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "sequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "sequence",
+            "format": "int64",
+            "description": "The sequence of the session represents the change sequence of the session."
+          },
+          "factors": {
+            "title": "factors",
+            "description": "The factors that have been checked for this session, e.g. the user, password and more.\n If a factor is set, it means it has been checked and is valid.\n If a factor is not set, it means it has not been checked or is invalid.\n If a factor is set, the verified_at timestamp indicates when it was last checked.",
+            "$ref": "#/components/schemas/zitadel.session.v2.Factors"
+          },
+          "metadata": {
+            "type": "object",
+            "title": "metadata",
+            "additionalProperties": {
+              "type": "string",
+              "title": "value",
+              "format": "byte"
+            },
+            "description": "Metadata contains custom key value pairs set by the user.\n The metadata is not interpreted by Zitadel and can be used to store any information\n relevant to the session."
+          },
+          "userAgent": {
+            "title": "user_agent",
+            "description": "UserAgent contains information about the user agent used to create the session.\n This can include information such as the IP address, browser type, and operating system and\n a fingerprint id.\n This can be used to identify and filter sessions based on the user agent.",
+            "$ref": "#/components/schemas/zitadel.session.v2.UserAgent"
+          },
+          "expirationDate": {
+            "title": "expiration_date",
+            "description": "ExpirationDate is the time the session will be automatically invalidated.\n If not set, the session does not expire automatically.",
+            "nullable": true,
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "Session",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.Session.MetadataEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "type": "string",
+            "title": "value",
+            "format": "byte"
+          }
+        },
+        "title": "MetadataEntry",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.TOTPFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "description": "The timestamp when the TOTP was last verified.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "TOTPFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.UserAgent": {
+        "type": "object",
+        "properties": {
+          "fingerprintId": {
+            "type": "string",
+            "title": "fingerprint_id",
+            "description": "FingerprintID is a unique identifier for the user agent's fingerprint.\n It can be used to group sessions by device or browser.",
+            "nullable": true
+          },
+          "ip": {
+            "type": "string",
+            "title": "ip",
+            "description": "IP is the IP address from which the session was created.",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "title": "description",
+            "description": "Description is a human-readable description of the user agent.",
+            "nullable": true
+          },
+          "header": {
+            "type": "object",
+            "title": "header",
+            "additionalProperties": {
+              "title": "value",
+              "$ref": "#/components/schemas/zitadel.session.v2.UserAgent.HeaderValues"
+            }
+          }
+        },
+        "title": "UserAgent",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.UserAgent.HeaderEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "title": "value",
+            "$ref": "#/components/schemas/zitadel.session.v2.UserAgent.HeaderValues"
+          }
+        },
+        "title": "HeaderEntry",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.UserAgent.HeaderValues": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "values"
+          }
+        },
+        "title": "HeaderValues",
+        "additionalProperties": false,
+        "description": "A header may have multiple values.\n In Go, headers are defined\n as map[string][]string, but protobuf\n doesn't allow this scheme."
+      },
+      "zitadel.session.v2.UserAgentQuery": {
+        "type": "object",
+        "properties": {
+          "fingerprintId": {
+            "type": "string",
+            "title": "fingerprint_id",
+            "description": "Finger print id of the user agent used for the session.\n Set an empty fingerprint_id to use the user agent from the call.\n If the user agent is not available from the current token, an error will be returned.",
+            "nullable": true
+          }
+        },
+        "title": "UserAgentQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.UserFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "description": "The timestamp when the user was last verified.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "The unique identifier of the user that was verified."
+          },
+          "loginName": {
+            "type": "string",
+            "title": "login_name",
+            "description": "The login name of the user that was verified."
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name",
+            "description": "The display name of the user that was verified."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "The id of the organization the user belongs to."
+          }
+        },
+        "title": "UserFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.UserIDQuery": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID of the user whose sessions are being searched for."
+          }
+        },
+        "title": "UserIDQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.WebAuthNFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "description": "The timestamp when the passkey challenge was last verified.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "userVerified": {
+            "type": "boolean",
+            "title": "user_verified",
+            "description": "Indicates if the user presence was verified during the last challenge.\n This can be used to determine if the factor can be considered as multi-factor authentication."
+          }
+        },
+        "title": "WebAuthNFactor",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

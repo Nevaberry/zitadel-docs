@@ -1,0 +1,1626 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.session.v2"
+  },
+  "paths": {
+    "/v2/sessions/search": {
+      "post": {
+        "tags": [
+          "zitadel.session.v2.SessionService"
+        ],
+        "summary": "ListSessions",
+        "description": "List sessions\n\n Searches for sessions matching the given query. You can search by session ID, user ID,\n creation date, creator, user agent or expiration date.\n\n Required permissions:\n   - `session.read`\n   - no permission required to search for own sessions",
+        "operationId": "zitadel.session.v2.SessionService.ListSessions",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.session.v2.ListSessionsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.session.v2.ListSessionsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/sessions/{session_id}": {
+      "get": {
+        "tags": [
+          "zitadel.session.v2.SessionService"
+        ],
+        "summary": "GetSession",
+        "description": "Get Session\n\n Retrieve a session by its ID. Returns all information about the session, including\n the factors that were verified, the metadata, user agent information and possible expiration date.\n The session token is required unless either of the following conditions is met:\n   - the caller created the session\n   - the authenticated user requests their own session (checked user)\n   - the security token provided in the authorization header has the same user agent as the session\n   - the caller is granted the permission session.read permission on either the instance or on the checked user's organization\n\n Required permissions:\n   - `session.read`\n   - no permission required to get own sessions (see above) or when providing the current session token",
+        "operationId": "zitadel.session.v2.SessionService.GetSession",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "description": "The unique identifier of the session to be retrieved.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "session_id",
+              "description": "The unique identifier of the session to be retrieved."
+            }
+          },
+          {
+            "name": "sessionToken",
+            "in": "query",
+            "description": "The current token of the session, previously returned on the create / update request.\n The token is required unless either of the following conditions is met:\n - the caller created the session\n - the authenticated user requests their own session (checked user)\n - the security token provided in the authorization header has the same user agent as the session\n - the caller is granted the permission session.read permission on either the instance or on the checked user's organization",
+            "schema": {
+              "type": "string",
+              "title": "session_token",
+              "description": "The current token of the session, previously returned on the create / update request.\n The token is required unless either of the following conditions is met:\n - the caller created the session\n - the authenticated user requests their own session (checked user)\n - the security token provided in the authorization header has the same user agent as the session\n - the caller is granted the permission session.read permission on either the instance or on the checked user's organization"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.session.v2.GetSessionResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "zitadel.session.v2.SessionService"
+        ],
+        "summary": "DeleteSession",
+        "description": "DeleteSession\n\n Terminate an existing session. This invalidates the session and its token.\n The session can no longer be used for the authentication of other resources\n or to authenticate against the Zitadel APIs.\n\n You can only terminate your own session, unless you are granted the `session.delete` permission.\n\n Required permissions:\n   - `session.delete`\n   - no permission required for own sessions or when providing the current session token",
+        "operationId": "zitadel.session.v2.SessionService.DeleteSession",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "description": "The unique identifier of the session to be terminated.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "session_id",
+              "description": "The unique identifier of the session to be terminated."
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sessionToken": {
+                    "type": "string",
+                    "title": "session_token",
+                    "description": "The current token of the session, previously returned on the create / update request.\n The token is required unless either of the following conditions is met:\n - the caller created the session\n - the authenticated user requests their own session (checked user)\n - the security token provided in the authorization header has the same user agent as the session\n - the caller is granted the permission session.delete permission on either the instance or on the checked user's organization",
+                    "nullable": true
+                  }
+                },
+                "title": "DeleteSessionRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.session.v2.DeleteSessionResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "zitadel.session.v2.SessionService"
+        ],
+        "summary": "SetSession",
+        "description": "Set Session\n\n Update an existing session with new information like additional checks or metadata\n or request additional challenges.\n A new session token will be returned. Note that the previous token will be invalidated.\n\n Required permissions:\n   - `session.write`",
+        "operationId": "zitadel.session.v2.SessionService.SetSession",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "description": "The unique identifier of the session to be updated.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "session_id",
+              "description": "The unique identifier of the session to be updated."
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sessionToken": {
+                    "type": "string",
+                    "title": "session_token",
+                    "description": "Deprecated: the session token is no longer required when updating a session\n and will be ignored when provided.",
+                    "deprecated": true
+                  },
+                  "checks": {
+                    "title": "checks",
+                    "description": "Additional checks to be performed on the session.\n Successful checks will be stated as factors on the session.\n Re-executing a check that was already successful will overwrite the previous check time.\n For example, if a password check was already successful, it can be re-checked to update the check time.\n Note that a user check can only be performed once per session and cannot be changed afterwards.\n Some checks require that the user is already checked, either in the previous or the same request.\n For example, a password check requires that the user is already checked.\n Other checks, like WebAuthN or IDP intent, require that the user is already checked and a challenge\n was requested in any previous request.\n On successful checks, the session's `factors` field will be updated.",
+                    "$ref": "#/components/schemas/zitadel.session.v2.Checks"
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "title": "metadata",
+                    "additionalProperties": {
+                      "type": "string",
+                      "title": "value",
+                      "format": "byte"
+                    },
+                    "description": "Additional custom key value pairs to be stored on the session.\n Existing keys will be overwritten. To delete a key, set its value to an empty byte array.\n Note that metadata keys cannot be changed once the session has been created.\n You need to create a new entry and delete the old one instead."
+                  },
+                  "challenges": {
+                    "title": "challenges",
+                    "description": "Additional challenges to be requested for further verification.\n The challenges will be created and returned in the response.\n The challenges can then be used for further checks with the following SetSession method.\n Requesting a challenge that was already requested will overwrite the previous challenge.",
+                    "$ref": "#/components/schemas/zitadel.session.v2.RequestChallenges"
+                  },
+                  "lifetime": {
+                    "title": "lifetime",
+                    "description": "Update the duration after which the session will be automatically invalidated.\n If not set, the lifetime will not be changed.\n Note that an expired session cannot be used for authentication anymore, but will still be listed\n until it is deleted.",
+                    "nullable": true,
+                    "$ref": "#/components/schemas/google.protobuf.Duration"
+                  }
+                },
+                "title": "SetSessionRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.session.v2.SetSessionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/sessions": {
+      "post": {
+        "tags": [
+          "zitadel.session.v2.SessionService"
+        ],
+        "summary": "CreateSession",
+        "description": "Create Session\n\n Create a new session with initial checks, metadata and challenges for further verification.\n A token will be returned, which is required for using the session as authentication, e.g.\n when authenticating an OIDC auth request or SAML request.\n Additionally, the session token can be used as OAuth2 access token to authenticate against\n the Zitadel APIs.\n\n Required permissions:\n   - `session.write`",
+        "operationId": "zitadel.session.v2.SessionService.CreateSession",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.session.v2.CreateSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.session.v2.CreateSessionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "google.protobuf.NullValue": {
+        "type": "string",
+        "title": "NullValue",
+        "enum": [
+          "NULL_VALUE"
+        ],
+        "description": "`NullValue` is a singleton enumeration to represent the null value for the\n `Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`."
+      },
+      "zitadel.session.v2.SessionFieldName": {
+        "type": "string",
+        "title": "SessionFieldName",
+        "enum": [
+          "SESSION_FIELD_NAME_UNSPECIFIED",
+          "SESSION_FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.session.v2.UserVerificationRequirement": {
+        "type": "string",
+        "title": "UserVerificationRequirement",
+        "enum": [
+          "USER_VERIFICATION_REQUIREMENT_UNSPECIFIED",
+          "USER_VERIFICATION_REQUIREMENT_REQUIRED",
+          "USER_VERIFICATION_REQUIREMENT_PREFERRED",
+          "USER_VERIFICATION_REQUIREMENT_DISCOURAGED"
+        ]
+      },
+      "zitadel.v1.TimestampQueryMethod": {
+        "type": "string",
+        "title": "TimestampQueryMethod",
+        "enum": [
+          "TIMESTAMP_QUERY_METHOD_EQUALS",
+          "TIMESTAMP_QUERY_METHOD_GREATER",
+          "TIMESTAMP_QUERY_METHOD_GREATER_OR_EQUALS",
+          "TIMESTAMP_QUERY_METHOD_LESS",
+          "TIMESTAMP_QUERY_METHOD_LESS_OR_EQUALS"
+        ]
+      },
+      "google.protobuf.Duration": {
+        "type": "string",
+        "format": "duration",
+        "description": "A Duration represents a signed, fixed-length span of time represented\n as a count of seconds and fractions of seconds at nanosecond\n resolution. It is independent of any calendar and concepts like \"day\"\n or \"month\". It is related to Timestamp in that the difference between\n two Timestamp values is a Duration and it can be added or subtracted\n from a Timestamp. Range is approximately +-10,000 years.\n\n # Examples\n\n Example 1: Compute Duration from two Timestamps in pseudo code.\n\n     Timestamp start = ...;\n     Timestamp end = ...;\n     Duration duration = ...;\n\n     duration.seconds = end.seconds - start.seconds;\n     duration.nanos = end.nanos - start.nanos;\n\n     if (duration.seconds \u003c 0 \u0026\u0026 duration.nanos \u003e 0) {\n       duration.seconds += 1;\n       duration.nanos -= 1000000000;\n     } else if (duration.seconds \u003e 0 \u0026\u0026 duration.nanos \u003c 0) {\n       duration.seconds -= 1;\n       duration.nanos += 1000000000;\n     }\n\n Example 2: Compute Timestamp from Timestamp + Duration in pseudo code.\n\n     Timestamp start = ...;\n     Duration duration = ...;\n     Timestamp end = ...;\n\n     end.seconds = start.seconds + duration.seconds;\n     end.nanos = start.nanos + duration.nanos;\n\n     if (end.nanos \u003c 0) {\n       end.seconds -= 1;\n       end.nanos += 1000000000;\n     } else if (end.nanos \u003e= 1000000000) {\n       end.seconds += 1;\n       end.nanos -= 1000000000;\n     }\n\n Example 3: Compute Duration from datetime.timedelta in Python.\n\n     td = datetime.timedelta(days=3, minutes=10)\n     duration = Duration()\n     duration.FromTimedelta(td)\n\n # JSON Mapping\n\n In JSON format, the Duration type is encoded as a string rather than an\n object, where the string ends in the suffix \"s\" (indicating seconds) and\n is preceded by the number of seconds, with nanoseconds expressed as\n fractional seconds. For example, 3 seconds with 0 nanoseconds should be\n encoded in JSON format as \"3s\", while 3 seconds and 1 nanosecond should\n be expressed in JSON format as \"3.000000001s\", and 3 seconds and 1\n microsecond should be expressed in JSON format as \"3.000001s\"."
+      },
+      "google.protobuf.ListValue": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/google.protobuf.Value"
+            },
+            "title": "values",
+            "description": "Repeated field of dynamically typed values."
+          }
+        },
+        "title": "ListValue",
+        "additionalProperties": false,
+        "description": "`ListValue` is a wrapper around a repeated field of values.\n\n The JSON representation for `ListValue` is JSON array."
+      },
+      "google.protobuf.Struct": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/google.protobuf.Value"
+        },
+        "description": "`Struct` represents a structured data value, consisting of fields\n which map to dynamically typed values. In some languages, `Struct`\n might be supported by a native representation. For example, in\n scripting languages like JS a struct is represented as an\n object. The details of that representation are described together\n with the proto support for the language.\n\n The JSON representation for `Struct` is JSON object."
+      },
+      "google.protobuf.Struct.FieldsEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "title": "value",
+            "$ref": "#/components/schemas/google.protobuf.Value"
+          }
+        },
+        "title": "FieldsEntry",
+        "additionalProperties": false
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "1s",
+          "1.000340012s"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "google.protobuf.Value": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "array"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true
+          }
+        ],
+        "description": "`Value` represents a dynamically typed value which can be either\n null, a number, a string, a boolean, a recursive struct value, or a\n list of values. A producer of value is expected to set one of these\n variants. Absence of any variant indicates an error.\n\n The JSON representation for `Value` is JSON value."
+      },
+      "zitadel.object.v2.Details": {
+        "type": "object",
+        "properties": {
+          "sequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "sequence",
+            "format": "int64",
+            "description": "sequence represents the order of events. It's always counting\n\n on read: the sequence of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "change_date is the timestamp when the object was changed\n\n on read: the timestamp of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "resourceOwner": {
+            "type": "string",
+            "title": "resource_owner",
+            "description": "resource_owner is the organization or instance_id an object belongs to"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "creation_date is the timestamp where the first operation on the object was made",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "Details",
+        "additionalProperties": false
+      },
+      "zitadel.object.v2.ListDetails": {
+        "type": "object",
+        "properties": {
+          "totalResult": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "total_result",
+            "format": "int64"
+          },
+          "processedSequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "processed_sequence",
+            "format": "int64"
+          },
+          "timestamp": {
+            "title": "timestamp",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "ListDetails",
+        "additionalProperties": false
+      },
+      "zitadel.object.v2.ListQuery": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "offset",
+            "format": "int64"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "limit"
+          },
+          "asc": {
+            "type": "boolean",
+            "title": "asc"
+          }
+        },
+        "title": "ListQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.Challenges": {
+        "type": "object",
+        "properties": {
+          "webAuthN": {
+            "title": "web_auth_n",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2.Challenges.WebAuthN"
+          },
+          "otpSms": {
+            "type": "string",
+            "title": "otp_sms",
+            "nullable": true
+          },
+          "otpEmail": {
+            "type": "string",
+            "title": "otp_email",
+            "nullable": true
+          }
+        },
+        "title": "Challenges",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.Challenges.WebAuthN": {
+        "type": "object",
+        "properties": {
+          "publicKeyCredentialRequestOptions": {
+            "title": "public_key_credential_request_options",
+            "$ref": "#/components/schemas/google.protobuf.Struct"
+          }
+        },
+        "title": "WebAuthN",
+        "additionalProperties": false,
+        "description": "WebAuthN contains the options for the Assertion Generation (dictionary PublicKeyCredentialRequestOptions).\n Generated helper methods transform the field to JSON, for use in a WebauthN client.\n See also: https://www.w3.org/TR/webauthn/#dictdef-publickeycredentialrequestoptions"
+      },
+      "zitadel.session.v2.CheckIDPIntent": {
+        "type": "object",
+        "properties": {
+          "idpIntentId": {
+            "type": "string",
+            "title": "idp_intent_id",
+            "description": "The ID of the idp intent, previously returned on the success response of the IDP callback."
+          },
+          "idpIntentToken": {
+            "type": "string",
+            "title": "idp_intent_token",
+            "description": "The token of the idp intent, previously returned on the success response of the IDP callback."
+          }
+        },
+        "title": "CheckIDPIntent",
+        "required": [
+          "idpIntentId",
+          "idpIntentToken"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.CheckOTP": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "code",
+            "description": "The OTP sent over SMS or Email of the user to be checked."
+          }
+        },
+        "title": "CheckOTP",
+        "required": [
+          "code"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.CheckPassword": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "title": "password",
+            "description": "The password of the user to be checked."
+          }
+        },
+        "title": "CheckPassword",
+        "required": [
+          "password"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.CheckRecoveryCode": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "code",
+            "description": "The Recovery Code of the user to be checked.\n The code must match the exact code previously generated for the user, including dashes if any.\n On successful check, the recovery code will be invalidated and cannot be used again."
+          }
+        },
+        "title": "CheckRecoveryCode",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.CheckTOTP": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "code",
+            "description": "The TOTP generated by the user's TOTP authenticator app."
+          }
+        },
+        "title": "CheckTOTP",
+        "required": [
+          "code"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.CheckUser": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "loginName": {
+                "type": "string",
+                "title": "login_name",
+                "description": "The login name of the user to be checked. It will search case insensitive.\n Note this only checks for the computed login name and not for any organization scoped usernames.\n Also note that it will not check for emails or phone numbers, even if the corresponding\n setting is enabled. Use the user service ListUsers method to find a user by email or phone number first\n to obtain the user ID or login name."
+              }
+            },
+            "title": "login_name",
+            "required": [
+              "loginName"
+            ]
+          },
+          {
+            "properties": {
+              "userId": {
+                "type": "string",
+                "title": "user_id",
+                "description": "The unique identifier of the user to be checked."
+              }
+            },
+            "title": "user_id",
+            "required": [
+              "userId"
+            ]
+          }
+        ],
+        "title": "CheckUser",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.CheckWebAuthN": {
+        "type": "object",
+        "properties": {
+          "credentialAssertionData": {
+            "title": "credential_assertion_data",
+            "description": "The JSON representation of the public key credential issued by the WebAuthN client.",
+            "$ref": "#/components/schemas/google.protobuf.Struct"
+          }
+        },
+        "title": "CheckWebAuthN",
+        "required": [
+          "credentialAssertionData"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.Checks": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "title": "user",
+            "description": "Check the user by its user ID or login name.\n A user check can only be performed once per session and cannot be changed afterwards.\n On successful user check, the session's `factors` field will be updated with a `user` factor\n containing the checked user's ID, login name, display name, organization ID and verification time.\n Note that some other checks require that the user is already checked, either in the previous\n or the same request. For example, a password check requires that the user is already checked.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2.CheckUser"
+          },
+          "password": {
+            "title": "password",
+            "description": "Check the password and update the session on success.\n Requires that the user is already checked, either in the previous or the same request.\n On successful password check, the session's `factors` field will be updated with a `password` factor,\n containing the verification time.\n On failed password check id: \"COMMAND-3M0fs\" wll be returned.\n On user locked out id: \"COMMAND-JLK35\"/\"COMMAND-SFA3t\" will be returned.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2.CheckPassword"
+          },
+          "webAuthN": {
+            "title": "web_auth_n",
+            "description": "Check the public key credential issued by the WebAuthN client.\n Requires that the user is already checked and a WebAuthN challenge to be requested,\n in any previous request.\n On successful WebAuthN check, the session's `factors` field will be updated with a `webauthn` factor,\n containing the verification time and if the user presence was verified.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2.CheckWebAuthN"
+          },
+          "idpIntent": {
+            "title": "idp_intent",
+            "description": "Check the IDP intent and update the session on success.\n Requires that the user is already checked and an IDP intent succeeded and has not expired yet.\n Note that the IDP intent must be either matching the same user as checked in the session,\n or there must not be an external IDP linked to the intent's user.\n On successful IDP intent check, the session's `factors` field will be updated with an `intent` factor,\n containing the verification time.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2.CheckIDPIntent"
+          },
+          "totp": {
+            "title": "totp",
+            "description": "Check the TOTP and update the session on success.\n Requires that the user is already checked, either in the previous or the same request.\n On successful TOTP check, the session's `factors` field will be updated with a `totp` factor,\n containing the verification time.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2.CheckTOTP"
+          },
+          "otpSms": {
+            "title": "otp_sms",
+            "description": "Check the OTP sent over SMS and update the session on success.\n Requires that the user is already checked, either in the previous or the same request.\n On successful OTP SMS check, the session's `factors` field will be updated with an `otp` factor,\n containing the verification time.\n Note that the OTP code is valid for a single use only and will be invalidated after a successful check.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2.CheckOTP"
+          },
+          "otpEmail": {
+            "title": "otp_email",
+            "description": "Check the OTP sent over Email and update the session on success.\n Requires that the user is already checked, either in the previous or the same request.\n On successful OTP Email check, the session's `factors` field will be updated with an `otp` factor,\n containing the verification time.\n Note that the OTP code is valid for a single use only and will be invalidated after a successful check.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2.CheckOTP"
+          },
+          "recoveryCode": {
+            "title": "recovery_code",
+            "description": "Check the Recovery Code and update the session on success.\n Requires that the user is already checked, either in the previous or the same request.\n On successful Recovery Code check, the session's `factors` field will be updated with a `recovery_code` factor,\n containing the verification time.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2.CheckRecoveryCode"
+          }
+        },
+        "title": "Checks",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.CreateSessionRequest": {
+        "type": "object",
+        "properties": {
+          "checks": {
+            "title": "checks",
+            "description": "The checks to be performed during session creation.\n Note that a user check can only be performed once per session and cannot be changed afterwards.\n Some checks require that the user is already checked, either in the previous or the same\n request. For example, a password check requires that the user is already checked.\n Other checks, like WebAuthN or IDP intent, require that the user is already checked and a challenge\n was requested in any previous request.\n On successful checks, the session's `factors` field will be updated.",
+            "$ref": "#/components/schemas/zitadel.session.v2.Checks"
+          },
+          "metadata": {
+            "type": "object",
+            "title": "metadata",
+            "additionalProperties": {
+              "type": "string",
+              "title": "value",
+              "format": "byte"
+            },
+            "description": "Custom key value list to be stored on the session."
+          },
+          "challenges": {
+            "title": "challenges",
+            "description": "Challenges to be requested for further verification.\n The challenges will be created and returned in the response.\n The challenges can then be used for further checks with the following SetSession method.",
+            "$ref": "#/components/schemas/zitadel.session.v2.RequestChallenges"
+          },
+          "userAgent": {
+            "title": "user_agent",
+            "description": "Store information about the user agent of the client.\n This information is stored on the session and can be used for auditing or security purposes.\n Sessions can also be filtered by user agent information.",
+            "$ref": "#/components/schemas/zitadel.session.v2.UserAgent"
+          },
+          "lifetime": {
+            "title": "lifetime",
+            "description": "Duration after which the session will be automatically invalidated.\n If not set, the session will not expire automatically and must be deleted manually.\n Note that an expired session cannot be used for authentication anymore, but will still be listed\n until it is deleted.",
+            "nullable": true,
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          }
+        },
+        "title": "CreateSessionRequest",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.CreateSessionRequest.MetadataEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "type": "string",
+            "title": "value",
+            "format": "byte"
+          }
+        },
+        "title": "MetadataEntry",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.CreateSessionResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2.Details"
+          },
+          "sessionId": {
+            "type": "string",
+            "title": "session_id",
+            "description": "Unique identifier of the session."
+          },
+          "sessionToken": {
+            "type": "string",
+            "title": "session_token",
+            "description": "The current token of the session, which is required for using the session as authentication,\n e.g.when authenticating an OIDC auth request or SAML request.\n Additionally, the session token can be used as OAuth2 access token to authenticate against\n the Zitadel APIs."
+          },
+          "challenges": {
+            "title": "challenges",
+            "description": "The challenges that were requested for the session.\n The challenges can be used for further checks with the SetSession method.",
+            "$ref": "#/components/schemas/zitadel.session.v2.Challenges"
+          }
+        },
+        "title": "CreateSessionResponse",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.CreationDateQuery": {
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The creation date to compare the session's creation date against.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "method": {
+            "title": "method",
+            "description": "The method of comparison to use for the creation date.\n This defines whether to search for sessions created before, after, or exactly at the specified date.",
+            "$ref": "#/components/schemas/zitadel.v1.TimestampQueryMethod"
+          }
+        },
+        "title": "CreationDateQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.CreatorQuery": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID of the user who created the session. If empty, the calling user's ID is used.",
+            "nullable": true
+          }
+        },
+        "title": "CreatorQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.DeleteSessionRequest": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "title": "session_id",
+            "description": "The unique identifier of the session to be terminated."
+          },
+          "sessionToken": {
+            "type": "string",
+            "title": "session_token",
+            "description": "The current token of the session, previously returned on the create / update request.\n The token is required unless either of the following conditions is met:\n - the caller created the session\n - the authenticated user requests their own session (checked user)\n - the security token provided in the authorization header has the same user agent as the session\n - the caller is granted the permission session.delete permission on either the instance or on the checked user's organization",
+            "nullable": true
+          }
+        },
+        "title": "DeleteSessionRequest",
+        "required": [
+          "sessionId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.DeleteSessionResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2.Details"
+          }
+        },
+        "title": "DeleteSessionResponse",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.ExpirationDateQuery": {
+        "type": "object",
+        "properties": {
+          "expirationDate": {
+            "title": "expiration_date",
+            "description": "The expiration date to compare the session's expiration date against.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "method": {
+            "title": "method",
+            "description": "The method of comparison to use for the expiration date.\n This defines whether to search for sessions expiring before, after, or exactly at the specified date.",
+            "$ref": "#/components/schemas/zitadel.v1.TimestampQueryMethod"
+          }
+        },
+        "title": "ExpirationDateQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.Factors": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "title": "user",
+            "$ref": "#/components/schemas/zitadel.session.v2.UserFactor"
+          },
+          "password": {
+            "title": "password",
+            "$ref": "#/components/schemas/zitadel.session.v2.PasswordFactor"
+          },
+          "webAuthN": {
+            "title": "web_auth_n",
+            "$ref": "#/components/schemas/zitadel.session.v2.WebAuthNFactor"
+          },
+          "intent": {
+            "title": "intent",
+            "$ref": "#/components/schemas/zitadel.session.v2.IntentFactor"
+          },
+          "totp": {
+            "title": "totp",
+            "$ref": "#/components/schemas/zitadel.session.v2.TOTPFactor"
+          },
+          "otpSms": {
+            "title": "otp_sms",
+            "$ref": "#/components/schemas/zitadel.session.v2.OTPFactor"
+          },
+          "otpEmail": {
+            "title": "otp_email",
+            "$ref": "#/components/schemas/zitadel.session.v2.OTPFactor"
+          },
+          "recoveryCode": {
+            "title": "recovery_code",
+            "$ref": "#/components/schemas/zitadel.session.v2.RecoveryCodeFactor"
+          }
+        },
+        "title": "Factors",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.GetSessionRequest": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "title": "session_id",
+            "description": "The unique identifier of the session to be retrieved."
+          },
+          "sessionToken": {
+            "type": "string",
+            "title": "session_token",
+            "description": "The current token of the session, previously returned on the create / update request.\n The token is required unless either of the following conditions is met:\n - the caller created the session\n - the authenticated user requests their own session (checked user)\n - the security token provided in the authorization header has the same user agent as the session\n - the caller is granted the permission session.read permission on either the instance or on the checked user's organization",
+            "nullable": true
+          }
+        },
+        "title": "GetSessionRequest",
+        "required": [
+          "sessionId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.GetSessionResponse": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "title": "session",
+            "$ref": "#/components/schemas/zitadel.session.v2.Session"
+          }
+        },
+        "title": "GetSessionResponse",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.IDsQuery": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ids",
+            "description": "List of session IDs to search for.\n If multiple IDs are provided, sessions matching any of the IDs will be returned."
+          }
+        },
+        "title": "IDsQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.IntentFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "description": "The timestamp when the intent was last verified.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "IntentFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.ListSessionsRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "title": "query",
+            "description": "List limitations and ordering.",
+            "$ref": "#/components/schemas/zitadel.object.v2.ListQuery"
+          },
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.session.v2.SearchQuery"
+            },
+            "title": "queries",
+            "description": "The criteria to be used when searching for sessions.\n Multiple queries will be combined with a logical AND."
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "description": "The column to be used for sorting the sessions.",
+            "$ref": "#/components/schemas/zitadel.session.v2.SessionFieldName"
+          }
+        },
+        "title": "ListSessionsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.ListSessionsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "description": "Contains details about the response, such as the total number of sessions.",
+            "$ref": "#/components/schemas/zitadel.object.v2.ListDetails"
+          },
+          "sessions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.session.v2.Session"
+            },
+            "title": "sessions",
+            "description": "The sessions matching the search query. There might be more sessions available\n than returned in this response. Use the details field to see if there are more sessions\n available and to get the total count of sessions matching the query."
+          }
+        },
+        "title": "ListSessionsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.OTPFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "description": "The timestamp when the OTP was last verified either by SMS or Email.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "OTPFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.PasswordFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "description": "The timestamp when the password was last verified.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "PasswordFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.RecoveryCodeFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "description": "The timestamp when the Recovery Code was last verified.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "RecoveryCodeFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.RequestChallenges": {
+        "type": "object",
+        "properties": {
+          "webAuthN": {
+            "title": "web_auth_n",
+            "description": "WebAuthN requests a challenge to be used in the WebAuthN authentication ceremony.\n They can be used for both passkey and U2F authentication.\n They're required for a webauthn check at the SetSession endpoint.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2.RequestChallenges.WebAuthN"
+          },
+          "otpSms": {
+            "title": "otp_sms",
+            "description": "OTPSMS requests a code to be sent via SMS to the user's primary phone.\n It is required for an OTP check at the SetSession endpoint.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2.RequestChallenges.OTPSMS"
+          },
+          "otpEmail": {
+            "title": "otp_email",
+            "description": "OTPEmail requests a code to be sent via email to the user's primary email address.\n It is required for an OTP check at the SetSession endpoint.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.session.v2.RequestChallenges.OTPEmail"
+          }
+        },
+        "title": "RequestChallenges",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.RequestChallenges.OTPEmail": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "returnCode": {
+                "title": "return_code",
+                "$ref": "#/components/schemas/zitadel.session.v2.RequestChallenges.OTPEmail.ReturnCode"
+              }
+            },
+            "title": "return_code",
+            "required": [
+              "returnCode"
+            ]
+          },
+          {
+            "properties": {
+              "sendCode": {
+                "title": "send_code",
+                "$ref": "#/components/schemas/zitadel.session.v2.RequestChallenges.OTPEmail.SendCode"
+              }
+            },
+            "title": "send_code",
+            "required": [
+              "sendCode"
+            ]
+          }
+        ],
+        "title": "OTPEmail",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.RequestChallenges.OTPEmail.ReturnCode": {
+        "type": "object",
+        "title": "ReturnCode",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.RequestChallenges.OTPEmail.SendCode": {
+        "type": "object",
+        "properties": {
+          "urlTemplate": {
+            "type": "string",
+            "title": "url_template",
+            "description": "Optionally set a url_template, which will be used in the mail sent by Zitadel to guide the user to your verification page.\n If no template is set, the default Zitadel url will be used.\n\n The following placeholders can be used: Code, UserID, LoginName, DisplayName, PreferredLanguage, SessionID",
+            "nullable": true
+          }
+        },
+        "title": "SendCode",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.RequestChallenges.OTPSMS": {
+        "type": "object",
+        "properties": {
+          "returnCode": {
+            "type": "boolean",
+            "title": "return_code",
+            "description": "Request the code to be returned instead of sending an SMS.\n This is useful for testing or in case you want to send the code yourself."
+          }
+        },
+        "title": "OTPSMS",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.RequestChallenges.WebAuthN": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "title": "domain",
+            "description": "The domain on which the session was created. Will be used in the WebAuthN challenge.\n It must be either the exact domain or a top-level domain of the origin of the request.\n For example if the request is coming from \"login.example.com\", the domain can be\n \"login.example.com\" or \"example.com\", but not \"other.com\" or \"sub.login.example.com\".\n See also: https://www.w3.org/TR/webauthn/#relying-party-identifier"
+          },
+          "userVerificationRequirement": {
+            "title": "user_verification_requirement",
+            "description": "User verification that is required during validation.\n When set to `USER_VERIFICATION_REQUIREMENT_REQUIRED` the behaviour is for passkey authentication.\n Other values will mean U2F.\n See also: https://www.w3.org/TR/webauthn/#enum-userVerificationRequirement\n If either the value is set to USER_VERIFICATION_REQUIREMENT_REQUIRED or the user verification\n is passed as part of the authentication ceremony, the user_verified flag will be set in the resulting webauthn factor.",
+            "$ref": "#/components/schemas/zitadel.session.v2.UserVerificationRequirement"
+          }
+        },
+        "title": "WebAuthN",
+        "required": [
+          "domain",
+          "userVerificationRequirement"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.SearchQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "creationDateQuery": {
+                "title": "creation_date_query",
+                "description": "Search for sessions based on their creation date.\n This can be used to find sessions created before or after a certain date.",
+                "$ref": "#/components/schemas/zitadel.session.v2.CreationDateQuery"
+              }
+            },
+            "title": "creation_date_query",
+            "required": [
+              "creationDateQuery"
+            ]
+          },
+          {
+            "properties": {
+              "creatorQuery": {
+                "title": "creator_query",
+                "description": "Search for sessions created by a specific user.",
+                "$ref": "#/components/schemas/zitadel.session.v2.CreatorQuery"
+              }
+            },
+            "title": "creator_query",
+            "required": [
+              "creatorQuery"
+            ]
+          },
+          {
+            "properties": {
+              "expirationDateQuery": {
+                "title": "expiration_date_query",
+                "description": "Search for sessions based on their expiration date.\n This can be used to find sessions that are set to expire before or after a certain date.",
+                "$ref": "#/components/schemas/zitadel.session.v2.ExpirationDateQuery"
+              }
+            },
+            "title": "expiration_date_query",
+            "required": [
+              "expirationDateQuery"
+            ]
+          },
+          {
+            "properties": {
+              "idsQuery": {
+                "title": "ids_query",
+                "description": "Search for sessions with the given IDs.",
+                "$ref": "#/components/schemas/zitadel.session.v2.IDsQuery"
+              }
+            },
+            "title": "ids_query",
+            "required": [
+              "idsQuery"
+            ]
+          },
+          {
+            "properties": {
+              "userAgentQuery": {
+                "title": "user_agent_query",
+                "description": "Search for sessions based on the user agent used to create the session.\n It can be used to find sessions created from a specific device or browser.\n This is typically done for providing a list of active sessions to the user\n in a user interface.",
+                "$ref": "#/components/schemas/zitadel.session.v2.UserAgentQuery"
+              }
+            },
+            "title": "user_agent_query",
+            "required": [
+              "userAgentQuery"
+            ]
+          },
+          {
+            "properties": {
+              "userIdQuery": {
+                "title": "user_id_query",
+                "description": "Search for sessions of the given user ID.",
+                "$ref": "#/components/schemas/zitadel.session.v2.UserIDQuery"
+              }
+            },
+            "title": "user_id_query",
+            "required": [
+              "userIdQuery"
+            ]
+          }
+        ],
+        "title": "SearchQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.Session": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Unique identifier of the session."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp the session was created.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp the session was last updated.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "sequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "sequence",
+            "format": "int64",
+            "description": "The sequence of the session represents the change sequence of the session."
+          },
+          "factors": {
+            "title": "factors",
+            "description": "The factors that have been checked for this session, e.g. the user, password and more.\n If a factor is set, it means it has been checked and is valid.\n If a factor is not set, it means it has not been checked or is invalid.\n If a factor is set, the verified_at timestamp indicates when it was last checked.",
+            "$ref": "#/components/schemas/zitadel.session.v2.Factors"
+          },
+          "metadata": {
+            "type": "object",
+            "title": "metadata",
+            "additionalProperties": {
+              "type": "string",
+              "title": "value",
+              "format": "byte"
+            },
+            "description": "Metadata contains custom key value pairs set by the user.\n The metadata is not interpreted by Zitadel and can be used to store any information\n relevant to the session."
+          },
+          "userAgent": {
+            "title": "user_agent",
+            "description": "UserAgent contains information about the user agent used to create the session.\n This can include information such as the IP address, browser type, and operating system and\n a fingerprint id.\n This can be used to identify and filter sessions based on the user agent.",
+            "$ref": "#/components/schemas/zitadel.session.v2.UserAgent"
+          },
+          "expirationDate": {
+            "title": "expiration_date",
+            "description": "ExpirationDate is the time the session will be automatically invalidated.\n If not set, the session does not expire automatically.",
+            "nullable": true,
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "Session",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.Session.MetadataEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "type": "string",
+            "title": "value",
+            "format": "byte"
+          }
+        },
+        "title": "MetadataEntry",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.SetSessionRequest": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "title": "session_id",
+            "description": "The unique identifier of the session to be updated."
+          },
+          "sessionToken": {
+            "type": "string",
+            "title": "session_token",
+            "description": "Deprecated: the session token is no longer required when updating a session\n and will be ignored when provided.",
+            "deprecated": true
+          },
+          "checks": {
+            "title": "checks",
+            "description": "Additional checks to be performed on the session.\n Successful checks will be stated as factors on the session.\n Re-executing a check that was already successful will overwrite the previous check time.\n For example, if a password check was already successful, it can be re-checked to update the check time.\n Note that a user check can only be performed once per session and cannot be changed afterwards.\n Some checks require that the user is already checked, either in the previous or the same request.\n For example, a password check requires that the user is already checked.\n Other checks, like WebAuthN or IDP intent, require that the user is already checked and a challenge\n was requested in any previous request.\n On successful checks, the session's `factors` field will be updated.",
+            "$ref": "#/components/schemas/zitadel.session.v2.Checks"
+          },
+          "metadata": {
+            "type": "object",
+            "title": "metadata",
+            "additionalProperties": {
+              "type": "string",
+              "title": "value",
+              "format": "byte"
+            },
+            "description": "Additional custom key value pairs to be stored on the session.\n Existing keys will be overwritten. To delete a key, set its value to an empty byte array.\n Note that metadata keys cannot be changed once the session has been created.\n You need to create a new entry and delete the old one instead."
+          },
+          "challenges": {
+            "title": "challenges",
+            "description": "Additional challenges to be requested for further verification.\n The challenges will be created and returned in the response.\n The challenges can then be used for further checks with the following SetSession method.\n Requesting a challenge that was already requested will overwrite the previous challenge.",
+            "$ref": "#/components/schemas/zitadel.session.v2.RequestChallenges"
+          },
+          "lifetime": {
+            "title": "lifetime",
+            "description": "Update the duration after which the session will be automatically invalidated.\n If not set, the lifetime will not be changed.\n Note that an expired session cannot be used for authentication anymore, but will still be listed\n until it is deleted.",
+            "nullable": true,
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          }
+        },
+        "title": "SetSessionRequest",
+        "required": [
+          "sessionId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.SetSessionRequest.MetadataEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "type": "string",
+            "title": "value",
+            "format": "byte"
+          }
+        },
+        "title": "MetadataEntry",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.SetSessionResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2.Details"
+          },
+          "sessionToken": {
+            "type": "string",
+            "title": "session_token",
+            "description": "The current token of the session, which is required for using the session as authentication,\n e.g.when authenticating an OIDC auth request or SAML request.\n Additionally, the session token can be used as OAuth2 access token to authenticate against\n the Zitadel APIs.\n The previous token was invalidated and can no longer be used."
+          },
+          "challenges": {
+            "title": "challenges",
+            "description": "The challenges that were requested for the session.\n The challenges can be used for further checks with the SetSession method.",
+            "$ref": "#/components/schemas/zitadel.session.v2.Challenges"
+          }
+        },
+        "title": "SetSessionResponse",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.TOTPFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "description": "The timestamp when the TOTP was last verified.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "TOTPFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.UserAgent": {
+        "type": "object",
+        "properties": {
+          "fingerprintId": {
+            "type": "string",
+            "title": "fingerprint_id",
+            "description": "FingerprintID is a unique identifier for the user agent's fingerprint.\n It can be used to group sessions by device or browser.",
+            "nullable": true
+          },
+          "ip": {
+            "type": "string",
+            "title": "ip",
+            "description": "IP is the IP address from which the session was created.",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "title": "description",
+            "description": "Description is a human-readable description of the user agent.",
+            "nullable": true
+          },
+          "header": {
+            "type": "object",
+            "title": "header",
+            "additionalProperties": {
+              "title": "value",
+              "$ref": "#/components/schemas/zitadel.session.v2.UserAgent.HeaderValues"
+            }
+          }
+        },
+        "title": "UserAgent",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.UserAgent.HeaderEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "title": "value",
+            "$ref": "#/components/schemas/zitadel.session.v2.UserAgent.HeaderValues"
+          }
+        },
+        "title": "HeaderEntry",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.UserAgent.HeaderValues": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "values"
+          }
+        },
+        "title": "HeaderValues",
+        "additionalProperties": false,
+        "description": "A header may have multiple values.\n In Go, headers are defined\n as map[string][]string, but protobuf\n doesn't allow this scheme."
+      },
+      "zitadel.session.v2.UserAgentQuery": {
+        "type": "object",
+        "properties": {
+          "fingerprintId": {
+            "type": "string",
+            "title": "fingerprint_id",
+            "description": "Finger print id of the user agent used for the session.\n Set an empty fingerprint_id to use the user agent from the call.\n If the user agent is not available from the current token, an error will be returned.",
+            "nullable": true
+          }
+        },
+        "title": "UserAgentQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.UserFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "description": "The timestamp when the user was last verified.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "The unique identifier of the user that was verified."
+          },
+          "loginName": {
+            "type": "string",
+            "title": "login_name",
+            "description": "The login name of the user that was verified."
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name",
+            "description": "The display name of the user that was verified."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "The id of the organization the user belongs to."
+          }
+        },
+        "title": "UserFactor",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.UserIDQuery": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID of the user whose sessions are being searched for."
+          }
+        },
+        "title": "UserIDQuery",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.WebAuthNFactor": {
+        "type": "object",
+        "properties": {
+          "verifiedAt": {
+            "title": "verified_at",
+            "description": "The timestamp when the passkey challenge was last verified.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "userVerified": {
+            "type": "boolean",
+            "title": "user_verified",
+            "description": "Indicates if the user presence was verified during the last challenge.\n This can be used to determine if the factor can be considered as multi-factor authentication."
+          }
+        },
+        "title": "WebAuthNFactor",
+        "additionalProperties": false
+      },
+      "connect-protocol-version": {
+        "type": "number",
+        "title": "Connect-Protocol-Version",
+        "enum": [
+          1
+        ],
+        "description": "Define the version of the Connect protocol",
+        "const": 1
+      },
+      "connect-timeout-header": {
+        "type": "number",
+        "title": "Connect-Timeout-Ms",
+        "description": "Define the timeout, in ms"
+      },
+      "connect.error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "examples": [
+              "not_found"
+            ],
+            "enum": [
+              "canceled",
+              "unknown",
+              "invalid_argument",
+              "deadline_exceeded",
+              "not_found",
+              "already_exists",
+              "permission_denied",
+              "resource_exhausted",
+              "failed_precondition",
+              "aborted",
+              "out_of_range",
+              "unimplemented",
+              "internal",
+              "unavailable",
+              "data_loss",
+              "unauthenticated"
+            ],
+            "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+          },
+          "message": {
+            "type": "string",
+            "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+          },
+          "detail": {
+            "$ref": "#/components/schemas/google.protobuf.Any"
+          }
+        },
+        "title": "Connect Error",
+        "additionalProperties": true,
+        "description": "Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation"
+      },
+      "google.protobuf.Any": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string",
+            "format": "binary"
+          },
+          "debug": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true,
+        "description": "Contains an arbitrary serialized message along with a @type that describes the type of the serialized message."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "zitadel.session.v2.SessionService"
+    }
+  ]
+}

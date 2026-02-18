@@ -1,0 +1,1162 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.authorization.v2"
+  },
+  "paths": {
+    "/zitadel.authorization.v2.AuthorizationService/ListAuthorizations": {
+      "post": {
+        "tags": [
+          "zitadel.authorization.v2.AuthorizationService"
+        ],
+        "summary": "ListAuthorizations",
+        "description": "List Authorizations\n\n ListAuthorizations returns all authorizations matching the request and necessary permissions.\n\n Note: Authorization in this context refers to role assignments, not to OAuth authorization.\n\n Required permissions:\n   - \"user.grant.read\"\n   - no permissions required for listing own authorizations",
+        "operationId": "zitadel.authorization.v2.AuthorizationService.ListAuthorizations",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.authorization.v2.ListAuthorizationsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.authorization.v2.ListAuthorizationsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.authorization.v2.AuthorizationService/CreateAuthorization": {
+      "post": {
+        "tags": [
+          "zitadel.authorization.v2.AuthorizationService"
+        ],
+        "summary": "CreateAuthorization",
+        "description": "Create Authorization\n\n CreateAuthorization creates a new authorization for a user in an owned or granted project.\n\n Note: Authorization in this context refers to role assignments, not to OAuth authorization.\n\n Required permissions:\n   - \"user.grant.write\"",
+        "operationId": "zitadel.authorization.v2.AuthorizationService.CreateAuthorization",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.authorization.v2.CreateAuthorizationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.authorization.v2.CreateAuthorizationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.authorization.v2.AuthorizationService/UpdateAuthorization": {
+      "post": {
+        "tags": [
+          "zitadel.authorization.v2.AuthorizationService"
+        ],
+        "summary": "UpdateAuthorization",
+        "description": "Update Authorization\n\n UpdateAuthorization updates the authorization.\n\n Note: Authorization in this context refers to role assignments, not to OAuth authorization.\n\n Note that any role keys previously granted to the user and not present in the request will be revoked.\n\n Required permissions:\n   - \"user.grant.write\"",
+        "operationId": "zitadel.authorization.v2.AuthorizationService.UpdateAuthorization",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.authorization.v2.UpdateAuthorizationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.authorization.v2.UpdateAuthorizationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.authorization.v2.AuthorizationService/DeleteAuthorization": {
+      "post": {
+        "tags": [
+          "zitadel.authorization.v2.AuthorizationService"
+        ],
+        "summary": "DeleteAuthorization",
+        "description": "Delete Authorization\n\n DeleteAuthorization deletes the authorization.\n\n Note: Authorization in this context refers to role assignments, not to OAuth authorization.\n\n In case the authorization is not found, the request will return a successful response as\n the desired state is already achieved.\n You can check the deletion date in the response to verify if the authorization was deleted by the request.\n\n Required permissions:\n   - \"user.grant.delete\"",
+        "operationId": "zitadel.authorization.v2.AuthorizationService.DeleteAuthorization",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.authorization.v2.DeleteAuthorizationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.authorization.v2.DeleteAuthorizationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.authorization.v2.AuthorizationService/ActivateAuthorization": {
+      "post": {
+        "tags": [
+          "zitadel.authorization.v2.AuthorizationService"
+        ],
+        "summary": "ActivateAuthorization",
+        "description": "Activate Authorization\n\n ActivateAuthorization activates an existing but inactive authorization.\n\n Note: Authorization in this context refers to role assignments, not to OAuth authorization.\n\n In case the authorization is already active, the request will return a successful response as\n the desired state is already achieved.\n You can check the change date in the response to verify if the authorization was activated by the request.\n\n Required permissions:\n   - \"user.grant.write\"",
+        "operationId": "zitadel.authorization.v2.AuthorizationService.ActivateAuthorization",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.authorization.v2.ActivateAuthorizationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.authorization.v2.ActivateAuthorizationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.authorization.v2.AuthorizationService/DeactivateAuthorization": {
+      "post": {
+        "tags": [
+          "zitadel.authorization.v2.AuthorizationService"
+        ],
+        "summary": "DeactivateAuthorization",
+        "description": "Deactivate Authorization\n\n DeactivateAuthorization deactivates an existing and active authorization.\n\n Note: Authorization in this context refers to role assignments, not to OAuth authorization.\n\n In case the authorization is already inactive, the request will return a successful response as\n the desired state is already achieved.\n You can check the change date in the response to verify if the authorization was deactivated by the request.\n\n Required permissions:\n   - \"user.grant.write\"",
+        "operationId": "zitadel.authorization.v2.AuthorizationService.DeactivateAuthorization",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.authorization.v2.DeactivateAuthorizationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.authorization.v2.DeactivateAuthorizationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "zitadel.authorization.v2.AuthorizationFieldName": {
+        "type": "string",
+        "title": "AuthorizationFieldName",
+        "enum": [
+          "AUTHORIZATION_FIELD_NAME_UNSPECIFIED",
+          "AUTHORIZATION_FIELD_NAME_CREATED_DATE",
+          "AUTHORIZATION_FIELD_NAME_CHANGED_DATE",
+          "AUTHORIZATION_FIELD_NAME_ID",
+          "AUTHORIZATION_FIELD_NAME_USER_ID",
+          "AUTHORIZATION_FIELD_NAME_PROJECT_ID",
+          "AUTHORIZATION_FIELD_NAME_ORGANIZATION_ID",
+          "AUTHORIZATION_FIELD_NAME_USER_ORGANIZATION_ID"
+        ]
+      },
+      "zitadel.authorization.v2.State": {
+        "type": "string",
+        "title": "State",
+        "enum": [
+          "STATE_UNSPECIFIED",
+          "STATE_ACTIVE",
+          "STATE_INACTIVE"
+        ]
+      },
+      "zitadel.filter.v2.TextFilterMethod": {
+        "type": "string",
+        "title": "TextFilterMethod",
+        "enum": [
+          "TEXT_FILTER_METHOD_EQUALS",
+          "TEXT_FILTER_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_STARTS_WITH",
+          "TEXT_FILTER_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_CONTAINS",
+          "TEXT_FILTER_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_ENDS_WITH",
+          "TEXT_FILTER_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "1s",
+          "1.000340012s"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.authorization.v2.ActivateAuthorizationRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID is the unique identifier of the authorization that should be activated."
+          }
+        },
+        "title": "ActivateAuthorizationRequest",
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.ActivateAuthorizationResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the last timestamp when the authorization was changed / activated.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "ActivateAuthorizationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.Authorization": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID is the unique identifier of the authorization."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "CreationDate is the timestamp when the authorization was created.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp when the authorization was last updated.\n In case the authorization was not updated, this field is equal to the creation date.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "project": {
+            "title": "project",
+            "description": "The project the user was granted the authorization for.",
+            "$ref": "#/components/schemas/zitadel.authorization.v2.Project"
+          },
+          "organization": {
+            "title": "organization",
+            "description": "The organization the user was granted the authorization for.\n This does not have to correspond with the project or user's organization.\n But does represent the organization to which the authorization belongs and\n the user was given permissions for.",
+            "$ref": "#/components/schemas/zitadel.authorization.v2.Organization"
+          },
+          "user": {
+            "title": "user",
+            "description": "The user who was granted the authorization.",
+            "$ref": "#/components/schemas/zitadel.authorization.v2.User"
+          },
+          "state": {
+            "title": "state",
+            "description": "State is the current state of the authorization.",
+            "$ref": "#/components/schemas/zitadel.authorization.v2.State"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.authorization.v2.Role"
+            },
+            "title": "roles",
+            "description": "Roles contains the roles the user was granted for the project."
+          }
+        },
+        "title": "Authorization",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.AuthorizationsSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "authorizationIds": {
+                "title": "authorization_ids",
+                "description": "Search for authorizations by their IDs.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.InIDsFilter"
+              }
+            },
+            "title": "authorization_ids",
+            "required": [
+              "authorizationIds"
+            ]
+          },
+          {
+            "properties": {
+              "inUserIds": {
+                "title": "in_user_ids",
+                "description": "Search for authorizations by the IDs of the users who were granted the authorizations.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.InIDsFilter"
+              }
+            },
+            "title": "in_user_ids",
+            "required": [
+              "inUserIds"
+            ]
+          },
+          {
+            "properties": {
+              "organizationId": {
+                "title": "organization_id",
+                "description": "Search for authorizations by the ID of the organization it was granted for.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.IDFilter"
+              }
+            },
+            "title": "organization_id",
+            "required": [
+              "organizationId"
+            ]
+          },
+          {
+            "properties": {
+              "projectGrantId": {
+                "title": "project_grant_id",
+                "description": "Search for authorizations by the ID of the project grant the user was granted the authorization for.\n This will also include authorizations granted for project grants of the same project.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.IDFilter"
+              }
+            },
+            "title": "project_grant_id",
+            "required": [
+              "projectGrantId"
+            ]
+          },
+          {
+            "properties": {
+              "projectId": {
+                "title": "project_id",
+                "description": "Search for authorizations by the ID of the project the user was granted the authorization for.\n This will also include authorizations granted for project grants of the same project.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.IDFilter"
+              }
+            },
+            "title": "project_id",
+            "required": [
+              "projectId"
+            ]
+          },
+          {
+            "properties": {
+              "projectName": {
+                "title": "project_name",
+                "description": "Search for authorizations by the name of the project the user was granted the authorization for.\n This will also include authorizations granted for project grants of the same project.",
+                "$ref": "#/components/schemas/zitadel.authorization.v2.ProjectNameQuery"
+              }
+            },
+            "title": "project_name",
+            "required": [
+              "projectName"
+            ]
+          },
+          {
+            "properties": {
+              "roleKey": {
+                "title": "role_key",
+                "description": "Search for authorizations by the key of the role the user was granted.",
+                "$ref": "#/components/schemas/zitadel.authorization.v2.RoleKeyQuery"
+              }
+            },
+            "title": "role_key",
+            "required": [
+              "roleKey"
+            ]
+          },
+          {
+            "properties": {
+              "state": {
+                "title": "state",
+                "description": "Search for authorizations by their state.",
+                "$ref": "#/components/schemas/zitadel.authorization.v2.StateQuery"
+              }
+            },
+            "title": "state",
+            "required": [
+              "state"
+            ]
+          },
+          {
+            "properties": {
+              "userDisplayName": {
+                "title": "user_display_name",
+                "description": "Search for authorizations by the public display name of the granted user.",
+                "$ref": "#/components/schemas/zitadel.authorization.v2.UserDisplayNameQuery"
+              }
+            },
+            "title": "user_display_name",
+            "required": [
+              "userDisplayName"
+            ]
+          },
+          {
+            "properties": {
+              "userOrganizationId": {
+                "title": "user_organization_id",
+                "description": "Search for authorizations by the ID of the organisation the user is part of.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.IDFilter"
+              }
+            },
+            "title": "user_organization_id",
+            "required": [
+              "userOrganizationId"
+            ]
+          },
+          {
+            "properties": {
+              "userPreferredLoginName": {
+                "title": "user_preferred_login_name",
+                "description": "Search for authorizations by the preferred login name of the granted user.",
+                "$ref": "#/components/schemas/zitadel.authorization.v2.UserPreferredLoginNameQuery"
+              }
+            },
+            "title": "user_preferred_login_name",
+            "required": [
+              "userPreferredLoginName"
+            ]
+          }
+        ],
+        "title": "AuthorizationsSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.CreateAuthorizationRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id",
+            "description": "UserID is the ID of the user who should be granted the authorization."
+          },
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "Project ID is the ID of the project the user should be authorized for."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "OrganizationID is the ID of the organization on which the authorization should be created.\n The organization must either own the project or have a grant for the project."
+          },
+          "roleKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "role_keys",
+            "description": "RoleKeys are the keys of the roles the user should be granted."
+          }
+        },
+        "title": "CreateAuthorizationRequest",
+        "required": [
+          "userId",
+          "projectId",
+          "organizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.CreateAuthorizationResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID is the unique identifier of the newly created authorization."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "CreationDate is the timestamp when the authorization was created.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "CreateAuthorizationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.DeactivateAuthorizationRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID is the unique identifier of the authorization that should be deactivated."
+          }
+        },
+        "title": "DeactivateAuthorizationRequest",
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.DeactivateAuthorizationResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the last timestamp when the authorization was changed / deactivated.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeactivateAuthorizationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.DeleteAuthorizationRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID is the unique identifier of the authorization that should be deleted."
+          }
+        },
+        "title": "DeleteAuthorizationRequest",
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.DeleteAuthorizationResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "description": "DeletionDate is the timestamp when the authorization was deleted.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeleteAuthorizationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.ListAuthorizationsRequest": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "description": "Paginate through the results using a limit, offset and sorting.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationRequest"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "description": "The field the result is sorted by. The default is the creation date.\n Beware that if you change this, your result pagination might be inconsistent.",
+            "$ref": "#/components/schemas/zitadel.authorization.v2.AuthorizationFieldName"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.authorization.v2.AuthorizationsSearchFilter"
+            },
+            "title": "filters",
+            "description": "Define the criteria to query for."
+          }
+        },
+        "title": "ListAuthorizationsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.ListAuthorizationsResponse": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "description": "Contains the pagination information.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationResponse"
+          },
+          "authorizations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.authorization.v2.Authorization"
+            },
+            "title": "authorizations",
+            "description": "Authorizations contains the list of authorizations matching the request."
+          }
+        },
+        "title": "ListAuthorizationsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.Organization": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID is the unique identifier of the organization."
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Name is the name of the organization."
+          }
+        },
+        "title": "Organization",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.Project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID is the unique identifier of the project."
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Name is the name of the project."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "OrganizationID is the ID of the organization the project belongs to.\n This does not have to correspond with the authorizations organization.\n In case the authorization is given on a granted project, this is the organization\n that owns the project and granted it."
+          }
+        },
+        "title": "Project",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.ProjectNameQuery": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Specify the name of the project the user was granted the authorization for to search for.\n Note that this will also include authorizations granted for project grants of the same project."
+          },
+          "method": {
+            "title": "method",
+            "description": "Specify the method to search for the project name. Default is EQUAL.\n For example, to search for all authorizations granted on a project with\n a name containing a specific string, use CONTAINS or CONTAINS_IGNORE_CASE.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.TextFilterMethod"
+          }
+        },
+        "title": "ProjectNameQuery",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.Role": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key",
+            "description": "Key is the unique key of the role. It's the only relevant attribute for Zitadel and\n will be used for authorization checks and as claim in tokens and user info responses."
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name",
+            "description": "Human readable name for the role, which might be displayed to users."
+          },
+          "group": {
+            "type": "string",
+            "title": "group",
+            "description": "The group the role belongs to. This is used to group roles in the UI."
+          }
+        },
+        "title": "Role",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.RoleKeyQuery": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key",
+            "description": "Specify the key of the role the user was granted to search for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Specify the method to search for the role key. Default is EQUAL.\n For example, to search for all authorizations starting with a specific role key,\n use STARTS_WITH or STARTS_WITH_IGNORE_CASE.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.TextFilterMethod"
+          }
+        },
+        "title": "RoleKeyQuery",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.StateQuery": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "title": "state",
+            "description": "Specify the state of the authorization to search for.",
+            "$ref": "#/components/schemas/zitadel.authorization.v2.State"
+          }
+        },
+        "title": "StateQuery",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.UpdateAuthorizationRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID is the unique identifier of the authorization."
+          },
+          "roleKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "role_keys",
+            "description": "RoleKeys are the keys of the roles the user should be granted.\n Note that any role keys previously granted to the user and not present in the list will be revoked."
+          }
+        },
+        "title": "UpdateAuthorizationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.UpdateAuthorizationResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp when the authorization was last updated.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "UpdateAuthorizationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID represents the ID of the user who was granted the authorization."
+          },
+          "preferredLoginName": {
+            "type": "string",
+            "title": "preferred_login_name",
+            "description": "PreferredLoginName represents the preferred login name of the granted user."
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name",
+            "description": "DisplayName represents the public display name of the granted user."
+          },
+          "avatarUrl": {
+            "type": "string",
+            "title": "avatar_url",
+            "description": "AvatarURL is the URL to the user's public avatar image."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "The organization the user belong to.\n This does not have to correspond with the authorizations organization."
+          }
+        },
+        "title": "User",
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.UserDisplayNameQuery": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "title": "display_name",
+            "description": "Specify the public display name of the granted user to search for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Specify the method to search for the display name. Default is EQUAL.\n For example, to search for all authorizations granted to a user with\n a display name containing a specific string, use CONTAINS or CONTAINS_IGNORE_CASE.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.TextFilterMethod"
+          }
+        },
+        "title": "UserDisplayNameQuery",
+        "required": [
+          "displayName"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.authorization.v2.UserPreferredLoginNameQuery": {
+        "type": "object",
+        "properties": {
+          "loginName": {
+            "type": "string",
+            "title": "login_name",
+            "description": "Specify the preferred login name of the granted user to search for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Specify the method to search for the preferred login name. Default is EQUAL.\n For example, to search for all authorizations granted to a user with\n a preferred login name containing a specific string, use CONTAINS or CONTAINS_IGNORE_CASE.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.TextFilterMethod"
+          }
+        },
+        "title": "UserPreferredLoginNameQuery",
+        "required": [
+          "loginName"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.IDFilter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Only return resources that belong to this id."
+          }
+        },
+        "title": "IDFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.InIDsFilter": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ids",
+            "description": "Defines the ids to query for."
+          }
+        },
+        "title": "InIDsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.PaginationRequest": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "offset",
+            "format": "int64",
+            "description": "Starting point for retrieval, in combination of offset used to query a set list of objects."
+          },
+          "limit": {
+            "type": "integer",
+            "title": "limit",
+            "description": "limit is the maximum amount of objects returned. The default is set to 100\n with a maximum of 1000 in the runtime configuration.\n If the limit exceeds the maximum configured Zitadel will throw an error.\n If no limit is present the default is taken."
+          },
+          "asc": {
+            "type": "boolean",
+            "title": "asc",
+            "description": "Asc is the sorting order. If true the list is sorted ascending, if false\n the list is sorted descending. The default is descending."
+          }
+        },
+        "title": "PaginationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.PaginationResponse": {
+        "type": "object",
+        "properties": {
+          "totalResult": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "total_result",
+            "format": "int64",
+            "description": "Absolute number of objects matching the query, regardless of applied limit."
+          },
+          "appliedLimit": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "applied_limit",
+            "format": "int64",
+            "description": "Applied limit from query, defines maximum amount of objects per request, to compare if all objects are returned."
+          }
+        },
+        "title": "PaginationResponse",
+        "additionalProperties": false
+      },
+      "connect-protocol-version": {
+        "type": "number",
+        "title": "Connect-Protocol-Version",
+        "enum": [
+          1
+        ],
+        "description": "Define the version of the Connect protocol",
+        "const": 1
+      },
+      "connect-timeout-header": {
+        "type": "number",
+        "title": "Connect-Timeout-Ms",
+        "description": "Define the timeout, in ms"
+      },
+      "connect.error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "examples": [
+              "not_found"
+            ],
+            "enum": [
+              "canceled",
+              "unknown",
+              "invalid_argument",
+              "deadline_exceeded",
+              "not_found",
+              "already_exists",
+              "permission_denied",
+              "resource_exhausted",
+              "failed_precondition",
+              "aborted",
+              "out_of_range",
+              "unimplemented",
+              "internal",
+              "unavailable",
+              "data_loss",
+              "unauthenticated"
+            ],
+            "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+          },
+          "message": {
+            "type": "string",
+            "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+          },
+          "detail": {
+            "$ref": "#/components/schemas/google.protobuf.Any"
+          }
+        },
+        "title": "Connect Error",
+        "additionalProperties": true,
+        "description": "Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation"
+      },
+      "google.protobuf.Any": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string",
+            "format": "binary"
+          },
+          "debug": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true,
+        "description": "Contains an arbitrary serialized message along with a @type that describes the type of the serialized message."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "zitadel.authorization.v2.AuthorizationService",
+      "description": "AuthorizationService provides methods to manage authorizations for users within your projects and applications.\n\n Note: Authorization in this context refers to role assignments, not to OAuth authorization.\n\n For managing permissions and roles for Zitadel internal resources, like organizations, projects,\n users, etc., please use the InternalPermissionService."
+    }
+  ]
+}

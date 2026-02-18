@@ -1,0 +1,465 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.project.v1"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.project.v1.PrivateLabelingSetting": {
+        "type": "string",
+        "title": "PrivateLabelingSetting",
+        "enum": [
+          "PRIVATE_LABELING_SETTING_UNSPECIFIED",
+          "PRIVATE_LABELING_SETTING_ENFORCE_PROJECT_RESOURCE_OWNER_POLICY",
+          "PRIVATE_LABELING_SETTING_ALLOW_LOGIN_USER_RESOURCE_OWNER_POLICY"
+        ]
+      },
+      "zitadel.project.v1.ProjectGrantState": {
+        "type": "string",
+        "title": "ProjectGrantState",
+        "enum": [
+          "PROJECT_GRANT_STATE_UNSPECIFIED",
+          "PROJECT_GRANT_STATE_ACTIVE",
+          "PROJECT_GRANT_STATE_INACTIVE"
+        ]
+      },
+      "zitadel.project.v1.ProjectState": {
+        "type": "string",
+        "title": "ProjectState",
+        "enum": [
+          "PROJECT_STATE_UNSPECIFIED",
+          "PROJECT_STATE_ACTIVE",
+          "PROJECT_STATE_INACTIVE"
+        ]
+      },
+      "zitadel.v1.TextQueryMethod": {
+        "type": "string",
+        "title": "TextQueryMethod",
+        "enum": [
+          "TEXT_QUERY_METHOD_EQUALS",
+          "TEXT_QUERY_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_STARTS_WITH",
+          "TEXT_QUERY_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_CONTAINS",
+          "TEXT_QUERY_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_ENDS_WITH",
+          "TEXT_QUERY_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "1s",
+          "1.000340012s"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.project.v1.AllProjectGrantQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "grantedOrgIdQuery": {
+                "title": "granted_org_id_query",
+                "$ref": "#/components/schemas/zitadel.project.v1.GrantedOrgIDQuery"
+              }
+            },
+            "title": "granted_org_id_query",
+            "required": [
+              "grantedOrgIdQuery"
+            ]
+          },
+          {
+            "properties": {
+              "projectIdQuery": {
+                "title": "project_id_query",
+                "$ref": "#/components/schemas/zitadel.project.v1.ProjectIDQuery"
+              }
+            },
+            "title": "project_id_query",
+            "required": [
+              "projectIdQuery"
+            ]
+          },
+          {
+            "properties": {
+              "projectNameQuery": {
+                "title": "project_name_query",
+                "$ref": "#/components/schemas/zitadel.project.v1.GrantProjectNameQuery"
+              }
+            },
+            "title": "project_name_query",
+            "required": [
+              "projectNameQuery"
+            ]
+          },
+          {
+            "properties": {
+              "roleKeyQuery": {
+                "title": "role_key_query",
+                "$ref": "#/components/schemas/zitadel.project.v1.GrantRoleKeyQuery"
+              }
+            },
+            "title": "role_key_query",
+            "required": [
+              "roleKeyQuery"
+            ]
+          }
+        ],
+        "title": "AllProjectGrantQuery",
+        "additionalProperties": false
+      },
+      "zitadel.project.v1.GrantProjectNameQuery": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "GrantProjectNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.project.v1.GrantRoleKeyQuery": {
+        "type": "object",
+        "properties": {
+          "roleKey": {
+            "type": "string",
+            "title": "role_key"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "GrantRoleKeyQuery",
+        "additionalProperties": false
+      },
+      "zitadel.project.v1.GrantedOrgIDQuery": {
+        "type": "object",
+        "properties": {
+          "grantedOrgId": {
+            "type": "string",
+            "title": "granted_org_id"
+          }
+        },
+        "title": "GrantedOrgIDQuery",
+        "additionalProperties": false
+      },
+      "zitadel.project.v1.GrantedProject": {
+        "type": "object",
+        "properties": {
+          "grantId": {
+            "type": "string",
+            "title": "grant_id"
+          },
+          "grantedOrgId": {
+            "type": "string",
+            "title": "granted_org_id"
+          },
+          "grantedOrgName": {
+            "type": "string",
+            "title": "granted_org_name"
+          },
+          "grantedRoleKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "granted_role_keys"
+          },
+          "state": {
+            "title": "state",
+            "$ref": "#/components/schemas/zitadel.project.v1.ProjectGrantState"
+          },
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "projectName": {
+            "type": "string",
+            "title": "project_name"
+          },
+          "projectOwnerId": {
+            "type": "string",
+            "title": "project_owner_id"
+          },
+          "projectOwnerName": {
+            "type": "string",
+            "title": "project_owner_name"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          }
+        },
+        "title": "GrantedProject",
+        "additionalProperties": false
+      },
+      "zitadel.project.v1.Project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "state": {
+            "title": "state",
+            "$ref": "#/components/schemas/zitadel.project.v1.ProjectState"
+          },
+          "projectRoleAssertion": {
+            "type": "boolean",
+            "title": "project_role_assertion",
+            "description": "describes if the roles of the user should be added to the token"
+          },
+          "projectRoleCheck": {
+            "type": "boolean",
+            "title": "project_role_check",
+            "description": "Zitadel checks if the user has at least one on this project"
+          },
+          "hasProjectCheck": {
+            "type": "boolean",
+            "title": "has_project_check",
+            "description": "Zitadel checks if the org of the user has permission for this project"
+          },
+          "privateLabelingSetting": {
+            "title": "private_labeling_setting",
+            "description": "Defines from where the private labeling should be triggered",
+            "$ref": "#/components/schemas/zitadel.project.v1.PrivateLabelingSetting"
+          }
+        },
+        "title": "Project",
+        "additionalProperties": false
+      },
+      "zitadel.project.v1.ProjectGrantQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "projectNameQuery": {
+                "title": "project_name_query",
+                "$ref": "#/components/schemas/zitadel.project.v1.GrantProjectNameQuery"
+              }
+            },
+            "title": "project_name_query",
+            "required": [
+              "projectNameQuery"
+            ]
+          },
+          {
+            "properties": {
+              "roleKeyQuery": {
+                "title": "role_key_query",
+                "$ref": "#/components/schemas/zitadel.project.v1.GrantRoleKeyQuery"
+              }
+            },
+            "title": "role_key_query",
+            "required": [
+              "roleKeyQuery"
+            ]
+          }
+        ],
+        "title": "ProjectGrantQuery",
+        "additionalProperties": false
+      },
+      "zitadel.project.v1.ProjectIDQuery": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          }
+        },
+        "title": "ProjectIDQuery",
+        "additionalProperties": false
+      },
+      "zitadel.project.v1.ProjectNameQuery": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "ProjectNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.project.v1.ProjectQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "nameQuery": {
+                "title": "name_query",
+                "$ref": "#/components/schemas/zitadel.project.v1.ProjectNameQuery"
+              }
+            },
+            "title": "name_query",
+            "required": [
+              "nameQuery"
+            ]
+          },
+          {
+            "properties": {
+              "projectResourceOwnerQuery": {
+                "title": "project_resource_owner_query",
+                "$ref": "#/components/schemas/zitadel.project.v1.ProjectResourceOwnerQuery"
+              }
+            },
+            "title": "project_resource_owner_query",
+            "required": [
+              "projectResourceOwnerQuery"
+            ]
+          }
+        ],
+        "title": "ProjectQuery",
+        "additionalProperties": false
+      },
+      "zitadel.project.v1.ProjectResourceOwnerQuery": {
+        "type": "object",
+        "properties": {
+          "resourceOwner": {
+            "type": "string",
+            "title": "resource_owner"
+          }
+        },
+        "title": "ProjectResourceOwnerQuery",
+        "additionalProperties": false
+      },
+      "zitadel.project.v1.Role": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          },
+          "group": {
+            "type": "string",
+            "title": "group"
+          }
+        },
+        "title": "Role",
+        "additionalProperties": false
+      },
+      "zitadel.project.v1.RoleDisplayNameQuery": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "RoleDisplayNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.project.v1.RoleKeyQuery": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "RoleKeyQuery",
+        "additionalProperties": false
+      },
+      "zitadel.project.v1.RoleQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "displayNameQuery": {
+                "title": "display_name_query",
+                "$ref": "#/components/schemas/zitadel.project.v1.RoleDisplayNameQuery"
+              }
+            },
+            "title": "display_name_query",
+            "required": [
+              "displayNameQuery"
+            ]
+          },
+          {
+            "properties": {
+              "keyQuery": {
+                "title": "key_query",
+                "$ref": "#/components/schemas/zitadel.project.v1.RoleKeyQuery"
+              }
+            },
+            "title": "key_query",
+            "required": [
+              "keyQuery"
+            ]
+          }
+        ],
+        "title": "RoleQuery",
+        "additionalProperties": false
+      },
+      "zitadel.v1.ObjectDetails": {
+        "type": "object",
+        "properties": {
+          "sequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "sequence",
+            "format": "int64",
+            "description": "sequence represents the order of events. It's always counting\n\n on read: the sequence of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "creation_date is the timestamp where the first operation on the object was made\n\n on read: the timestamp of the first event of the object\n\n on create: the timestamp of the event(s) added by the manipulation",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "change_date is the timestamp when the object was changed\n\n on read: the timestamp of the last event reduced by the projection\n\n on manipulation: the",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "resourceOwner": {
+            "type": "string",
+            "title": "resource_owner",
+            "description": "resource_owner is the organization an object belongs to"
+          }
+        },
+        "title": "ObjectDetails",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

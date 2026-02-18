@@ -1,0 +1,193 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.action.v2"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.action.v2.PayloadType": {
+        "type": "string",
+        "title": "PayloadType",
+        "enum": [
+          "PAYLOAD_TYPE_UNSPECIFIED",
+          "PAYLOAD_TYPE_JSON",
+          "PAYLOAD_TYPE_JWT",
+          "PAYLOAD_TYPE_JWE"
+        ]
+      },
+      "google.protobuf.Duration": {
+        "type": "string",
+        "format": "duration",
+        "description": "A Duration represents a signed, fixed-length span of time represented\n as a count of seconds and fractions of seconds at nanosecond\n resolution. It is independent of any calendar and concepts like \"day\"\n or \"month\". It is related to Timestamp in that the difference between\n two Timestamp values is a Duration and it can be added or subtracted\n from a Timestamp. Range is approximately +-10,000 years.\n\n # Examples\n\n Example 1: Compute Duration from two Timestamps in pseudo code.\n\n     Timestamp start = ...;\n     Timestamp end = ...;\n     Duration duration = ...;\n\n     duration.seconds = end.seconds - start.seconds;\n     duration.nanos = end.nanos - start.nanos;\n\n     if (duration.seconds \u003c 0 \u0026\u0026 duration.nanos \u003e 0) {\n       duration.seconds += 1;\n       duration.nanos -= 1000000000;\n     } else if (duration.seconds \u003e 0 \u0026\u0026 duration.nanos \u003c 0) {\n       duration.seconds -= 1;\n       duration.nanos += 1000000000;\n     }\n\n Example 2: Compute Timestamp from Timestamp + Duration in pseudo code.\n\n     Timestamp start = ...;\n     Duration duration = ...;\n     Timestamp end = ...;\n\n     end.seconds = start.seconds + duration.seconds;\n     end.nanos = start.nanos + duration.nanos;\n\n     if (end.nanos \u003c 0) {\n       end.seconds -= 1;\n       end.nanos += 1000000000;\n     } else if (end.nanos \u003e= 1000000000) {\n       end.seconds += 1;\n       end.nanos -= 1000000000;\n     }\n\n Example 3: Compute Duration from datetime.timedelta in Python.\n\n     td = datetime.timedelta(days=3, minutes=10)\n     duration = Duration()\n     duration.FromTimedelta(td)\n\n # JSON Mapping\n\n In JSON format, the Duration type is encoded as a string rather than an\n object, where the string ends in the suffix \"s\" (indicating seconds) and\n is preceded by the number of seconds, with nanoseconds expressed as\n fractional seconds. For example, 3 seconds with 0 nanoseconds should be\n encoded in JSON format as \"3s\", while 3 seconds and 1 nanosecond should\n be expressed in JSON format as \"3.000000001s\", and 3 seconds and 1\n microsecond should be expressed in JSON format as \"3.000001s\"."
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "1s",
+          "1.000340012s"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.action.v2.PublicKey": {
+        "type": "object",
+        "properties": {
+          "keyId": {
+            "type": "string",
+            "title": "key_id",
+            "description": "KeyID is the unique identifier of the public key.\n It's also used as the `kid` field in the JWE header when the payload type is set to `PAYLOAD_TYPE_JWE`."
+          },
+          "active": {
+            "type": "boolean",
+            "title": "active",
+            "description": "Active indicates whether the public key is active and used for payload encryption.\n Only one public key can be active at a time."
+          },
+          "publicKey": {
+            "type": "string",
+            "title": "public_key",
+            "format": "byte",
+            "description": "The public key in PEM format."
+          },
+          "fingerprint": {
+            "type": "string",
+            "title": "fingerprint",
+            "description": "Fingerprint is the fingerprint of the public key. It's prefixed with the hashing algorithm used\n and base64 encoded without padding, e.g. `SHA256:STqK+Sd4qgdu+UjiwI8NBjOD6P7UqQ42EZYIdySEyTw`.\n The fingerprint can be used to easily compare the public key with other sources."
+          },
+          "expirationDate": {
+            "title": "expiration_date",
+            "description": "ExpirationDate is the timestamp when the public key automatically expires and\n no longer will be used for payload encryption, even when active.\n Be sure to upload and activate a new public key before the expiration date\n to avoid failed executions.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "CreationDate is the timestamp when the the public key was uploaded.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp when the public key was last changed, e.g. activated or deactivated.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "PublicKey",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.RESTAsync": {
+        "type": "object",
+        "title": "RESTAsync",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.RESTCall": {
+        "type": "object",
+        "properties": {
+          "interruptOnError": {
+            "type": "boolean",
+            "title": "interrupt_on_error",
+            "description": "Define if any error stops the whole execution. By default the process continues as normal."
+          }
+        },
+        "title": "RESTCall",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.RESTWebhook": {
+        "type": "object",
+        "properties": {
+          "interruptOnError": {
+            "type": "boolean",
+            "title": "interrupt_on_error",
+            "description": "Define if any error stops the whole execution. By default the process continues as normal."
+          }
+        },
+        "title": "RESTWebhook",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.Target": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "restAsync": {
+                "title": "rest_async",
+                "$ref": "#/components/schemas/zitadel.action.v2.RESTAsync"
+              }
+            },
+            "title": "rest_async",
+            "required": [
+              "restAsync"
+            ]
+          },
+          {
+            "properties": {
+              "restCall": {
+                "title": "rest_call",
+                "$ref": "#/components/schemas/zitadel.action.v2.RESTCall"
+              }
+            },
+            "title": "rest_call",
+            "required": [
+              "restCall"
+            ]
+          },
+          {
+            "properties": {
+              "restWebhook": {
+                "title": "rest_webhook",
+                "$ref": "#/components/schemas/zitadel.action.v2.RESTWebhook"
+              }
+            },
+            "title": "rest_webhook",
+            "required": [
+              "restWebhook"
+            ]
+          }
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "The unique identifier of the target."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the target creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the last change to the target.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Display name of the target."
+          },
+          "timeout": {
+            "title": "timeout",
+            "description": "Timeout defines the duration until Zitadel cancels the execution.\n If the target doesn't respond before this timeout expires, the the connection is closed and the action fails. Depending on the target type and possible setting on `interrupt_on_error` following targets will not be called. In case of a `rest_async` target only this specific target will fail, without any influence on other targets of the same execution.",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "endpoint": {
+            "type": "string",
+            "title": "endpoint",
+            "description": "The URL that will be called in case of an execution."
+          },
+          "signingKey": {
+            "type": "string",
+            "title": "signing_key",
+            "description": "The current signing key used to sign the request sent to the target.\n The key can be used to verify the integrity and authenticity of the request\n on the receiver side. The key should be treated as a secret and only known to Zitadel and the receiver.\n The signature is included in the request header `X-ZITADEL-Signature`\n and calculated over the raw body of the request using HMAC with SHA256."
+          },
+          "payloadType": {
+            "title": "payload_type",
+            "description": "Payload type defines how the payload is formatted and secured.\n The default is `PAYLOAD_TYPE_JSON`, which sends the payload as JSON in the body of the request.\n For integrity and authenticity a signature is included in the header `X-ZITADEL-Signature`.\n You can also choose to send the payload as a JWT (`PAYLOAD_TYPE_JWT`), which sends\n the payload as a signed JWT in the body of the request. This allows the receiver to verify\n the authenticity and integrity of the payload using the signing key (published on the JWKS URL).\n If you need encryption as well, you can choose `PAYLOAD_TYPE_JWE`, which sends the payload\n as an encrypted JWT in the body of the request. You can provide your own public key for encryption.",
+            "$ref": "#/components/schemas/zitadel.action.v2.PayloadType"
+          }
+        },
+        "title": "Target",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

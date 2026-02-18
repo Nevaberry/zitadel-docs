@@ -1,0 +1,1566 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.action.v2beta"
+  },
+  "paths": {
+    "/v2beta/actions/targets": {
+      "post": {
+        "tags": [
+          "zitadel.action.v2beta.ActionService"
+        ],
+        "summary": "CreateTarget",
+        "description": "Create Target\n\n Deprecated: please move to the corresponding endpoint under action service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Create a new target to your endpoint, which can be used in executions.\n\n Required permission:\n   - `action.target.write`",
+        "operationId": "zitadel.action.v2beta.ActionService.CreateTarget",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.action.v2beta.CreateTargetRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.action.v2beta.CreateTargetResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/actions/targets/{id}": {
+      "get": {
+        "tags": [
+          "zitadel.action.v2beta.ActionService"
+        ],
+        "summary": "GetTarget",
+        "description": "Get Target\n\n Deprecated: please move to the corresponding endpoint under action service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Returns the target identified by the requested ID.\n\n Required permission:\n   - `action.target.read`",
+        "operationId": "zitadel.action.v2beta.ActionService.GetTarget",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "id"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.action.v2beta.GetTargetResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "zitadel.action.v2beta.ActionService"
+        ],
+        "summary": "UpdateTarget",
+        "description": "Update Target\n\n Deprecated: please move to the corresponding endpoint under action service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Update an existing target.\n To generate a new signing key set the optional expirationSigningKey.\n\n Required permission:\n   - `action.target.write`",
+        "operationId": "zitadel.action.v2beta.ActionService.UpdateTarget",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "oneOf": [
+                  {
+                    "properties": {
+                      "restAsync": {
+                        "title": "rest_async",
+                        "description": "Call is executed in parallel to others, Zitadel does not wait until the call is finished. The state is ignored, call is sent as post.",
+                        "$ref": "#/components/schemas/zitadel.action.v2beta.RESTAsync"
+                      }
+                    },
+                    "title": "rest_async",
+                    "required": [
+                      "restAsync"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "restCall": {
+                        "title": "rest_call",
+                        "description": "Wait for response and response body is used, status is checked, call is sent as post.",
+                        "$ref": "#/components/schemas/zitadel.action.v2beta.RESTCall"
+                      }
+                    },
+                    "title": "rest_call",
+                    "required": [
+                      "restCall"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "restWebhook": {
+                        "title": "rest_webhook",
+                        "description": "Wait for response but response body is ignored, status is checked, call is sent as post.",
+                        "$ref": "#/components/schemas/zitadel.action.v2beta.RESTWebhook"
+                      }
+                    },
+                    "title": "rest_webhook",
+                    "required": [
+                      "restWebhook"
+                    ]
+                  }
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "title": "name",
+                    "nullable": true
+                  },
+                  "timeout": {
+                    "title": "timeout",
+                    "description": "Timeout defines the duration until Zitadel cancels the execution.\n If the target doesn't respond before this timeout expires, then the connection is closed and the action fails. Depending on the target type and possible setting on `interrupt_on_error` following targets will not be called. In case of a `rest_async` target only this specific target will fail, without any influence on other targets of the same execution.",
+                    "nullable": true,
+                    "$ref": "#/components/schemas/google.protobuf.Duration"
+                  },
+                  "endpoint": {
+                    "type": "string",
+                    "title": "endpoint",
+                    "nullable": true
+                  },
+                  "expirationSigningKey": {
+                    "title": "expiration_signing_key",
+                    "description": "Regenerate the key used for signing and checking the payload sent to the target.\n Set the graceful period for the existing key. During that time, the previous\n signing key and the new one will be used to sign the request to allow you a smooth\n transition onf your API.\n\n Note that we currently only allow an immediate rotation (\"0s\") and will support\n longer expirations in the future.",
+                    "nullable": true,
+                    "$ref": "#/components/schemas/google.protobuf.Duration"
+                  }
+                },
+                "title": "UpdateTargetRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.action.v2beta.UpdateTargetResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "zitadel.action.v2beta.ActionService"
+        ],
+        "summary": "DeleteTarget",
+        "description": "Delete Target\n\n Deprecated: please move to the corresponding endpoint under action service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Delete an existing target. This will remove it from any configured execution as well.\n In case the target is not found, the request will return a successful response as\n the desired state is already achieved.\n\n Required permission:\n   - `action.target.delete`",
+        "operationId": "zitadel.action.v2beta.ActionService.DeleteTarget",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "id"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.action.v2beta.DeleteTargetResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/actions/targets/search": {
+      "post": {
+        "tags": [
+          "zitadel.action.v2beta.ActionService"
+        ],
+        "summary": "ListTargets",
+        "description": "List targets\n\n Deprecated: please move to the corresponding endpoint under action service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n List all matching targets. By default all targets of the instance are returned.\n Make sure to include a limit and sorting for pagination.\n\n Required permission:\n   - `action.target.read`",
+        "operationId": "zitadel.action.v2beta.ActionService.ListTargets",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.action.v2beta.ListTargetsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.action.v2beta.ListTargetsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/actions/executions": {
+      "put": {
+        "tags": [
+          "zitadel.action.v2beta.ActionService"
+        ],
+        "summary": "SetExecution",
+        "description": "Set Execution\n\n Deprecated: please move to the corresponding endpoint under action service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Sets an execution to call a target or include the targets of another execution.\n Setting an empty list of targets will remove all targets from the execution, making it a noop.\n\n Required permission:\n   - `action.execution.write`",
+        "operationId": "zitadel.action.v2beta.ActionService.SetExecution",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.action.v2beta.SetExecutionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.action.v2beta.SetExecutionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/actions/executions/search": {
+      "post": {
+        "tags": [
+          "zitadel.action.v2beta.ActionService"
+        ],
+        "summary": "ListExecutions",
+        "description": "List Executions\n\n Deprecated: please move to the corresponding endpoint under action service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n List all matching executions. By default all executions of the instance are returned that have at least one execution target.\n Make sure to include a limit and sorting for pagination.\n\n Required permission:\n   - `action.execution.read`",
+        "operationId": "zitadel.action.v2beta.ActionService.ListExecutions",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.action.v2beta.ListExecutionsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.action.v2beta.ListExecutionsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/actions/executions/functions": {
+      "get": {
+        "tags": [
+          "zitadel.action.v2beta.ActionService"
+        ],
+        "summary": "ListExecutionFunctions",
+        "description": "List Execution Functions\n\n Deprecated: please move to the corresponding endpoint under action service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n List all available functions which can be used as condition for executions.",
+        "operationId": "zitadel.action.v2beta.ActionService.ListExecutionFunctions",
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.action.v2beta.ListExecutionFunctionsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/actions/executions/methods": {
+      "get": {
+        "tags": [
+          "zitadel.action.v2beta.ActionService"
+        ],
+        "summary": "ListExecutionMethods",
+        "description": "List Execution Methods\n\n Deprecated: please move to the corresponding endpoint under action service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n List all available methods which can be used as condition for executions.",
+        "operationId": "zitadel.action.v2beta.ActionService.ListExecutionMethods",
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.action.v2beta.ListExecutionMethodsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/actions/executions/services": {
+      "get": {
+        "tags": [
+          "zitadel.action.v2beta.ActionService"
+        ],
+        "summary": "ListExecutionServices",
+        "description": "List Execution Services\n\n Deprecated: please move to the corresponding endpoint under action service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n List all available services which can be used as condition for executions.",
+        "operationId": "zitadel.action.v2beta.ActionService.ListExecutionServices",
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.action.v2beta.ListExecutionServicesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "zitadel.action.v2beta.ExecutionFieldName": {
+        "type": "string",
+        "title": "ExecutionFieldName",
+        "enum": [
+          "EXECUTION_FIELD_NAME_UNSPECIFIED",
+          "EXECUTION_FIELD_NAME_ID",
+          "EXECUTION_FIELD_NAME_CREATED_DATE",
+          "EXECUTION_FIELD_NAME_CHANGED_DATE"
+        ]
+      },
+      "zitadel.action.v2beta.ExecutionType": {
+        "type": "string",
+        "title": "ExecutionType",
+        "enum": [
+          "EXECUTION_TYPE_UNSPECIFIED",
+          "EXECUTION_TYPE_REQUEST",
+          "EXECUTION_TYPE_RESPONSE",
+          "EXECUTION_TYPE_EVENT",
+          "EXECUTION_TYPE_FUNCTION"
+        ]
+      },
+      "zitadel.action.v2beta.TargetFieldName": {
+        "type": "string",
+        "title": "TargetFieldName",
+        "enum": [
+          "TARGET_FIELD_NAME_UNSPECIFIED",
+          "TARGET_FIELD_NAME_ID",
+          "TARGET_FIELD_NAME_CREATED_DATE",
+          "TARGET_FIELD_NAME_CHANGED_DATE",
+          "TARGET_FIELD_NAME_NAME",
+          "TARGET_FIELD_NAME_TARGET_TYPE",
+          "TARGET_FIELD_NAME_URL",
+          "TARGET_FIELD_NAME_TIMEOUT",
+          "TARGET_FIELD_NAME_INTERRUPT_ON_ERROR"
+        ]
+      },
+      "zitadel.filter.v2beta.TextFilterMethod": {
+        "type": "string",
+        "title": "TextFilterMethod",
+        "enum": [
+          "TEXT_FILTER_METHOD_EQUALS",
+          "TEXT_FILTER_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_STARTS_WITH",
+          "TEXT_FILTER_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_CONTAINS",
+          "TEXT_FILTER_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_ENDS_WITH",
+          "TEXT_FILTER_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      },
+      "google.protobuf.Duration": {
+        "type": "string",
+        "format": "duration",
+        "description": "A Duration represents a signed, fixed-length span of time represented\n as a count of seconds and fractions of seconds at nanosecond\n resolution. It is independent of any calendar and concepts like \"day\"\n or \"month\". It is related to Timestamp in that the difference between\n two Timestamp values is a Duration and it can be added or subtracted\n from a Timestamp. Range is approximately +-10,000 years.\n\n # Examples\n\n Example 1: Compute Duration from two Timestamps in pseudo code.\n\n     Timestamp start = ...;\n     Timestamp end = ...;\n     Duration duration = ...;\n\n     duration.seconds = end.seconds - start.seconds;\n     duration.nanos = end.nanos - start.nanos;\n\n     if (duration.seconds \u003c 0 \u0026\u0026 duration.nanos \u003e 0) {\n       duration.seconds += 1;\n       duration.nanos -= 1000000000;\n     } else if (duration.seconds \u003e 0 \u0026\u0026 duration.nanos \u003c 0) {\n       duration.seconds -= 1;\n       duration.nanos += 1000000000;\n     }\n\n Example 2: Compute Timestamp from Timestamp + Duration in pseudo code.\n\n     Timestamp start = ...;\n     Duration duration = ...;\n     Timestamp end = ...;\n\n     end.seconds = start.seconds + duration.seconds;\n     end.nanos = start.nanos + duration.nanos;\n\n     if (end.nanos \u003c 0) {\n       end.seconds -= 1;\n       end.nanos += 1000000000;\n     } else if (end.nanos \u003e= 1000000000) {\n       end.seconds += 1;\n       end.nanos -= 1000000000;\n     }\n\n Example 3: Compute Duration from datetime.timedelta in Python.\n\n     td = datetime.timedelta(days=3, minutes=10)\n     duration = Duration()\n     duration.FromTimedelta(td)\n\n # JSON Mapping\n\n In JSON format, the Duration type is encoded as a string rather than an\n object, where the string ends in the suffix \"s\" (indicating seconds) and\n is preceded by the number of seconds, with nanoseconds expressed as\n fractional seconds. For example, 3 seconds with 0 nanoseconds should be\n encoded in JSON format as \"3s\", while 3 seconds and 1 nanosecond should\n be expressed in JSON format as \"3.000000001s\", and 3 seconds and 1\n microsecond should be expressed in JSON format as \"3.000001s\"."
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "1s",
+          "1.000340012s"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.action.v2beta.Condition": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "event": {
+                "title": "event",
+                "description": "Condition-type to execute if an event is created in the system.",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.EventExecution"
+              }
+            },
+            "title": "event",
+            "required": [
+              "event"
+            ]
+          },
+          {
+            "properties": {
+              "function": {
+                "title": "function",
+                "description": "Condition-type to execute if function is used, replaces actions v1.",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.FunctionExecution"
+              }
+            },
+            "title": "function",
+            "required": [
+              "function"
+            ]
+          },
+          {
+            "properties": {
+              "request": {
+                "title": "request",
+                "description": "Condition-type to execute if a request on the defined API point happens.",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.RequestExecution"
+              }
+            },
+            "title": "request",
+            "required": [
+              "request"
+            ]
+          },
+          {
+            "properties": {
+              "response": {
+                "title": "response",
+                "description": "Condition-type to execute on response if a request on the defined API point happens.",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.ResponseExecution"
+              }
+            },
+            "title": "response",
+            "required": [
+              "response"
+            ]
+          }
+        ],
+        "title": "Condition",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.CreateTargetRequest": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "restAsync": {
+                "title": "rest_async",
+                "description": "Call is executed in parallel to others, Zitadel does not wait until the call is finished. The state is ignored, call is sent as post.",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.RESTAsync"
+              }
+            },
+            "title": "rest_async",
+            "required": [
+              "restAsync"
+            ]
+          },
+          {
+            "properties": {
+              "restCall": {
+                "title": "rest_call",
+                "description": "Wait for response and response body is used, status is checked, call is sent as post.",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.RESTCall"
+              }
+            },
+            "title": "rest_call",
+            "required": [
+              "restCall"
+            ]
+          },
+          {
+            "properties": {
+              "restWebhook": {
+                "title": "rest_webhook",
+                "description": "Wait for response but response body is ignored, status is checked, call is sent as post.",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.RESTWebhook"
+              }
+            },
+            "title": "rest_webhook",
+            "required": [
+              "restWebhook"
+            ]
+          }
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "timeout": {
+            "title": "timeout",
+            "description": "Timeout defines the duration until Zitadel cancels the execution.\n If the target doesn't respond before this timeout expires, then the connection is closed and the action fails. Depending on the target type and possible setting on `interrupt_on_error` following targets will not be called. In case of a `rest_async` target only this specific target will fail, without any influence on other targets of the same execution.",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "endpoint": {
+            "type": "string",
+            "title": "endpoint"
+          }
+        },
+        "title": "CreateTargetRequest",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.CreateTargetResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "The unique identifier of the newly created target."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the target creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "signingKey": {
+            "type": "string",
+            "title": "signing_key",
+            "description": "Key used to sign and check payload sent to the target."
+          }
+        },
+        "title": "CreateTargetResponse",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.DeleteTargetRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          }
+        },
+        "title": "DeleteTargetRequest",
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.DeleteTargetResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "description": "The timestamp of the deletion of the target.\n Note that the deletion date is only guaranteed to be set if the deletion was successful during the request.\n In case the deletion occurred in a previous request, the deletion date might be empty.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeleteTargetResponse",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.EventExecution": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "all": {
+                "type": "boolean",
+                "title": "all",
+                "description": "all events as condition."
+              }
+            },
+            "title": "all",
+            "required": [
+              "all"
+            ]
+          },
+          {
+            "properties": {
+              "event": {
+                "type": "string",
+                "title": "event",
+                "description": "Event name as condition."
+              }
+            },
+            "title": "event",
+            "required": [
+              "event"
+            ]
+          },
+          {
+            "properties": {
+              "group": {
+                "type": "string",
+                "title": "group",
+                "description": "Event group as condition, all events under this group."
+              }
+            },
+            "title": "group",
+            "required": [
+              "group"
+            ]
+          }
+        ],
+        "title": "EventExecution",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.Execution": {
+        "type": "object",
+        "properties": {
+          "condition": {
+            "title": "condition",
+            "$ref": "#/components/schemas/zitadel.action.v2beta.Condition"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the execution creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the last change to the execution.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "targets",
+            "description": "Ordered list of targets called during the execution."
+          }
+        },
+        "title": "Execution",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ExecutionSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "executionTypeFilter": {
+                "title": "execution_type_filter",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.ExecutionTypeFilter"
+              }
+            },
+            "title": "execution_type_filter",
+            "required": [
+              "executionTypeFilter"
+            ]
+          },
+          {
+            "properties": {
+              "inConditionsFilter": {
+                "title": "in_conditions_filter",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.InConditionsFilter"
+              }
+            },
+            "title": "in_conditions_filter",
+            "required": [
+              "inConditionsFilter"
+            ]
+          },
+          {
+            "properties": {
+              "targetFilter": {
+                "title": "target_filter",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.TargetFilter"
+              }
+            },
+            "title": "target_filter",
+            "required": [
+              "targetFilter"
+            ]
+          }
+        ],
+        "title": "ExecutionSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ExecutionTypeFilter": {
+        "type": "object",
+        "properties": {
+          "executionType": {
+            "title": "execution_type",
+            "description": "Defines the type to query for.",
+            "$ref": "#/components/schemas/zitadel.action.v2beta.ExecutionType"
+          }
+        },
+        "title": "ExecutionTypeFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.FunctionExecution": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          }
+        },
+        "title": "FunctionExecution",
+        "additionalProperties": false,
+        "description": "Executed on the specified function"
+      },
+      "zitadel.action.v2beta.GetTargetRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          }
+        },
+        "title": "GetTargetRequest",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.GetTargetResponse": {
+        "type": "object",
+        "properties": {
+          "target": {
+            "title": "target",
+            "$ref": "#/components/schemas/zitadel.action.v2beta.Target"
+          }
+        },
+        "title": "GetTargetResponse",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.InConditionsFilter": {
+        "type": "object",
+        "properties": {
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.action.v2beta.Condition"
+            },
+            "title": "conditions",
+            "description": "Defines the conditions to query for."
+          }
+        },
+        "title": "InConditionsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.InTargetIDsFilter": {
+        "type": "object",
+        "properties": {
+          "targetIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "target_ids",
+            "description": "Defines the ids to query for."
+          }
+        },
+        "title": "InTargetIDsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ListExecutionFunctionsRequest": {
+        "type": "object",
+        "title": "ListExecutionFunctionsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ListExecutionFunctionsResponse": {
+        "type": "object",
+        "properties": {
+          "functions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "functions",
+            "description": "All available methods"
+          }
+        },
+        "title": "ListExecutionFunctionsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ListExecutionMethodsRequest": {
+        "type": "object",
+        "title": "ListExecutionMethodsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ListExecutionMethodsResponse": {
+        "type": "object",
+        "properties": {
+          "methods": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "methods",
+            "description": "All available methods"
+          }
+        },
+        "title": "ListExecutionMethodsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ListExecutionServicesRequest": {
+        "type": "object",
+        "title": "ListExecutionServicesRequest",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ListExecutionServicesResponse": {
+        "type": "object",
+        "properties": {
+          "services": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "services",
+            "description": "All available methods"
+          }
+        },
+        "title": "ListExecutionServicesResponse",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ListExecutionsRequest": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "description": "List limitations and ordering.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationRequest"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "description": "The field the result is sorted by. The default is the creation date. Beware that if you change this, your result pagination might be inconsistent.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.action.v2beta.ExecutionFieldName"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.action.v2beta.ExecutionSearchFilter"
+            },
+            "title": "filters",
+            "description": "Define the criteria to query for."
+          }
+        },
+        "title": "ListExecutionsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ListExecutionsResponse": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationResponse"
+          },
+          "executions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.action.v2beta.Execution"
+            },
+            "title": "executions"
+          }
+        },
+        "title": "ListExecutionsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ListTargetsRequest": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "description": "List limitations and ordering.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationRequest"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "description": "The field the result is sorted by. The default is the creation date. Beware that if you change this, your result pagination might be inconsistent.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.action.v2beta.TargetFieldName"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.action.v2beta.TargetSearchFilter"
+            },
+            "title": "filters",
+            "description": "Define the criteria to query for."
+          }
+        },
+        "title": "ListTargetsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ListTargetsResponse": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationResponse"
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.action.v2beta.Target"
+            },
+            "title": "targets"
+          }
+        },
+        "title": "ListTargetsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.RESTAsync": {
+        "type": "object",
+        "title": "RESTAsync",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.RESTCall": {
+        "type": "object",
+        "properties": {
+          "interruptOnError": {
+            "type": "boolean",
+            "title": "interrupt_on_error",
+            "description": "Define if any error stops the whole execution. By default the process continues as normal."
+          }
+        },
+        "title": "RESTCall",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.RESTWebhook": {
+        "type": "object",
+        "properties": {
+          "interruptOnError": {
+            "type": "boolean",
+            "title": "interrupt_on_error",
+            "description": "Define if any error stops the whole execution. By default the process continues as normal."
+          }
+        },
+        "title": "RESTWebhook",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.RequestExecution": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "all": {
+                "type": "boolean",
+                "title": "all",
+                "description": "All calls to any available services and methods as condition."
+              }
+            },
+            "title": "all",
+            "required": [
+              "all"
+            ]
+          },
+          {
+            "properties": {
+              "method": {
+                "type": "string",
+                "title": "method",
+                "description": "GRPC-method as condition."
+              }
+            },
+            "title": "method",
+            "required": [
+              "method"
+            ]
+          },
+          {
+            "properties": {
+              "service": {
+                "type": "string",
+                "title": "service",
+                "description": "GRPC-service as condition."
+              }
+            },
+            "title": "service",
+            "required": [
+              "service"
+            ]
+          }
+        ],
+        "title": "RequestExecution",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ResponseExecution": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "all": {
+                "type": "boolean",
+                "title": "all",
+                "description": "All calls to any available services and methods as condition."
+              }
+            },
+            "title": "all",
+            "required": [
+              "all"
+            ]
+          },
+          {
+            "properties": {
+              "method": {
+                "type": "string",
+                "title": "method",
+                "description": "GRPC-method as condition."
+              }
+            },
+            "title": "method",
+            "required": [
+              "method"
+            ]
+          },
+          {
+            "properties": {
+              "service": {
+                "type": "string",
+                "title": "service",
+                "description": "GRPC-service as condition."
+              }
+            },
+            "title": "service",
+            "required": [
+              "service"
+            ]
+          }
+        ],
+        "title": "ResponseExecution",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.SetExecutionRequest": {
+        "type": "object",
+        "properties": {
+          "condition": {
+            "title": "condition",
+            "description": "Condition defining when the execution should be used.",
+            "$ref": "#/components/schemas/zitadel.action.v2beta.Condition"
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "targets",
+            "description": "Ordered list of targets called during the execution."
+          }
+        },
+        "title": "SetExecutionRequest",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.SetExecutionResponse": {
+        "type": "object",
+        "properties": {
+          "setDate": {
+            "title": "set_date",
+            "description": "The timestamp of the execution set.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "SetExecutionResponse",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.Target": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "restAsync": {
+                "title": "rest_async",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.RESTAsync"
+              }
+            },
+            "title": "rest_async",
+            "required": [
+              "restAsync"
+            ]
+          },
+          {
+            "properties": {
+              "restCall": {
+                "title": "rest_call",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.RESTCall"
+              }
+            },
+            "title": "rest_call",
+            "required": [
+              "restCall"
+            ]
+          },
+          {
+            "properties": {
+              "restWebhook": {
+                "title": "rest_webhook",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.RESTWebhook"
+              }
+            },
+            "title": "rest_webhook",
+            "required": [
+              "restWebhook"
+            ]
+          }
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "The unique identifier of the target."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the target creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the last change to the target (e.g. creation, activation, deactivation).",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "timeout": {
+            "title": "timeout",
+            "description": "Timeout defines the duration until Zitadel cancels the execution.\n If the target doesn't respond before this timeout expires, the the connection is closed and the action fails. Depending on the target type and possible setting on `interrupt_on_error` following targets will not be called. In case of a `rest_async` target only this specific target will fail, without any influence on other targets of the same execution.",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "endpoint": {
+            "type": "string",
+            "title": "endpoint"
+          },
+          "signingKey": {
+            "type": "string",
+            "title": "signing_key"
+          }
+        },
+        "title": "Target",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.TargetFilter": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "title": "target_id",
+            "description": "Defines the id to query for."
+          }
+        },
+        "title": "TargetFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.TargetNameFilter": {
+        "type": "object",
+        "properties": {
+          "targetName": {
+            "type": "string",
+            "title": "target_name",
+            "description": "Defines the name of the target to query for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the name query.",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.TextFilterMethod"
+          }
+        },
+        "title": "TargetNameFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.TargetSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "inTargetIdsFilter": {
+                "title": "in_target_ids_filter",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.InTargetIDsFilter"
+              }
+            },
+            "title": "in_target_ids_filter",
+            "required": [
+              "inTargetIdsFilter"
+            ]
+          },
+          {
+            "properties": {
+              "targetNameFilter": {
+                "title": "target_name_filter",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.TargetNameFilter"
+              }
+            },
+            "title": "target_name_filter",
+            "required": [
+              "targetNameFilter"
+            ]
+          }
+        ],
+        "title": "TargetSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.UpdateTargetRequest": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "restAsync": {
+                "title": "rest_async",
+                "description": "Call is executed in parallel to others, Zitadel does not wait until the call is finished. The state is ignored, call is sent as post.",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.RESTAsync"
+              }
+            },
+            "title": "rest_async",
+            "required": [
+              "restAsync"
+            ]
+          },
+          {
+            "properties": {
+              "restCall": {
+                "title": "rest_call",
+                "description": "Wait for response and response body is used, status is checked, call is sent as post.",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.RESTCall"
+              }
+            },
+            "title": "rest_call",
+            "required": [
+              "restCall"
+            ]
+          },
+          {
+            "properties": {
+              "restWebhook": {
+                "title": "rest_webhook",
+                "description": "Wait for response but response body is ignored, status is checked, call is sent as post.",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.RESTWebhook"
+              }
+            },
+            "title": "rest_webhook",
+            "required": [
+              "restWebhook"
+            ]
+          }
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "nullable": true
+          },
+          "timeout": {
+            "title": "timeout",
+            "description": "Timeout defines the duration until Zitadel cancels the execution.\n If the target doesn't respond before this timeout expires, then the connection is closed and the action fails. Depending on the target type and possible setting on `interrupt_on_error` following targets will not be called. In case of a `rest_async` target only this specific target will fail, without any influence on other targets of the same execution.",
+            "nullable": true,
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "endpoint": {
+            "type": "string",
+            "title": "endpoint",
+            "nullable": true
+          },
+          "expirationSigningKey": {
+            "title": "expiration_signing_key",
+            "description": "Regenerate the key used for signing and checking the payload sent to the target.\n Set the graceful period for the existing key. During that time, the previous\n signing key and the new one will be used to sign the request to allow you a smooth\n transition onf your API.\n\n Note that we currently only allow an immediate rotation (\"0s\") and will support\n longer expirations in the future.",
+            "nullable": true,
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          }
+        },
+        "title": "UpdateTargetRequest",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.UpdateTargetResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the change of the target.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "signingKey": {
+            "type": "string",
+            "title": "signing_key",
+            "description": "Key used to sign and check payload sent to the target.",
+            "nullable": true
+          }
+        },
+        "title": "UpdateTargetResponse",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2beta.PaginationRequest": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "offset",
+            "format": "int64",
+            "description": "Starting point for retrieval, in combination of offset used to query a set list of objects."
+          },
+          "limit": {
+            "type": "integer",
+            "title": "limit",
+            "description": "limit is the maximum amount of objects returned. The default is set to 100\n with a maximum of 1000 in the runtime configuration.\n If the limit exceeds the maximum configured Zitadel will throw an error.\n If no limit is present the default is taken."
+          },
+          "asc": {
+            "type": "boolean",
+            "title": "asc",
+            "description": "Asc is the sorting order. If true the list is sorted ascending, if false\n the list is sorted descending. The default is descending."
+          }
+        },
+        "title": "PaginationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2beta.PaginationResponse": {
+        "type": "object",
+        "properties": {
+          "totalResult": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "total_result",
+            "format": "int64",
+            "description": "Absolute number of objects matching the query, regardless of applied limit."
+          },
+          "appliedLimit": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "applied_limit",
+            "format": "int64",
+            "description": "Applied limit from query, defines maximum amount of objects per request, to compare if all objects are returned."
+          }
+        },
+        "title": "PaginationResponse",
+        "additionalProperties": false
+      },
+      "connect-protocol-version": {
+        "type": "number",
+        "title": "Connect-Protocol-Version",
+        "enum": [
+          1
+        ],
+        "description": "Define the version of the Connect protocol",
+        "const": 1
+      },
+      "connect-timeout-header": {
+        "type": "number",
+        "title": "Connect-Timeout-Ms",
+        "description": "Define the timeout, in ms"
+      },
+      "connect.error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "examples": [
+              "not_found"
+            ],
+            "enum": [
+              "canceled",
+              "unknown",
+              "invalid_argument",
+              "deadline_exceeded",
+              "not_found",
+              "already_exists",
+              "permission_denied",
+              "resource_exhausted",
+              "failed_precondition",
+              "aborted",
+              "out_of_range",
+              "unimplemented",
+              "internal",
+              "unavailable",
+              "data_loss",
+              "unauthenticated"
+            ],
+            "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+          },
+          "message": {
+            "type": "string",
+            "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+          },
+          "detail": {
+            "$ref": "#/components/schemas/google.protobuf.Any"
+          }
+        },
+        "title": "Connect Error",
+        "additionalProperties": true,
+        "description": "Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation"
+      },
+      "google.protobuf.Any": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string",
+            "format": "binary"
+          },
+          "debug": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true,
+        "description": "Contains an arbitrary serialized message along with a @type that describes the type of the serialized message."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "zitadel.action.v2beta.ActionService",
+      "description": "Service to manage custom executions.\n The service provides methods to create, update, delete and list targets and executions.\n\n Deprecated: use action service v2 instead. This service will be removed in the next major version of ZITADEL."
+    }
+  ]
+}

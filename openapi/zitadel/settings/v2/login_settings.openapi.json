@@ -1,0 +1,257 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.settings.v2"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.idp.v2.AutoLinkingOption": {
+        "type": "string",
+        "title": "AutoLinkingOption",
+        "enum": [
+          "AUTO_LINKING_OPTION_UNSPECIFIED",
+          "AUTO_LINKING_OPTION_USERNAME",
+          "AUTO_LINKING_OPTION_EMAIL"
+        ]
+      },
+      "zitadel.settings.v2.IdentityProviderType": {
+        "type": "string",
+        "title": "IdentityProviderType",
+        "enum": [
+          "IDENTITY_PROVIDER_TYPE_UNSPECIFIED",
+          "IDENTITY_PROVIDER_TYPE_OIDC",
+          "IDENTITY_PROVIDER_TYPE_JWT",
+          "IDENTITY_PROVIDER_TYPE_LDAP",
+          "IDENTITY_PROVIDER_TYPE_OAUTH",
+          "IDENTITY_PROVIDER_TYPE_AZURE_AD",
+          "IDENTITY_PROVIDER_TYPE_GITHUB",
+          "IDENTITY_PROVIDER_TYPE_GITHUB_ES",
+          "IDENTITY_PROVIDER_TYPE_GITLAB",
+          "IDENTITY_PROVIDER_TYPE_GITLAB_SELF_HOSTED",
+          "IDENTITY_PROVIDER_TYPE_GOOGLE",
+          "IDENTITY_PROVIDER_TYPE_SAML",
+          "IDENTITY_PROVIDER_TYPE_APPLE"
+        ]
+      },
+      "zitadel.settings.v2.MultiFactorType": {
+        "type": "string",
+        "title": "MultiFactorType",
+        "enum": [
+          "MULTI_FACTOR_TYPE_UNSPECIFIED",
+          "MULTI_FACTOR_TYPE_U2F_WITH_VERIFICATION"
+        ]
+      },
+      "zitadel.settings.v2.PasskeysType": {
+        "type": "string",
+        "title": "PasskeysType",
+        "enum": [
+          "PASSKEYS_TYPE_NOT_ALLOWED",
+          "PASSKEYS_TYPE_ALLOWED"
+        ]
+      },
+      "zitadel.settings.v2.ResourceOwnerType": {
+        "type": "string",
+        "title": "ResourceOwnerType",
+        "enum": [
+          "RESOURCE_OWNER_TYPE_UNSPECIFIED",
+          "RESOURCE_OWNER_TYPE_INSTANCE",
+          "RESOURCE_OWNER_TYPE_ORG"
+        ]
+      },
+      "zitadel.settings.v2.SecondFactorType": {
+        "type": "string",
+        "title": "SecondFactorType",
+        "enum": [
+          "SECOND_FACTOR_TYPE_UNSPECIFIED",
+          "SECOND_FACTOR_TYPE_OTP",
+          "SECOND_FACTOR_TYPE_TOTP",
+          "SECOND_FACTOR_TYPE_U2F",
+          "SECOND_FACTOR_TYPE_OTP_EMAIL",
+          "SECOND_FACTOR_TYPE_OTP_SMS",
+          "SECOND_FACTOR_TYPE_RECOVERY_CODES"
+        ]
+      },
+      "google.protobuf.Duration": {
+        "type": "string",
+        "format": "duration",
+        "description": "A Duration represents a signed, fixed-length span of time represented\n as a count of seconds and fractions of seconds at nanosecond\n resolution. It is independent of any calendar and concepts like \"day\"\n or \"month\". It is related to Timestamp in that the difference between\n two Timestamp values is a Duration and it can be added or subtracted\n from a Timestamp. Range is approximately +-10,000 years.\n\n # Examples\n\n Example 1: Compute Duration from two Timestamps in pseudo code.\n\n     Timestamp start = ...;\n     Timestamp end = ...;\n     Duration duration = ...;\n\n     duration.seconds = end.seconds - start.seconds;\n     duration.nanos = end.nanos - start.nanos;\n\n     if (duration.seconds \u003c 0 \u0026\u0026 duration.nanos \u003e 0) {\n       duration.seconds += 1;\n       duration.nanos -= 1000000000;\n     } else if (duration.seconds \u003e 0 \u0026\u0026 duration.nanos \u003c 0) {\n       duration.seconds -= 1;\n       duration.nanos += 1000000000;\n     }\n\n Example 2: Compute Timestamp from Timestamp + Duration in pseudo code.\n\n     Timestamp start = ...;\n     Duration duration = ...;\n     Timestamp end = ...;\n\n     end.seconds = start.seconds + duration.seconds;\n     end.nanos = start.nanos + duration.nanos;\n\n     if (end.nanos \u003c 0) {\n       end.seconds -= 1;\n       end.nanos += 1000000000;\n     } else if (end.nanos \u003e= 1000000000) {\n       end.seconds += 1;\n       end.nanos -= 1000000000;\n     }\n\n Example 3: Compute Duration from datetime.timedelta in Python.\n\n     td = datetime.timedelta(days=3, minutes=10)\n     duration = Duration()\n     duration.FromTimedelta(td)\n\n # JSON Mapping\n\n In JSON format, the Duration type is encoded as a string rather than an\n object, where the string ends in the suffix \"s\" (indicating seconds) and\n is preceded by the number of seconds, with nanoseconds expressed as\n fractional seconds. For example, 3 seconds with 0 nanoseconds should be\n encoded in JSON format as \"3s\", while 3 seconds and 1 nanosecond should\n be expressed in JSON format as \"3.000000001s\", and 3 seconds and 1\n microsecond should be expressed in JSON format as \"3.000001s\"."
+      },
+      "zitadel.idp.v2.Options": {
+        "type": "object",
+        "properties": {
+          "isLinkingAllowed": {
+            "type": "boolean",
+            "title": "is_linking_allowed",
+            "description": "Enable if users should be able to link an existing Zitadel user with an\n external account."
+          },
+          "isCreationAllowed": {
+            "type": "boolean",
+            "title": "is_creation_allowed",
+            "description": "Enable if users should be able to create a new account in Zitadel when\n using an external account."
+          },
+          "isAutoCreation": {
+            "type": "boolean",
+            "title": "is_auto_creation",
+            "description": "Enable if a new account in Zitadel should be created automatically when\n login with an external account."
+          },
+          "isAutoUpdate": {
+            "type": "boolean",
+            "title": "is_auto_update",
+            "description": "Enable if a the Zitadel account fields should be updated automatically on\n each login."
+          },
+          "autoLinking": {
+            "title": "auto_linking",
+            "description": "Enable if users should get prompted to link an existing Zitadel user to an\n external account if the selected attribute matches.",
+            "$ref": "#/components/schemas/zitadel.idp.v2.AutoLinkingOption"
+          }
+        },
+        "title": "Options",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2.IdentityProvider": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "type": {
+            "title": "type",
+            "$ref": "#/components/schemas/zitadel.settings.v2.IdentityProviderType"
+          },
+          "options": {
+            "title": "options",
+            "$ref": "#/components/schemas/zitadel.idp.v2.Options"
+          }
+        },
+        "title": "IdentityProvider",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2.LoginSettings": {
+        "type": "object",
+        "properties": {
+          "allowUsernamePassword": {
+            "type": "boolean",
+            "title": "allow_username_password",
+            "description": "If enabled, users can log in locally with their username and passkeys or password.\n Disabling this option will require users to log in with an external identity provider.\n Be sure to allow at least one external identity provider if this option is disabled.\n Deprecated: check allow_local_authentication instead.",
+            "deprecated": true
+          },
+          "allowLocalAuthentication": {
+            "type": "boolean",
+            "title": "allow_local_authentication",
+            "description": "If enabled, users can log in locally with their username and passkeys or password.\n Disabling this option will require users to log in with an external identity provider.\n Be sure to allow at least one external identity provider if this option is disabled."
+          },
+          "allowRegister": {
+            "type": "boolean",
+            "title": "allow_register",
+            "description": "If enabled, users can register a local account by themself.\n This option does not effect external identity providers.\n Each identity provider can be configured to allow or disallow registration."
+          },
+          "allowExternalIdp": {
+            "type": "boolean",
+            "title": "allow_external_idp",
+            "description": "If enabled, users will generally be allowed to use an external identity provider to log in.\n Be sure to allow at least one external identity provider if this option is enabled."
+          },
+          "forceMfa": {
+            "type": "boolean",
+            "title": "force_mfa",
+            "description": "If enabled, users will be forced to use a multi-factor to log in.\n This also applies to federated logins through an external identity provider.\n Users will be required to set up a second factor if they have not done so already."
+          },
+          "passkeysType": {
+            "title": "passkeys_type",
+            "description": "Defines the usage of passkeys for users.\n PASSKEYS_TYPE_NOT_ALLOWED: Users are not allowed to use passkeys.\n PASSKEYS_TYPE_ALLOWED: Users are allowed to use passkeys.\n There will be additional options in the future.\n If passkeys are allowed, users can choose to use passkeys or password for local authentication.\n A verified passkey authentication will not require a second factor, if force_mfa is enabled.",
+            "$ref": "#/components/schemas/zitadel.settings.v2.PasskeysType"
+          },
+          "hidePasswordReset": {
+            "type": "boolean",
+            "title": "hide_password_reset",
+            "description": "If enabled, the password reset link will be hidden on the login screen."
+          },
+          "ignoreUnknownUsernames": {
+            "type": "boolean",
+            "title": "ignore_unknown_usernames",
+            "description": "If enabled, an unknown username on the login screen will not return an error directly,\n but will always display the password screen.\n This prevents user enumeration attacks."
+          },
+          "defaultRedirectUri": {
+            "type": "string",
+            "title": "default_redirect_uri",
+            "description": "Defines where the user will be redirected to if the login is started without app context (e.g. from mail)."
+          },
+          "passwordCheckLifetime": {
+            "title": "password_check_lifetime",
+            "description": "The duration a password check is valid.\n After this time has passed, the user will be required to re-validate their\n password on the next action that requires authentication.\n Note that this does not enforce a logout or session expiration.",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "externalLoginCheckLifetime": {
+            "title": "external_login_check_lifetime",
+            "description": "The duration a login through an external identity provider is valid.\n After this time has passed, the user will be required to re-authenticate with the\n external identity provider on the next action that requires authentication.\n Note that this does not enforce a logout or session expiration.",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "mfaInitSkipLifetime": {
+            "title": "mfa_init_skip_lifetime",
+            "description": "Defines after how much time the mfa prompt will be shown again.",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "secondFactorCheckLifetime": {
+            "title": "second_factor_check_lifetime",
+            "description": "The duration a second factor check is valid.\n After this time has passed, the user will be required to re-validate their\n second factor on the next action that requires authentication.\n Note that this does not enforce a logout or session expiration.",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "multiFactorCheckLifetime": {
+            "title": "multi_factor_check_lifetime",
+            "description": "The duration a multi-factor check is valid.\n After this time has passed, the user will be required to re-validate their\n multi-factor on the next action that requires authentication.\n Note that this does not enforce a logout or session expiration.",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "secondFactors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.settings.v2.SecondFactorType"
+            },
+            "title": "second_factors",
+            "description": "The list of allowed second factors."
+          },
+          "multiFactors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.settings.v2.MultiFactorType"
+            },
+            "title": "multi_factors",
+            "description": "The list of allowed multi factors."
+          },
+          "allowDomainDiscovery": {
+            "type": "boolean",
+            "title": "allow_domain_discovery",
+            "description": "Allow discovery of the organization and its authentication option by domain.\n If set to true, the suffix (@domain.com) of an unknown username input on the login screen\n will be matched against the organization domains and will redirect to the registration of that organization on success.\n The registration can either be locally (requires allow_register to be true) or through an external identity provider.\n In case only one identity provider is configured for the organization, the user will be redirected directly to the identity provider."
+          },
+          "disableLoginWithEmail": {
+            "type": "boolean",
+            "title": "disable_login_with_email",
+            "description": "By default, users can login with their verified email address additionally to their login name.\n Setting this to true disables the email login.\n Note: If the email is set as the login name, this setting has no effect."
+          },
+          "disableLoginWithPhone": {
+            "type": "boolean",
+            "title": "disable_login_with_phone",
+            "description": "By default, users can login with their verified phone number additionally to their login name.\n Setting this to true disables the phone number login.\n Note: If the phone number is set as the login name, this setting has no effect."
+          },
+          "resourceOwnerType": {
+            "title": "resource_owner_type",
+            "description": "ResourceOwnerType returns if the settings is managed on the organization explicitly or\n fell back on the instance settings.",
+            "$ref": "#/components/schemas/zitadel.settings.v2.ResourceOwnerType"
+          },
+          "forceMfaLocalOnly": {
+            "type": "boolean",
+            "title": "force_mfa_local_only",
+            "description": "If enabled, users will be forced to use a multi-factor to log in if they authenticated locally.\n This does not apply to federated logins through an external identity provider.\n Users will be required to set up a second factor if they have not done so already.\n If both force_mfa and force_mfa_local_only are enabled, force_mfa takes precedence and\n all logins will require a second factor."
+          }
+        },
+        "title": "LoginSettings",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

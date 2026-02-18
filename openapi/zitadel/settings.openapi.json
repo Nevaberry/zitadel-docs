@@ -1,0 +1,561 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.settings.v1"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.settings.v1.EmailProviderState": {
+        "type": "string",
+        "title": "EmailProviderState",
+        "enum": [
+          "EMAIL_PROVIDER_STATE_UNSPECIFIED",
+          "EMAIL_PROVIDER_ACTIVE",
+          "EMAIL_PROVIDER_INACTIVE"
+        ]
+      },
+      "zitadel.settings.v1.SMSProviderConfigState": {
+        "type": "string",
+        "title": "SMSProviderConfigState",
+        "enum": [
+          "SMS_PROVIDER_CONFIG_STATE_UNSPECIFIED",
+          "SMS_PROVIDER_CONFIG_ACTIVE",
+          "SMS_PROVIDER_CONFIG_INACTIVE"
+        ]
+      },
+      "zitadel.settings.v1.SMTPConfigState": {
+        "type": "string",
+        "title": "SMTPConfigState",
+        "enum": [
+          "SMTP_CONFIG_STATE_UNSPECIFIED",
+          "SMTP_CONFIG_ACTIVE",
+          "SMTP_CONFIG_INACTIVE"
+        ]
+      },
+      "zitadel.settings.v1.SecretGeneratorType": {
+        "type": "string",
+        "title": "SecretGeneratorType",
+        "enum": [
+          "SECRET_GENERATOR_TYPE_UNSPECIFIED",
+          "SECRET_GENERATOR_TYPE_INIT_CODE",
+          "SECRET_GENERATOR_TYPE_VERIFY_EMAIL_CODE",
+          "SECRET_GENERATOR_TYPE_VERIFY_PHONE_CODE",
+          "SECRET_GENERATOR_TYPE_PASSWORD_RESET_CODE",
+          "SECRET_GENERATOR_TYPE_PASSWORDLESS_INIT_CODE",
+          "SECRET_GENERATOR_TYPE_APP_SECRET",
+          "SECRET_GENERATOR_TYPE_OTP_SMS",
+          "SECRET_GENERATOR_TYPE_OTP_EMAIL"
+        ]
+      },
+      "google.protobuf.Duration": {
+        "type": "string",
+        "format": "duration",
+        "description": "A Duration represents a signed, fixed-length span of time represented\n as a count of seconds and fractions of seconds at nanosecond\n resolution. It is independent of any calendar and concepts like \"day\"\n or \"month\". It is related to Timestamp in that the difference between\n two Timestamp values is a Duration and it can be added or subtracted\n from a Timestamp. Range is approximately +-10,000 years.\n\n # Examples\n\n Example 1: Compute Duration from two Timestamps in pseudo code.\n\n     Timestamp start = ...;\n     Timestamp end = ...;\n     Duration duration = ...;\n\n     duration.seconds = end.seconds - start.seconds;\n     duration.nanos = end.nanos - start.nanos;\n\n     if (duration.seconds \u003c 0 \u0026\u0026 duration.nanos \u003e 0) {\n       duration.seconds += 1;\n       duration.nanos -= 1000000000;\n     } else if (duration.seconds \u003e 0 \u0026\u0026 duration.nanos \u003c 0) {\n       duration.seconds -= 1;\n       duration.nanos += 1000000000;\n     }\n\n Example 2: Compute Timestamp from Timestamp + Duration in pseudo code.\n\n     Timestamp start = ...;\n     Duration duration = ...;\n     Timestamp end = ...;\n\n     end.seconds = start.seconds + duration.seconds;\n     end.nanos = start.nanos + duration.nanos;\n\n     if (end.nanos \u003c 0) {\n       end.seconds -= 1;\n       end.nanos += 1000000000;\n     } else if (end.nanos \u003e= 1000000000) {\n       end.seconds += 1;\n       end.nanos -= 1000000000;\n     }\n\n Example 3: Compute Duration from datetime.timedelta in Python.\n\n     td = datetime.timedelta(days=3, minutes=10)\n     duration = Duration()\n     duration.FromTimedelta(td)\n\n # JSON Mapping\n\n In JSON format, the Duration type is encoded as a string rather than an\n object, where the string ends in the suffix \"s\" (indicating seconds) and\n is preceded by the number of seconds, with nanoseconds expressed as\n fractional seconds. For example, 3 seconds with 0 nanoseconds should be\n encoded in JSON format as \"3s\", while 3 seconds and 1 nanosecond should\n be expressed in JSON format as \"3.000000001s\", and 3 seconds and 1\n microsecond should be expressed in JSON format as \"3.000001s\"."
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "1s",
+          "1.000340012s"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.settings.v1.DebugNotificationProvider": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "compact": {
+            "type": "boolean",
+            "title": "compact"
+          }
+        },
+        "title": "DebugNotificationProvider",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v1.EmailProvider": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "http": {
+                "title": "http",
+                "$ref": "#/components/schemas/zitadel.settings.v1.EmailProviderHTTP"
+              }
+            },
+            "title": "http",
+            "required": [
+              "http"
+            ]
+          },
+          {
+            "properties": {
+              "smtp": {
+                "title": "smtp",
+                "$ref": "#/components/schemas/zitadel.settings.v1.EmailProviderSMTP"
+              }
+            },
+            "title": "smtp",
+            "required": [
+              "smtp"
+            ]
+          }
+        ],
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "state": {
+            "title": "state",
+            "$ref": "#/components/schemas/zitadel.settings.v1.EmailProviderState"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          }
+        },
+        "title": "EmailProvider",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v1.EmailProviderHTTP": {
+        "type": "object",
+        "properties": {
+          "endpoint": {
+            "type": "string",
+            "title": "endpoint"
+          },
+          "signingKey": {
+            "type": "string",
+            "title": "signing_key"
+          }
+        },
+        "title": "EmailProviderHTTP",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v1.EmailProviderSMTP": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "none": {
+                "title": "none",
+                "$ref": "#/components/schemas/zitadel.settings.v1.SMTPNoAuth"
+              }
+            },
+            "title": "none",
+            "required": [
+              "none"
+            ]
+          },
+          {
+            "properties": {
+              "plain": {
+                "title": "plain",
+                "$ref": "#/components/schemas/zitadel.settings.v1.SMTPPlainAuth"
+              }
+            },
+            "title": "plain",
+            "required": [
+              "plain"
+            ]
+          },
+          {
+            "properties": {
+              "xoauth2": {
+                "title": "xoauth2",
+                "$ref": "#/components/schemas/zitadel.settings.v1.SMTPXOAuth2Auth"
+              }
+            },
+            "title": "xoauth2",
+            "required": [
+              "xoauth2"
+            ]
+          }
+        ],
+        "properties": {
+          "senderAddress": {
+            "type": "string",
+            "title": "sender_address"
+          },
+          "senderName": {
+            "type": "string",
+            "title": "sender_name"
+          },
+          "tls": {
+            "type": "boolean",
+            "title": "tls"
+          },
+          "host": {
+            "type": "string",
+            "title": "host"
+          },
+          "user": {
+            "type": "string",
+            "title": "user"
+          },
+          "replyToAddress": {
+            "type": "string",
+            "title": "reply_to_address"
+          }
+        },
+        "title": "EmailProviderSMTP",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v1.HTTPConfig": {
+        "type": "object",
+        "properties": {
+          "endpoint": {
+            "type": "string",
+            "title": "endpoint"
+          },
+          "signingKey": {
+            "type": "string",
+            "title": "signing_key"
+          }
+        },
+        "title": "HTTPConfig",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v1.OIDCSettings": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "accessTokenLifetime": {
+            "title": "access_token_lifetime",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "idTokenLifetime": {
+            "title": "id_token_lifetime",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "refreshTokenIdleExpiration": {
+            "title": "refresh_token_idle_expiration",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "refreshTokenExpiration": {
+            "title": "refresh_token_expiration",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          }
+        },
+        "title": "OIDCSettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v1.SMSProvider": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "http": {
+                "title": "http",
+                "$ref": "#/components/schemas/zitadel.settings.v1.HTTPConfig"
+              }
+            },
+            "title": "http",
+            "required": [
+              "http"
+            ]
+          },
+          {
+            "properties": {
+              "twilio": {
+                "title": "twilio",
+                "$ref": "#/components/schemas/zitadel.settings.v1.TwilioConfig"
+              }
+            },
+            "title": "twilio",
+            "required": [
+              "twilio"
+            ]
+          }
+        ],
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "state": {
+            "title": "state",
+            "$ref": "#/components/schemas/zitadel.settings.v1.SMSProviderConfigState"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          }
+        },
+        "title": "SMSProvider",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v1.SMTPConfig": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "senderAddress": {
+            "type": "string",
+            "title": "sender_address"
+          },
+          "senderName": {
+            "type": "string",
+            "title": "sender_name"
+          },
+          "tls": {
+            "type": "boolean",
+            "title": "tls"
+          },
+          "host": {
+            "type": "string",
+            "title": "host"
+          },
+          "user": {
+            "type": "string",
+            "title": "user"
+          },
+          "replyToAddress": {
+            "type": "string",
+            "title": "reply_to_address"
+          },
+          "state": {
+            "title": "state",
+            "$ref": "#/components/schemas/zitadel.settings.v1.SMTPConfigState"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "id": {
+            "type": "string",
+            "title": "id"
+          }
+        },
+        "title": "SMTPConfig",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v1.SMTPNoAuth": {
+        "type": "object",
+        "title": "SMTPNoAuth",
+        "additionalProperties": false,
+        "description": "SMTPNoAuth can be used when no authentication is required for the SMTP connection."
+      },
+      "zitadel.settings.v1.SMTPPlainAuth": {
+        "type": "object",
+        "title": "SMTPPlainAuth",
+        "additionalProperties": false,
+        "description": "SMTPPlainAuth adds plain authentication to the smtp connection. The username of the parent configuration is used in\n combination with the password in this message."
+      },
+      "zitadel.settings.v1.SMTPXOAuth2Auth": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "clientCredentials": {
+                "title": "client_credentials",
+                "$ref": "#/components/schemas/zitadel.settings.v1.SMTPXOAuth2Auth.ClientCredentials"
+              }
+            },
+            "title": "client_credentials",
+            "required": [
+              "clientCredentials"
+            ]
+          }
+        ],
+        "properties": {
+          "tokenEndpoint": {
+            "type": "string",
+            "title": "token_endpoint",
+            "description": "token_endpoint is the endpoint from which a token will be requested according to the oauth2 specification."
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "scopes",
+            "description": "scopes is a list of scopes which should be requested from the authorization service. To authorize a token to\n use the smtp functionality, the server requires a specific scope. These scopes can be found in the documentation\n of the provider."
+          }
+        },
+        "title": "SMTPXOAuth2Auth",
+        "additionalProperties": false,
+        "description": "SMTPXOAuth2Auth adds XOAut2 authentication to the smtp connection. The username of the parent configuration is used\n in combination with the other parameters of this message."
+      },
+      "zitadel.settings.v1.SMTPXOAuth2Auth.ClientCredentials": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "title": "client_id"
+          }
+        },
+        "title": "ClientCredentials",
+        "additionalProperties": false,
+        "description": "ClientCredentials authenticates the SMTP client using Oauth 2.0 Client Credentials grant.\n https://datatracker.ietf.org/doc/html/rfc6749#section-4.4"
+      },
+      "zitadel.settings.v1.SecretGenerator": {
+        "type": "object",
+        "properties": {
+          "generatorType": {
+            "title": "generator_type",
+            "$ref": "#/components/schemas/zitadel.settings.v1.SecretGeneratorType"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "length": {
+            "type": "integer",
+            "title": "length"
+          },
+          "expiry": {
+            "title": "expiry",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "includeLowerLetters": {
+            "type": "boolean",
+            "title": "include_lower_letters"
+          },
+          "includeUpperLetters": {
+            "type": "boolean",
+            "title": "include_upper_letters"
+          },
+          "includeDigits": {
+            "type": "boolean",
+            "title": "include_digits"
+          },
+          "includeSymbols": {
+            "type": "boolean",
+            "title": "include_symbols"
+          }
+        },
+        "title": "SecretGenerator",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v1.SecretGeneratorQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "typeQuery": {
+                "title": "type_query",
+                "$ref": "#/components/schemas/zitadel.settings.v1.SecretGeneratorTypeQuery"
+              }
+            },
+            "title": "type_query",
+            "required": [
+              "typeQuery"
+            ]
+          }
+        ],
+        "title": "SecretGeneratorQuery",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v1.SecretGeneratorTypeQuery": {
+        "type": "object",
+        "properties": {
+          "generatorType": {
+            "title": "generator_type",
+            "$ref": "#/components/schemas/zitadel.settings.v1.SecretGeneratorType"
+          }
+        },
+        "title": "SecretGeneratorTypeQuery",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v1.SecurityPolicy": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "enableIframeEmbedding": {
+            "type": "boolean",
+            "title": "enable_iframe_embedding",
+            "description": "states if iframe embedding is enabled or disabled"
+          },
+          "allowedOrigins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "allowed_origins",
+            "description": "origins allowed loading Zitadel in an iframe if enable_iframe_embedding is true"
+          },
+          "enableImpersonation": {
+            "type": "boolean",
+            "title": "enable_impersonation",
+            "description": "allows users to impersonate other users. The impersonator needs the appropriate `*_IMPERSONATOR` roles assigned as well\""
+          }
+        },
+        "title": "SecurityPolicy",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v1.TwilioConfig": {
+        "type": "object",
+        "properties": {
+          "sid": {
+            "type": "string",
+            "title": "sid"
+          },
+          "senderNumber": {
+            "type": "string",
+            "title": "sender_number"
+          },
+          "verifyServiceSid": {
+            "type": "string",
+            "title": "verify_service_sid"
+          }
+        },
+        "title": "TwilioConfig",
+        "additionalProperties": false
+      },
+      "zitadel.v1.ObjectDetails": {
+        "type": "object",
+        "properties": {
+          "sequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "sequence",
+            "format": "int64",
+            "description": "sequence represents the order of events. It's always counting\n\n on read: the sequence of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "creation_date is the timestamp where the first operation on the object was made\n\n on read: the timestamp of the first event of the object\n\n on create: the timestamp of the event(s) added by the manipulation",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "change_date is the timestamp when the object was changed\n\n on read: the timestamp of the last event reduced by the projection\n\n on manipulation: the",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "resourceOwner": {
+            "type": "string",
+            "title": "resource_owner",
+            "description": "resource_owner is the organization an object belongs to"
+          }
+        },
+        "title": "ObjectDetails",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

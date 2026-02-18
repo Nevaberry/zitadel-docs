@@ -1,0 +1,43 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.quota.v1"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.quota.v1.Unit": {
+        "type": "string",
+        "title": "Unit",
+        "enum": [
+          "UNIT_UNIMPLEMENTED",
+          "UNIT_REQUESTS_ALL_AUTHENTICATED",
+          "UNIT_ACTIONS_ALL_RUN_SECONDS"
+        ]
+      },
+      "zitadel.quota.v1.Notification": {
+        "type": "object",
+        "properties": {
+          "percent": {
+            "type": "integer",
+            "title": "percent",
+            "description": "The percentage relative to the quotas amount on which the call_url should be called."
+          },
+          "repeat": {
+            "type": "boolean",
+            "title": "repeat",
+            "description": "If true, the call_url is called each time a factor of percentage is reached."
+          },
+          "callUrl": {
+            "type": "string",
+            "title": "call_url",
+            "description": "The URL, which is called with HTTP method POST and a JSON payload with the properties \"unit\", \"id\" (notification id), \"callURL\", \"periodStart\", \"threshold\" and \"usage\"."
+          }
+        },
+        "title": "Notification",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

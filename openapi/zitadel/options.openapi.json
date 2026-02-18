@@ -1,0 +1,27 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.v1"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.v1.AuthOption": {
+        "type": "object",
+        "properties": {
+          "permission": {
+            "type": "string",
+            "title": "permission"
+          },
+          "checkFieldName": {
+            "type": "string",
+            "title": "check_field_name"
+          }
+        },
+        "title": "AuthOption",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

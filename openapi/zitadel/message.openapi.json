@@ -1,0 +1,62 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.v1"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.v1.CredentialsCheckError": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "message": {
+            "type": "string",
+            "title": "message"
+          },
+          "failedAttempts": {
+            "type": "integer",
+            "title": "failed_attempts",
+            "format": "int32"
+          }
+        },
+        "title": "CredentialsCheckError",
+        "additionalProperties": false
+      },
+      "zitadel.v1.ErrorDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "message": {
+            "type": "string",
+            "title": "message"
+          }
+        },
+        "title": "ErrorDetail",
+        "additionalProperties": false
+      },
+      "zitadel.v1.LocalizedMessage": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "localizedMessage": {
+            "type": "string",
+            "title": "localized_message"
+          }
+        },
+        "title": "LocalizedMessage",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

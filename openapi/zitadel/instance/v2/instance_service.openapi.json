@@ -1,0 +1,1399 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.instance.v2"
+  },
+  "paths": {
+    "/zitadel.instance.v2.InstanceService/DeleteInstance": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2.InstanceService"
+        ],
+        "summary": "DeleteInstance",
+        "description": "Delete Instance\n\n Deletes an instance with the given ID.\n This method requires system level permissions and cannot be called from an instance context.\n\n Required permissions:\n   - `system.instance.delete`",
+        "operationId": "zitadel.instance.v2.InstanceService.DeleteInstance",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.instance.v2.DeleteInstanceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2.DeleteInstanceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.instance.v2.InstanceService/GetInstance": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2.InstanceService"
+        ],
+        "summary": "GetInstance",
+        "description": "Get Instance\n\n Returns the instance in the current context or by its ID.\n By default the instance will be determined by the context of the request,\n e.g. the host header.\n You can optionally pass an InstanceID to retrieve a specific instance.\n This requires additional permissions.\n\n Required permissions:\n   - `iam.read`\n   - `system.instance.read` (if InstanceID is set)",
+        "operationId": "zitadel.instance.v2.InstanceService.GetInstance",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.instance.v2.GetInstanceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2.GetInstanceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.instance.v2.InstanceService/UpdateInstance": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2.InstanceService"
+        ],
+        "summary": "UpdateInstance",
+        "description": "Update Instance\n\n Updates instance's name in the current context or by its ID.\n By default the instance will be determined by the context of the request,\n e.g. the host header.\n You can optionally pass an InstanceID to update a specific instance.\n This requires additional permissions.\n\n Required permissions:\n   - `iam.write`\n   - `system.instance.write` (if InstanceID is set)",
+        "operationId": "zitadel.instance.v2.InstanceService.UpdateInstance",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.instance.v2.UpdateInstanceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2.UpdateInstanceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.instance.v2.InstanceService/ListInstances": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2.InstanceService"
+        ],
+        "summary": "ListInstances",
+        "description": "List Instances\n\n Lists instances matching the given query.\n The query can be used to filter either by instance ID or domain.\n The request is paginated and returns 100 results by default.\n This method requires system level permissions and cannot be called from an instance context.\n\n Required permissions:\n  - `system.instance.read`",
+        "operationId": "zitadel.instance.v2.InstanceService.ListInstances",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.instance.v2.ListInstancesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2.ListInstancesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.instance.v2.InstanceService/AddCustomDomain": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2.InstanceService"
+        ],
+        "summary": "AddCustomDomain",
+        "description": "Add Custom Domain\n\n Adds a Custom Domain to the instance.\n The Custom Domain must be unique across all instances.\n Once the domain is added, it will be used to route requests to this instance.\n This method requires system level permissions and cannot be called from an instance context.\n\n Required permissions:\n   - `system.domain.write`",
+        "operationId": "zitadel.instance.v2.InstanceService.AddCustomDomain",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.instance.v2.AddCustomDomainRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2.AddCustomDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.instance.v2.InstanceService/RemoveCustomDomain": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2.InstanceService"
+        ],
+        "summary": "RemoveCustomDomain",
+        "description": "Remove Custom Domain\n\n Removes a Custom Domain from the instance.\n Be aware that this will stop routing requests from this domain to the instance and\n might break existing setups or integrations.\n This method requires system level permissions and cannot be called from an instance context.\n\n Required permissions:\n  - `system.domain.write`",
+        "operationId": "zitadel.instance.v2.InstanceService.RemoveCustomDomain",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.instance.v2.RemoveCustomDomainRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2.RemoveCustomDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.instance.v2.InstanceService/ListCustomDomains": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2.InstanceService"
+        ],
+        "summary": "ListCustomDomains",
+        "description": "List Custom Domains\n\n Lists Custom Domains of the instance.\n\n By default the instance will be determined by the context of the request,\n e.g. the host header.\n You can optionally pass an InstanceID to list the domains of a specific instance.\n This requires additional permissions.\n\n Required permissions:\n  - `iam.read`\n  - `system.instance.read` (if InstanceID is set)",
+        "operationId": "zitadel.instance.v2.InstanceService.ListCustomDomains",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.instance.v2.ListCustomDomainsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2.ListCustomDomainsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.instance.v2.InstanceService/AddTrustedDomain": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2.InstanceService"
+        ],
+        "summary": "AddTrustedDomain",
+        "description": "Add Trusted Domain\n\n Adds a Trusted Domain to the instance.\n By default the instance will be determined by the context of the request,\n e.g. the host header.\n You can optionally pass an InstanceID to list the domains of a specific instance.\n This requires additional permissions.\n\n It must be a valid domain name.\n Once the domain is added, it can be used in API responses like OIDC discovery,\n email templates, and more.\n This can be used in cases where the API is accessed through a different domain\n than the Custom Domain, e.g. proxy setups and custom login UIs.\n Unlike Custom Domains, Trusted Domains are not used to route requests to this instance\n and therefore do not need to be uniquely assigned to an instance.\n\n Required permissions:\n  - `iam.write`\n  - `system.instance.write` (if InstanceID is set)",
+        "operationId": "zitadel.instance.v2.InstanceService.AddTrustedDomain",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.instance.v2.AddTrustedDomainRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2.AddTrustedDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.instance.v2.InstanceService/RemoveTrustedDomain": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2.InstanceService"
+        ],
+        "summary": "RemoveTrustedDomain",
+        "description": "Remove Trusted Domain\n\n Removes a Trusted Domain from the instance.\n By default the instance will be determined by the context of the request,\n e.g. the host header.\n You can optionally pass an InstanceID to list the domains of a specific instance.\n This requires additional permissions.\n\n Required permissions:\n  - `iam.write`\n  - `system.instance.write` (if InstanceID is set)",
+        "operationId": "zitadel.instance.v2.InstanceService.RemoveTrustedDomain",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.instance.v2.RemoveTrustedDomainRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2.RemoveTrustedDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.instance.v2.InstanceService/ListTrustedDomains": {
+      "post": {
+        "tags": [
+          "zitadel.instance.v2.InstanceService"
+        ],
+        "summary": "ListTrustedDomains",
+        "description": "List Trusted Domains\n\n Lists Trusted Domains of the instance.\n By default the instance will be determined by the context of the request,\n e.g. the host header.\n You can optionally pass an InstanceID to list the domains of a specific instance.\n This requires additional permissions.\n\n Required permissions:\n   - `iam.read`\n   - `system.instance.read` (if InstanceID is set)",
+        "operationId": "zitadel.instance.v2.InstanceService.ListTrustedDomains",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.instance.v2.ListTrustedDomainsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.instance.v2.ListTrustedDomainsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "zitadel.instance.v2.DomainFieldName": {
+        "type": "string",
+        "title": "DomainFieldName",
+        "enum": [
+          "DOMAIN_FIELD_NAME_UNSPECIFIED",
+          "DOMAIN_FIELD_NAME_DOMAIN",
+          "DOMAIN_FIELD_NAME_PRIMARY",
+          "DOMAIN_FIELD_NAME_GENERATED",
+          "DOMAIN_FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.instance.v2.FieldName": {
+        "type": "string",
+        "title": "FieldName",
+        "enum": [
+          "FIELD_NAME_UNSPECIFIED",
+          "FIELD_NAME_ID",
+          "FIELD_NAME_NAME",
+          "FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.instance.v2.State": {
+        "type": "string",
+        "title": "State",
+        "enum": [
+          "STATE_UNSPECIFIED",
+          "STATE_CREATING",
+          "STATE_RUNNING",
+          "STATE_STOPPING",
+          "STATE_STOPPED"
+        ]
+      },
+      "zitadel.instance.v2.TrustedDomainFieldName": {
+        "type": "string",
+        "title": "TrustedDomainFieldName",
+        "enum": [
+          "TRUSTED_DOMAIN_FIELD_NAME_UNSPECIFIED",
+          "TRUSTED_DOMAIN_FIELD_NAME_DOMAIN",
+          "TRUSTED_DOMAIN_FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.object.v2.TextQueryMethod": {
+        "type": "string",
+        "title": "TextQueryMethod",
+        "enum": [
+          "TEXT_QUERY_METHOD_EQUALS",
+          "TEXT_QUERY_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_STARTS_WITH",
+          "TEXT_QUERY_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_CONTAINS",
+          "TEXT_QUERY_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_ENDS_WITH",
+          "TEXT_QUERY_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "1s",
+          "1.000340012s"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.filter.v2.InIDsFilter": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ids",
+            "description": "Defines the ids to query for."
+          }
+        },
+        "title": "InIDsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.PaginationRequest": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "offset",
+            "format": "int64",
+            "description": "Starting point for retrieval, in combination of offset used to query a set list of objects."
+          },
+          "limit": {
+            "type": "integer",
+            "title": "limit",
+            "description": "limit is the maximum amount of objects returned. The default is set to 100\n with a maximum of 1000 in the runtime configuration.\n If the limit exceeds the maximum configured Zitadel will throw an error.\n If no limit is present the default is taken."
+          },
+          "asc": {
+            "type": "boolean",
+            "title": "asc",
+            "description": "Asc is the sorting order. If true the list is sorted ascending, if false\n the list is sorted descending. The default is descending."
+          }
+        },
+        "title": "PaginationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.PaginationResponse": {
+        "type": "object",
+        "properties": {
+          "totalResult": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "total_result",
+            "format": "int64",
+            "description": "Absolute number of objects matching the query, regardless of applied limit."
+          },
+          "appliedLimit": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "applied_limit",
+            "format": "int64",
+            "description": "Applied limit from query, defines maximum amount of objects per request, to compare if all objects are returned."
+          }
+        },
+        "title": "PaginationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.AddCustomDomainRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id",
+            "description": "InstanceID is the unique ID of the instance to which the domain will be added."
+          },
+          "customDomain": {
+            "type": "string",
+            "title": "custom_domain",
+            "description": "Custom Domain to add to the instance.\n Must be a valid domain name.\n Once the domain is added, it will be used to route requests to this instance."
+          }
+        },
+        "title": "AddCustomDomainRequest",
+        "required": [
+          "instanceId",
+          "customDomain"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.AddCustomDomainResponse": {
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "title": "creation_date",
+            "description": "CreationDate is the timestamp when the domain was added.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "AddCustomDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.AddTrustedDomainRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id",
+            "description": "InstanceID is the unique ID of the instance to which the Trusted Domain will be added.\n If not set, the instance in the current context (e.g. identified by the host header) will be used.\n If an ID is set, the caller must have additional permissions."
+          },
+          "trustedDomain": {
+            "type": "string",
+            "title": "trusted_domain",
+            "description": "Trusted Domain to be added to the instance.\n Must be a valid domain name.\n Once the domain is added, it can be used in API responses like OIDC discovery,\n email templates, and more.\n This can be used in cases where the API is accessed through a different domain\n than the Custom Domain, e.g. proxy setups and custom login UIs.\n Unlike Custom Domains, Trusted Domains are not used to route requests to this instance\n and therefore do not need to be uniquely assigned to an instance."
+          }
+        },
+        "title": "AddTrustedDomainRequest",
+        "required": [
+          "trustedDomain"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.AddTrustedDomainResponse": {
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "title": "creation_date",
+            "description": "CreationDate is the timestamp when the Trusted Domain was added.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "AddTrustedDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.CustomDomain": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id",
+            "description": "InstanceID is the unique identifier of the instance the domain belongs to."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "CreationDate is the timestamp when the domain was created.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain",
+            "description": "Domain is the fully qualified domain name.\n It must be unique across all instances in the system."
+          },
+          "primary": {
+            "type": "boolean",
+            "title": "primary",
+            "description": "Primary states whether this domain is the primary domain of the instance.\n Each instance must have exactly one primary domain.\n The primary domain is used for various purposes and acts as fallback\n in those cases, e.g if no explicit domain is specified."
+          },
+          "generated": {
+            "type": "boolean",
+            "title": "generated",
+            "description": "Generate states whether this domain was auto-generated by the system.\n Auto-generated domains follow a specific pattern and are created\n when a new instance is created.\n They cannot be deleted, but the primary domain can be changed\n to a manually added domain."
+          }
+        },
+        "title": "CustomDomain",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.CustomDomainFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "domainFilter": {
+                "title": "domain_filter",
+                "description": "Filter for a specific Custom Domain.",
+                "$ref": "#/components/schemas/zitadel.instance.v2.DomainFilter"
+              }
+            },
+            "title": "domain_filter",
+            "required": [
+              "domainFilter"
+            ]
+          },
+          {
+            "properties": {
+              "generatedFilter": {
+                "type": "boolean",
+                "title": "generated_filter",
+                "description": "Filter whether the domain is auto-generated."
+              }
+            },
+            "title": "generated_filter",
+            "required": [
+              "generatedFilter"
+            ]
+          },
+          {
+            "properties": {
+              "primaryFilter": {
+                "type": "boolean",
+                "title": "primary_filter",
+                "description": "Filter whether the domain is the primary domain of the instance."
+              }
+            },
+            "title": "primary_filter",
+            "required": [
+              "primaryFilter"
+            ]
+          }
+        ],
+        "title": "CustomDomainFilter",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.CustomDomainsFilter": {
+        "type": "object",
+        "properties": {
+          "domains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "domains",
+            "description": "The domains to query for. All instances that have at least one of the\n specified domains will be returned.\n A maximum of 20 domains can be specified."
+          }
+        },
+        "title": "CustomDomainsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.DeleteInstanceRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id",
+            "description": "InstanceID is the unique ID of the instance to be deleted."
+          }
+        },
+        "title": "DeleteInstanceRequest",
+        "required": [
+          "instanceId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.DeleteInstanceResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "description": "DeletionDate is the timestamp when the instance was deleted.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeleteInstanceResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.DomainFilter": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "title": "domain",
+            "description": "The domain to filter for."
+          },
+          "method": {
+            "title": "method",
+            "description": "The method to use for text comparison.\n If not specified, EQUALS is used.",
+            "$ref": "#/components/schemas/zitadel.object.v2.TextQueryMethod"
+          }
+        },
+        "title": "DomainFilter",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.Filter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "customDomainsFilter": {
+                "title": "custom_domains_filter",
+                "description": "Filter for instances that have at least one of the specified Custom Domains.",
+                "$ref": "#/components/schemas/zitadel.instance.v2.CustomDomainsFilter"
+              }
+            },
+            "title": "custom_domains_filter",
+            "required": [
+              "customDomainsFilter"
+            ]
+          },
+          {
+            "properties": {
+              "inIdsFilter": {
+                "title": "in_ids_filter",
+                "description": "Filter for one or more specific instance IDs.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.InIDsFilter"
+              }
+            },
+            "title": "in_ids_filter",
+            "required": [
+              "inIdsFilter"
+            ]
+          }
+        ],
+        "title": "Filter",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.GetInstanceRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id",
+            "description": "InstanceID is the unique ID of the instance to be retrieved.\n If not set, the instance in the current context (e.g. identified by the host header) will be returned.\n If an ID is set, the caller must have additional permissions."
+          }
+        },
+        "title": "GetInstanceRequest",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.GetInstanceResponse": {
+        "type": "object",
+        "properties": {
+          "instance": {
+            "title": "instance",
+            "description": "The instance matching the instance ID",
+            "$ref": "#/components/schemas/zitadel.instance.v2.Instance"
+          }
+        },
+        "title": "GetInstanceResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.Instance": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID is the unique identifier of the instance."
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp when the instance was last changed.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "CreationDate is the timestamp when the instance was created.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "state": {
+            "title": "state",
+            "description": "State is the current state of the instance.",
+            "$ref": "#/components/schemas/zitadel.instance.v2.State"
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Name is the display name of the instance.\n This can be changed by the instance administrator."
+          },
+          "version": {
+            "type": "string",
+            "title": "version",
+            "description": "Version of the system the instance is running on.\n This is managed by the system and cannot be changed by the instance administrator."
+          },
+          "customDomains": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v2.CustomDomain"
+            },
+            "title": "custom_domains",
+            "description": "CustomDomains are the domains that are assigned to the instance.\n The list includes auto-generated and manually added domains.\n They are all unique across all instances in the system.\n They're used to route requests to the correct instance."
+          }
+        },
+        "title": "Instance",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.ListCustomDomainsRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id",
+            "description": "InstanceID is the unique ID of the instance  whose domains will be listed.\n If not set, the instance in the current context (e.g. identified by the host header) will be used.\n If an ID is set, the caller must have additional permissions."
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "Paginate and sort the results using a limit, offset and sorting.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationRequest"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "description": "The field the result is sorted by.",
+            "$ref": "#/components/schemas/zitadel.instance.v2.DomainFieldName"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v2.CustomDomainFilter"
+            },
+            "title": "filters",
+            "description": "Filter the domains to be returned."
+          }
+        },
+        "title": "ListCustomDomainsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.ListCustomDomainsResponse": {
+        "type": "object",
+        "properties": {
+          "domains": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v2.CustomDomain"
+            },
+            "title": "domains",
+            "description": "The list of Custom Domains matching the query."
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "Contains the total number of domains matching the query and the applied limit.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationResponse"
+          }
+        },
+        "title": "ListCustomDomainsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.ListInstancesRequest": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "description": "Paginate through the results using a limit, offset and sorting.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationRequest"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "description": "The field the result is sorted by.",
+            "$ref": "#/components/schemas/zitadel.instance.v2.FieldName"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v2.Filter"
+            },
+            "title": "filters",
+            "description": "Filter the instances to be returned."
+          }
+        },
+        "title": "ListInstancesRequest",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.ListInstancesResponse": {
+        "type": "object",
+        "properties": {
+          "instances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v2.Instance"
+            },
+            "title": "instances",
+            "description": "The instances matching the query."
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "Contains the total number of instances matching the query and the applied limit.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationResponse"
+          }
+        },
+        "title": "ListInstancesResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.ListTrustedDomainsRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id",
+            "description": "InstanceID is the unique ID of the instance whose Trusted Domains will be listed.\n If not set, the instance in the current context (e.g. identified by the host header) will be used.\n If an ID is set, the caller must have additional permissions."
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "Paginate and sort the results using a limit, offset and sorting.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationRequest"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "description": "The field the result is sorted by.",
+            "$ref": "#/components/schemas/zitadel.instance.v2.TrustedDomainFieldName"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v2.TrustedDomainFilter"
+            },
+            "title": "filters",
+            "description": "Filter the domains to be returned."
+          }
+        },
+        "title": "ListTrustedDomainsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.ListTrustedDomainsResponse": {
+        "type": "object",
+        "properties": {
+          "trustedDomain": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v2.TrustedDomain"
+            },
+            "title": "trusted_domain",
+            "description": "The list of Trusted Domains matching the query."
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "Contains the total number of domains matching the query and the applied limit.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationResponse"
+          }
+        },
+        "title": "ListTrustedDomainsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.RemoveCustomDomainRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id",
+            "description": "InstanceID is the unique ID of the instance from which the domain will be removed."
+          },
+          "customDomain": {
+            "type": "string",
+            "title": "custom_domain",
+            "description": "CustomDomain is the the domain to remove from the instance."
+          }
+        },
+        "title": "RemoveCustomDomainRequest",
+        "required": [
+          "instanceId",
+          "customDomain"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.RemoveCustomDomainResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "description": "DeletionDate is the timestamp when the domain was removed.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "RemoveCustomDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.RemoveTrustedDomainRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id",
+            "description": "InstanceID is the unique ID of the instance from which the Trusted Domain will be removed.\n If not set, the instance in the current context (e.g. identified by the host header) will be used.\n If an ID is set, the caller must have additional permissions."
+          },
+          "trustedDomain": {
+            "type": "string",
+            "title": "trusted_domain",
+            "description": "The Trusted Domain to remove from the instance."
+          }
+        },
+        "title": "RemoveTrustedDomainRequest",
+        "required": [
+          "trustedDomain"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.RemoveTrustedDomainResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "description": "DeletionDate is the timestamp when the Trusted Domain was removed.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "RemoveTrustedDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.TrustedDomain": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id",
+            "description": "InstanceID is the unique identifier of the instance the domain belongs to."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp when the domain was created.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain",
+            "description": "Domain is the fully qualified domain name."
+          }
+        },
+        "title": "TrustedDomain",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.TrustedDomainFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "domainFilter": {
+                "title": "domain_filter",
+                "description": "Filter for a specific Trusted Domain.",
+                "$ref": "#/components/schemas/zitadel.instance.v2.DomainFilter"
+              }
+            },
+            "title": "domain_filter",
+            "required": [
+              "domainFilter"
+            ]
+          }
+        ],
+        "title": "TrustedDomainFilter",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.UpdateInstanceRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id",
+            "description": "InstanceID is the unique ID of the instance to be updated.\n If not set, the instance in the current context (e.g. identified by the host header) will be changed.\n If an ID is set, the caller must have additional permissions."
+          },
+          "instanceName": {
+            "type": "string",
+            "title": "instance_name",
+            "description": "InstanceName is the new name of the instance to be set."
+          }
+        },
+        "title": "UpdateInstanceRequest",
+        "required": [
+          "instanceName"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.instance.v2.UpdateInstanceResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp when the instance was last changed.\n In case the instance was not changed during the call, the previous change date is returned.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "UpdateInstanceResponse",
+        "additionalProperties": false
+      },
+      "connect-protocol-version": {
+        "type": "number",
+        "title": "Connect-Protocol-Version",
+        "enum": [
+          1
+        ],
+        "description": "Define the version of the Connect protocol",
+        "const": 1
+      },
+      "connect-timeout-header": {
+        "type": "number",
+        "title": "Connect-Timeout-Ms",
+        "description": "Define the timeout, in ms"
+      },
+      "connect.error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "examples": [
+              "not_found"
+            ],
+            "enum": [
+              "canceled",
+              "unknown",
+              "invalid_argument",
+              "deadline_exceeded",
+              "not_found",
+              "already_exists",
+              "permission_denied",
+              "resource_exhausted",
+              "failed_precondition",
+              "aborted",
+              "out_of_range",
+              "unimplemented",
+              "internal",
+              "unavailable",
+              "data_loss",
+              "unauthenticated"
+            ],
+            "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+          },
+          "message": {
+            "type": "string",
+            "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+          },
+          "detail": {
+            "$ref": "#/components/schemas/google.protobuf.Any"
+          }
+        },
+        "title": "Connect Error",
+        "additionalProperties": true,
+        "description": "Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation"
+      },
+      "google.protobuf.Any": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string",
+            "format": "binary"
+          },
+          "debug": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true,
+        "description": "Contains an arbitrary serialized message along with a @type that describes the type of the serialized message."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "zitadel.instance.v2.InstanceService",
+      "description": "Service to manage instances and their domains.\n The service provides methods to create, update, delete and list instances and their domains.\n\n Contrary to most services in ZITADEL, the instance service allows accessing data not only from\n the current instance, but also from other instances."
+    }
+  ]
+}

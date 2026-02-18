@@ -1,0 +1,3126 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.system.v1"
+  },
+  "paths": {
+    "/healthz": {
+      "get": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "Healthz",
+        "description": "Indicates if Zitadel is running.\n It respondes as soon as Zitadel started",
+        "operationId": "zitadel.system.v1.SystemService.Healthz",
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.HealthzResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instances/_search": {
+      "post": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "ListInstances",
+        "description": "Returns a list of Zitadel instances\n\n Deprecated: Use [ListInstances](apis/resources/instance_service_v2/zitadel-instance-v-2-instance-service-list-instances.api.mdx) instead to list instances",
+        "operationId": "zitadel.system.v1.SystemService.ListInstances",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.system.v1.ListInstancesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.ListInstancesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instances/{instance_id}": {
+      "get": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "GetInstance",
+        "description": "Returns the detail of an instance\n\n Deprecated: Use [GetInstance](apis/resources/instance_service_v2/zitadel-instance-v-2-instance-service-get-instance.api.mdx) instead to get the details of the instance in context",
+        "operationId": "zitadel.system.v1.SystemService.GetInstance",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.GetInstanceResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "UpdateInstance",
+        "description": "Updates name of an existing instance\n\n Deprecated: Use [UpdateInstance](apis/resources/instance_service_v2/zitadel-instance-v-2-instance-service-update-instance.api.mdx) instead to update the name of the instance in context",
+        "operationId": "zitadel.system.v1.SystemService.UpdateInstance",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "instanceName": {
+                    "type": "string",
+                    "title": "instance_name"
+                  }
+                },
+                "title": "UpdateInstanceRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.UpdateInstanceResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "RemoveInstance",
+        "description": "Removes an instance\n This might take some time\n\n Deprecated: Use [DeleteInstance](apis/resources/instance_service_v2/zitadel-instance-v-2-instance-service-delete-instance.api.mdx) instead to delete an instance",
+        "operationId": "zitadel.system.v1.SystemService.RemoveInstance",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.RemoveInstanceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instances": {
+      "post": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "AddInstance",
+        "description": "Deprecated: Use CreateInstance instead\n Creates a new instance with all needed setup data\n This might take some time",
+        "operationId": "zitadel.system.v1.SystemService.AddInstance",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.system.v1.AddInstanceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.AddInstanceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instances/_create": {
+      "post": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "CreateInstance",
+        "description": "Creates a new instance with all needed setup data\n This might take some time",
+        "operationId": "zitadel.system.v1.SystemService.CreateInstance",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.system.v1.CreateInstanceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.CreateInstanceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instances/{instance_id}/members/_search": {
+      "post": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "ListIAMMembers",
+        "description": "Returns all instance members matching the request\n all queries need to match (ANDed)\n Deprecated: Use the Admin APIs ListIAMMembers instead",
+        "operationId": "zitadel.system.v1.SystemService.ListIAMMembers",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "title": "query",
+                    "$ref": "#/components/schemas/zitadel.v1.ListQuery"
+                  },
+                  "queries": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/zitadel.member.v1.SearchQuery"
+                    },
+                    "title": "queries"
+                  },
+                  "sortingColumn": {
+                    "title": "sorting_column",
+                    "$ref": "#/components/schemas/zitadel.member.v1.MemberFieldColumnName"
+                  }
+                },
+                "title": "ListIAMMembersRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.ListIAMMembersResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/domains/{domain}/_exists": {
+      "post": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "ExistsDomain",
+        "description": "Checks if a domain exists\n\n Deprecated: Use [ListCustomDomains](apis/resources/instance_service_v2/zitadel-instance-v-2-instance-service-list-custom-domains.api.mdx) instead to check existence of an instance",
+        "operationId": "zitadel.system.v1.SystemService.ExistsDomain",
+        "parameters": [
+          {
+            "name": "domain",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "domain"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.ExistsDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instances/{instance_id}/domains/_search": {
+      "post": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "ListDomains",
+        "description": "List Domains\n\n Deprecated: use [instance service v2 ListCustomDomains](apis/resources/instance_service_v2/zitadel-instance-v-2-instance-service-list-custom-domains.api.mdx) instead.\n\n Returns the Custom Domains of an instance.",
+        "operationId": "zitadel.system.v1.SystemService.ListDomains",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "description": "list limitations and ordering",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id",
+              "description": "list limitations and ordering"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "title": "query",
+                    "$ref": "#/components/schemas/zitadel.v1.ListQuery"
+                  },
+                  "sortingColumn": {
+                    "title": "sorting_column",
+                    "description": "the field the result is sorted",
+                    "$ref": "#/components/schemas/zitadel.instance.v1.DomainFieldName"
+                  },
+                  "queries": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/zitadel.instance.v1.DomainSearchQuery"
+                    },
+                    "title": "queries",
+                    "description": "criterias the client is looking for"
+                  }
+                },
+                "title": "ListDomainsRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.ListDomainsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instances/{instance_id}/domains": {
+      "post": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "AddDomain",
+        "description": "Adds a domain to an instance\n\n Deprecated: Use [AddCustomDomain](apis/resources/instance_service_v2/zitadel-instance-v-2-instance-service-add-custom-domain.api.mdx) instead to add a Custom Domain to the instance in context",
+        "operationId": "zitadel.system.v1.SystemService.AddDomain",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "title": "domain"
+                  }
+                },
+                "title": "AddDomainRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.AddDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instances/{instance_id}/domains/{domain}": {
+      "delete": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "RemoveDomain",
+        "description": "Removes the domain of an instance\n\n Deprecated: Use [RemoveDomain](apis/resources/instance_service_v2/zitadel-instance-v-2-instance-service-remove-custom-domain.api.mdx) instead to remove a Custom Domain from the instance in context",
+        "operationId": "zitadel.system.v1.SystemService.RemoveDomain",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          },
+          {
+            "name": "domain",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "domain"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.RemoveDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instances/{instance_id}/domains/_set_primary": {
+      "post": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "SetPrimaryDomain",
+        "description": "Sets the primary domain of an instance",
+        "operationId": "zitadel.system.v1.SystemService.SetPrimaryDomain",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "title": "domain"
+                  }
+                },
+                "title": "SetPrimaryDomainRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.SetPrimaryDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/views/_search": {
+      "post": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "ListViews",
+        "description": "Returns all stored read models of Zitadel\n views are used for search optimisation and optimise request latencies\n they represent the delta of the event happend on the objects",
+        "operationId": "zitadel.system.v1.SystemService.ListViews",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.system.v1.ListViewsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.ListViewsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/views/{database}/{view_name}": {
+      "post": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "ClearView",
+        "description": "Truncates the delta of the change stream\n be carefull with this function because Zitadel has to\n recompute the deltas after they got cleared.\n Search requests will return wrong results until all deltas are recomputed",
+        "operationId": "zitadel.system.v1.SystemService.ClearView",
+        "parameters": [
+          {
+            "name": "database",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "database"
+            }
+          },
+          {
+            "name": "view_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "view_name"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.ClearViewResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/failedevents/_search": {
+      "post": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "ListFailedEvents",
+        "description": "Returns event descriptions which cannot be processed.\n It's possible that some events need some retries.\n For example if the SMTP-API wasn't able to send an email at the first time",
+        "operationId": "zitadel.system.v1.SystemService.ListFailedEvents",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.system.v1.ListFailedEventsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.ListFailedEventsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/failedevents/{database}/{view_name}/{failed_sequence}": {
+      "delete": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "RemoveFailedEvent",
+        "description": "Deletes the event from failed events view.\n the event is not removed from the change stream\n This call is usefull if the system was able to process the event later.\n e.g. if the second try of sending an email was successful. the first try produced a\n failed event. You can find out if it worked on the `failure_count`",
+        "operationId": "zitadel.system.v1.SystemService.RemoveFailedEvent",
+        "parameters": [
+          {
+            "name": "database",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "database"
+            }
+          },
+          {
+            "name": "view_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "view_name"
+            }
+          },
+          {
+            "name": "failed_sequence",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": [
+                "integer",
+                "string"
+              ],
+              "title": "failed_sequence",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "instanceId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.RemoveFailedEventResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instances/{instance_id}/quotas": {
+      "put": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "SetQuota",
+        "description": "Sets quota configuration properties\n Creates a new quota if it doesn't exist for the specified unit",
+        "operationId": "zitadel.system.v1.SystemService.SetQuota",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "unit": {
+                    "title": "unit",
+                    "description": "the unit a quota should be imposed on",
+                    "$ref": "#/components/schemas/zitadel.quota.v1.Unit"
+                  },
+                  "from": {
+                    "title": "from",
+                    "description": "the starting time from which the current quota period is calculated from. This is relevant for querying the current usage.",
+                    "$ref": "#/components/schemas/google.protobuf.Timestamp"
+                  },
+                  "resetInterval": {
+                    "title": "reset_interval",
+                    "description": "the quota periods duration",
+                    "$ref": "#/components/schemas/google.protobuf.Duration"
+                  },
+                  "amount": {
+                    "type": [
+                      "integer",
+                      "string"
+                    ],
+                    "title": "amount",
+                    "format": "int64",
+                    "description": "the quota amount of units"
+                  },
+                  "limit": {
+                    "type": "boolean",
+                    "title": "limit",
+                    "description": "whether Zitadel should block further usage when the configured amount is used"
+                  },
+                  "notifications": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/zitadel.quota.v1.Notification"
+                    },
+                    "title": "notifications",
+                    "description": "the handlers, Zitadel executes when certain quota percentages are reached"
+                  }
+                },
+                "title": "SetQuotaRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.SetQuotaResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "AddQuota",
+        "description": "Creates a new quota\n Returns an error if the quota already exists for the specified unit\n Deprecated: use SetQuota instead",
+        "operationId": "zitadel.system.v1.SystemService.AddQuota",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "unit": {
+                    "title": "unit",
+                    "description": "the unit a quota should be imposed on",
+                    "$ref": "#/components/schemas/zitadel.quota.v1.Unit"
+                  },
+                  "from": {
+                    "title": "from",
+                    "description": "the starting time from which the current quota period is calculated from. This is relevant for querying the current usage.",
+                    "$ref": "#/components/schemas/google.protobuf.Timestamp"
+                  },
+                  "resetInterval": {
+                    "title": "reset_interval",
+                    "description": "the quota periods duration",
+                    "$ref": "#/components/schemas/google.protobuf.Duration"
+                  },
+                  "amount": {
+                    "type": [
+                      "integer",
+                      "string"
+                    ],
+                    "title": "amount",
+                    "format": "int64",
+                    "description": "the quota amount of units"
+                  },
+                  "limit": {
+                    "type": "boolean",
+                    "title": "limit",
+                    "description": "whether Zitadel should block further usage when the configured amount is used"
+                  },
+                  "notifications": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/zitadel.quota.v1.Notification"
+                    },
+                    "title": "notifications",
+                    "description": "the handlers, Zitadel executes when certain quota percentages are reached"
+                  }
+                },
+                "title": "AddQuotaRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.AddQuotaResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instances/{instance_id}/quotas/{unit}": {
+      "delete": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "RemoveQuota",
+        "description": "Removes a quota",
+        "operationId": "zitadel.system.v1.SystemService.RemoveQuota",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          },
+          {
+            "name": "unit",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "unit",
+              "$ref": "#/components/schemas/zitadel.quota.v1.Unit"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.RemoveQuotaResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instances/{instance_id}/features/{feature_id}": {
+      "put": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "SetInstanceFeature",
+        "description": "Set a feature flag on an instance",
+        "operationId": "zitadel.system.v1.SystemService.SetInstanceFeature",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          },
+          {
+            "name": "feature_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "feature_id",
+              "$ref": "#/components/schemas/zitadel.feature.v1.InstanceFeature"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.SetInstanceFeatureResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instances/{instance_id}/limits": {
+      "put": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "SetLimits",
+        "description": "Sets instance level limits",
+        "operationId": "zitadel.system.v1.SystemService.SetLimits",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "auditLogRetention": {
+                    "title": "audit_log_retention",
+                    "$ref": "#/components/schemas/google.protobuf.Duration"
+                  },
+                  "block": {
+                    "type": "boolean",
+                    "title": "block",
+                    "nullable": true
+                  }
+                },
+                "title": "SetLimitsRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.SetLimitsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "ResetLimits",
+        "description": "Resets instance level limits",
+        "operationId": "zitadel.system.v1.SystemService.ResetLimits",
+        "parameters": [
+          {
+            "name": "instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "instance_id"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.ResetLimitsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instances/limits/_bulk": {
+      "put": {
+        "tags": [
+          "zitadel.system.v1.SystemService"
+        ],
+        "summary": "BulkSetLimits",
+        "description": "Sets many instance level limits",
+        "operationId": "zitadel.system.v1.SystemService.BulkSetLimits",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.system.v1.BulkSetLimitsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.system.v1.BulkSetLimitsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "zitadel.authn.v1.KeyType": {
+        "type": "string",
+        "title": "KeyType",
+        "enum": [
+          "KEY_TYPE_UNSPECIFIED",
+          "KEY_TYPE_JSON"
+        ]
+      },
+      "zitadel.feature.v1.InstanceFeature": {
+        "type": "string",
+        "title": "InstanceFeature",
+        "enum": [
+          "INSTANCE_FEATURE_UNSPECIFIED",
+          "INSTANCE_FEATURE_LOGIN_DEFAULT_ORG"
+        ]
+      },
+      "zitadel.instance.v1.DomainFieldName": {
+        "type": "string",
+        "title": "DomainFieldName",
+        "enum": [
+          "DOMAIN_FIELD_NAME_UNSPECIFIED",
+          "DOMAIN_FIELD_NAME_DOMAIN",
+          "DOMAIN_FIELD_NAME_PRIMARY",
+          "DOMAIN_FIELD_NAME_GENERATED",
+          "DOMAIN_FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.instance.v1.FieldName": {
+        "type": "string",
+        "title": "FieldName",
+        "enum": [
+          "FIELD_NAME_UNSPECIFIED",
+          "FIELD_NAME_ID",
+          "FIELD_NAME_NAME",
+          "FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.instance.v1.State": {
+        "type": "string",
+        "title": "State",
+        "enum": [
+          "STATE_UNSPECIFIED",
+          "STATE_CREATING",
+          "STATE_RUNNING",
+          "STATE_STOPPING",
+          "STATE_STOPPED"
+        ]
+      },
+      "zitadel.member.v1.MemberFieldColumnName": {
+        "type": "string",
+        "title": "MemberFieldColumnName",
+        "enum": [
+          "MEMBER_FIELD_NAME_UNSPECIFIED",
+          "MEMBER_FIELD_NAME_USER_ID",
+          "MEMBER_FIELD_NAME_CREATION_DATE",
+          "MEMBER_FIELD_NAME_CHANGE_DATE",
+          "MEMBER_FIELD_NAME_USER_RESOURCE_OWNER"
+        ]
+      },
+      "zitadel.quota.v1.Unit": {
+        "type": "string",
+        "title": "Unit",
+        "enum": [
+          "UNIT_UNIMPLEMENTED",
+          "UNIT_REQUESTS_ALL_AUTHENTICATED",
+          "UNIT_ACTIONS_ALL_RUN_SECONDS"
+        ]
+      },
+      "zitadel.user.v1.Type": {
+        "type": "string",
+        "title": "Type",
+        "enum": [
+          "TYPE_UNSPECIFIED",
+          "TYPE_HUMAN",
+          "TYPE_MACHINE"
+        ]
+      },
+      "zitadel.v1.TextQueryMethod": {
+        "type": "string",
+        "title": "TextQueryMethod",
+        "enum": [
+          "TEXT_QUERY_METHOD_EQUALS",
+          "TEXT_QUERY_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_STARTS_WITH",
+          "TEXT_QUERY_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_CONTAINS",
+          "TEXT_QUERY_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_ENDS_WITH",
+          "TEXT_QUERY_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      },
+      "google.protobuf.Duration": {
+        "type": "string",
+        "format": "duration",
+        "description": "A Duration represents a signed, fixed-length span of time represented\n as a count of seconds and fractions of seconds at nanosecond\n resolution. It is independent of any calendar and concepts like \"day\"\n or \"month\". It is related to Timestamp in that the difference between\n two Timestamp values is a Duration and it can be added or subtracted\n from a Timestamp. Range is approximately +-10,000 years.\n\n # Examples\n\n Example 1: Compute Duration from two Timestamps in pseudo code.\n\n     Timestamp start = ...;\n     Timestamp end = ...;\n     Duration duration = ...;\n\n     duration.seconds = end.seconds - start.seconds;\n     duration.nanos = end.nanos - start.nanos;\n\n     if (duration.seconds \u003c 0 \u0026\u0026 duration.nanos \u003e 0) {\n       duration.seconds += 1;\n       duration.nanos -= 1000000000;\n     } else if (duration.seconds \u003e 0 \u0026\u0026 duration.nanos \u003c 0) {\n       duration.seconds -= 1;\n       duration.nanos += 1000000000;\n     }\n\n Example 2: Compute Timestamp from Timestamp + Duration in pseudo code.\n\n     Timestamp start = ...;\n     Duration duration = ...;\n     Timestamp end = ...;\n\n     end.seconds = start.seconds + duration.seconds;\n     end.nanos = start.nanos + duration.nanos;\n\n     if (end.nanos \u003c 0) {\n       end.seconds -= 1;\n       end.nanos += 1000000000;\n     } else if (end.nanos \u003e= 1000000000) {\n       end.seconds += 1;\n       end.nanos -= 1000000000;\n     }\n\n Example 3: Compute Duration from datetime.timedelta in Python.\n\n     td = datetime.timedelta(days=3, minutes=10)\n     duration = Duration()\n     duration.FromTimedelta(td)\n\n # JSON Mapping\n\n In JSON format, the Duration type is encoded as a string rather than an\n object, where the string ends in the suffix \"s\" (indicating seconds) and\n is preceded by the number of seconds, with nanoseconds expressed as\n fractional seconds. For example, 3 seconds with 0 nanoseconds should be\n encoded in JSON format as \"3s\", while 3 seconds and 1 nanosecond should\n be expressed in JSON format as \"3.000000001s\", and 3 seconds and 1\n microsecond should be expressed in JSON format as \"3.000001s\"."
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "1s",
+          "1.000340012s"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.instance.v1.Domain": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          },
+          "primary": {
+            "type": "boolean",
+            "title": "primary"
+          },
+          "generated": {
+            "type": "boolean",
+            "title": "generated"
+          }
+        },
+        "title": "Domain",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v1.DomainGeneratedQuery": {
+        "type": "object",
+        "properties": {
+          "generated": {
+            "type": "boolean",
+            "title": "generated"
+          }
+        },
+        "title": "DomainGeneratedQuery",
+        "additionalProperties": false,
+        "description": "DomainGeneratedQuery is always equals"
+      },
+      "zitadel.instance.v1.DomainPrimaryQuery": {
+        "type": "object",
+        "properties": {
+          "primary": {
+            "type": "boolean",
+            "title": "primary"
+          }
+        },
+        "title": "DomainPrimaryQuery",
+        "additionalProperties": false,
+        "description": "DomainPrimaryQuery is always equals"
+      },
+      "zitadel.instance.v1.DomainQuery": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "DomainQuery",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v1.DomainSearchQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "domainQuery": {
+                "title": "domain_query",
+                "$ref": "#/components/schemas/zitadel.instance.v1.DomainQuery"
+              }
+            },
+            "title": "domain_query",
+            "required": [
+              "domainQuery"
+            ]
+          },
+          {
+            "properties": {
+              "generatedQuery": {
+                "title": "generated_query",
+                "$ref": "#/components/schemas/zitadel.instance.v1.DomainGeneratedQuery"
+              }
+            },
+            "title": "generated_query",
+            "required": [
+              "generatedQuery"
+            ]
+          },
+          {
+            "properties": {
+              "primaryQuery": {
+                "title": "primary_query",
+                "$ref": "#/components/schemas/zitadel.instance.v1.DomainPrimaryQuery"
+              }
+            },
+            "title": "primary_query",
+            "required": [
+              "primaryQuery"
+            ]
+          }
+        ],
+        "title": "DomainSearchQuery",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v1.DomainsQuery": {
+        "type": "object",
+        "properties": {
+          "domains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "domains"
+          }
+        },
+        "title": "DomainsQuery",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v1.IdsQuery": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ids"
+          }
+        },
+        "title": "IdsQuery",
+        "additionalProperties": false,
+        "description": "IdQuery always equals"
+      },
+      "zitadel.instance.v1.Instance": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "state": {
+            "title": "state",
+            "$ref": "#/components/schemas/zitadel.instance.v1.State"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "version": {
+            "type": "string",
+            "title": "version"
+          },
+          "domains": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v1.Domain"
+            },
+            "title": "domains"
+          }
+        },
+        "title": "Instance",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v1.InstanceDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "state": {
+            "title": "state",
+            "$ref": "#/components/schemas/zitadel.instance.v1.State"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "version": {
+            "type": "string",
+            "title": "version"
+          },
+          "domains": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v1.Domain"
+            },
+            "title": "domains"
+          }
+        },
+        "title": "InstanceDetail",
+        "additionalProperties": false
+      },
+      "zitadel.instance.v1.Query": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "domainQuery": {
+                "title": "domain_query",
+                "$ref": "#/components/schemas/zitadel.instance.v1.DomainsQuery"
+              }
+            },
+            "title": "domain_query",
+            "required": [
+              "domainQuery"
+            ]
+          },
+          {
+            "properties": {
+              "idQuery": {
+                "title": "id_query",
+                "$ref": "#/components/schemas/zitadel.instance.v1.IdsQuery"
+              }
+            },
+            "title": "id_query",
+            "required": [
+              "idQuery"
+            ]
+          }
+        ],
+        "title": "Query",
+        "additionalProperties": false
+      },
+      "zitadel.member.v1.EmailQuery": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "email"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "EmailQuery",
+        "additionalProperties": false
+      },
+      "zitadel.member.v1.FirstNameQuery": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "title": "first_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "FirstNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.member.v1.LastNameQuery": {
+        "type": "object",
+        "properties": {
+          "lastName": {
+            "type": "string",
+            "title": "last_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "LastNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.member.v1.Member": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "roles"
+          },
+          "preferredLoginName": {
+            "type": "string",
+            "title": "preferred_login_name"
+          },
+          "email": {
+            "type": "string",
+            "title": "email"
+          },
+          "firstName": {
+            "type": "string",
+            "title": "first_name"
+          },
+          "lastName": {
+            "type": "string",
+            "title": "last_name"
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "title": "avatar_url"
+          },
+          "userType": {
+            "title": "user_type",
+            "$ref": "#/components/schemas/zitadel.user.v1.Type"
+          },
+          "userResourceOwner": {
+            "type": "string",
+            "title": "user_resource_owner",
+            "description": "The organization the user belong to."
+          }
+        },
+        "title": "Member",
+        "additionalProperties": false
+      },
+      "zitadel.member.v1.SearchQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "emailQuery": {
+                "title": "email_query",
+                "$ref": "#/components/schemas/zitadel.member.v1.EmailQuery"
+              }
+            },
+            "title": "email_query",
+            "required": [
+              "emailQuery"
+            ]
+          },
+          {
+            "properties": {
+              "firstNameQuery": {
+                "title": "first_name_query",
+                "$ref": "#/components/schemas/zitadel.member.v1.FirstNameQuery"
+              }
+            },
+            "title": "first_name_query",
+            "required": [
+              "firstNameQuery"
+            ]
+          },
+          {
+            "properties": {
+              "lastNameQuery": {
+                "title": "last_name_query",
+                "$ref": "#/components/schemas/zitadel.member.v1.LastNameQuery"
+              }
+            },
+            "title": "last_name_query",
+            "required": [
+              "lastNameQuery"
+            ]
+          },
+          {
+            "properties": {
+              "userIdQuery": {
+                "title": "user_id_query",
+                "$ref": "#/components/schemas/zitadel.member.v1.UserIDQuery"
+              }
+            },
+            "title": "user_id_query",
+            "required": [
+              "userIdQuery"
+            ]
+          }
+        ],
+        "title": "SearchQuery",
+        "additionalProperties": false
+      },
+      "zitadel.member.v1.UserIDQuery": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          }
+        },
+        "title": "UserIDQuery",
+        "additionalProperties": false
+      },
+      "zitadel.quota.v1.Notification": {
+        "type": "object",
+        "properties": {
+          "percent": {
+            "type": "integer",
+            "title": "percent",
+            "description": "The percentage relative to the quotas amount on which the call_url should be called."
+          },
+          "repeat": {
+            "type": "boolean",
+            "title": "repeat",
+            "description": "If true, the call_url is called each time a factor of percentage is reached."
+          },
+          "callUrl": {
+            "type": "string",
+            "title": "call_url",
+            "description": "The URL, which is called with HTTP method POST and a JSON payload with the properties \"unit\", \"id\" (notification id), \"callURL\", \"periodStart\", \"threshold\" and \"usage\"."
+          }
+        },
+        "title": "Notification",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.AddDomainRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          }
+        },
+        "title": "AddDomainRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.AddDomainResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          }
+        },
+        "title": "AddDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.AddInstanceRequest": {
+        "type": "object",
+        "properties": {
+          "instanceName": {
+            "type": "string",
+            "title": "instance_name"
+          },
+          "firstOrgName": {
+            "type": "string",
+            "title": "first_org_name"
+          },
+          "customDomain": {
+            "type": "string",
+            "title": "custom_domain"
+          },
+          "ownerUserName": {
+            "type": "string",
+            "title": "owner_user_name"
+          },
+          "ownerEmail": {
+            "title": "owner_email",
+            "$ref": "#/components/schemas/zitadel.system.v1.AddInstanceRequest.Email"
+          },
+          "ownerProfile": {
+            "title": "owner_profile",
+            "$ref": "#/components/schemas/zitadel.system.v1.AddInstanceRequest.Profile"
+          },
+          "ownerPassword": {
+            "title": "owner_password",
+            "$ref": "#/components/schemas/zitadel.system.v1.AddInstanceRequest.Password"
+          },
+          "defaultLanguage": {
+            "type": "string",
+            "title": "default_language"
+          }
+        },
+        "title": "AddInstanceRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.AddInstanceRequest.Email": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "email"
+          },
+          "isEmailVerified": {
+            "type": "boolean",
+            "title": "is_email_verified"
+          }
+        },
+        "title": "Email",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.AddInstanceRequest.Password": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "title": "password"
+          },
+          "passwordChangeRequired": {
+            "type": "boolean",
+            "title": "password_change_required"
+          }
+        },
+        "title": "Password",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.AddInstanceRequest.Profile": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "title": "first_name"
+          },
+          "lastName": {
+            "type": "string",
+            "title": "last_name"
+          },
+          "preferredLanguage": {
+            "type": "string",
+            "title": "preferred_language"
+          }
+        },
+        "title": "Profile",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.AddInstanceResponse": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          }
+        },
+        "title": "AddInstanceResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.AddQuotaRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "unit": {
+            "title": "unit",
+            "description": "the unit a quota should be imposed on",
+            "$ref": "#/components/schemas/zitadel.quota.v1.Unit"
+          },
+          "from": {
+            "title": "from",
+            "description": "the starting time from which the current quota period is calculated from. This is relevant for querying the current usage.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "resetInterval": {
+            "title": "reset_interval",
+            "description": "the quota periods duration",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "amount": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "amount",
+            "format": "int64",
+            "description": "the quota amount of units"
+          },
+          "limit": {
+            "type": "boolean",
+            "title": "limit",
+            "description": "whether Zitadel should block further usage when the configured amount is used"
+          },
+          "notifications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.quota.v1.Notification"
+            },
+            "title": "notifications",
+            "description": "the handlers, Zitadel executes when certain quota percentages are reached"
+          }
+        },
+        "title": "AddQuotaRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.AddQuotaResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          }
+        },
+        "title": "AddQuotaResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.BulkSetLimitsRequest": {
+        "type": "object",
+        "properties": {
+          "limits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.system.v1.SetLimitsRequest"
+            },
+            "title": "limits"
+          }
+        },
+        "title": "BulkSetLimitsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.BulkSetLimitsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "targetDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+            },
+            "title": "target_details"
+          }
+        },
+        "title": "BulkSetLimitsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ChangeSubscriptionRequest": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          },
+          "subscriptionName": {
+            "type": "string",
+            "title": "subscription_name"
+          },
+          "requestLimit": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "request_limit",
+            "format": "int64"
+          },
+          "actionMinsLimit": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "action_mins_limit",
+            "format": "int64"
+          }
+        },
+        "title": "ChangeSubscriptionRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ChangeSubscriptionResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          }
+        },
+        "title": "ChangeSubscriptionResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ClearViewRequest": {
+        "type": "object",
+        "properties": {
+          "database": {
+            "type": "string",
+            "title": "database"
+          },
+          "viewName": {
+            "type": "string",
+            "title": "view_name"
+          }
+        },
+        "title": "ClearViewRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ClearViewResponse": {
+        "type": "object",
+        "title": "ClearViewResponse",
+        "additionalProperties": false,
+        "description": "This is an empty response"
+      },
+      "zitadel.system.v1.CreateInstanceRequest": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "human": {
+                "title": "human",
+                "description": "oneof field for the user managing the instance",
+                "$ref": "#/components/schemas/zitadel.system.v1.CreateInstanceRequest.Human"
+              }
+            },
+            "title": "human",
+            "required": [
+              "human"
+            ]
+          },
+          {
+            "properties": {
+              "machine": {
+                "title": "machine",
+                "$ref": "#/components/schemas/zitadel.system.v1.CreateInstanceRequest.Machine"
+              }
+            },
+            "title": "machine",
+            "required": [
+              "machine"
+            ]
+          }
+        ],
+        "properties": {
+          "instanceName": {
+            "type": "string",
+            "title": "instance_name"
+          },
+          "firstOrgName": {
+            "type": "string",
+            "title": "first_org_name"
+          },
+          "customDomain": {
+            "type": "string",
+            "title": "custom_domain"
+          },
+          "defaultLanguage": {
+            "type": "string",
+            "title": "default_language"
+          }
+        },
+        "title": "CreateInstanceRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.CreateInstanceRequest.Email": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "email"
+          },
+          "isEmailVerified": {
+            "type": "boolean",
+            "title": "is_email_verified"
+          }
+        },
+        "title": "Email",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.CreateInstanceRequest.Human": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "title": "user_name"
+          },
+          "email": {
+            "title": "email",
+            "$ref": "#/components/schemas/zitadel.system.v1.CreateInstanceRequest.Email"
+          },
+          "profile": {
+            "title": "profile",
+            "$ref": "#/components/schemas/zitadel.system.v1.CreateInstanceRequest.Profile"
+          },
+          "password": {
+            "title": "password",
+            "$ref": "#/components/schemas/zitadel.system.v1.CreateInstanceRequest.Password"
+          }
+        },
+        "title": "Human",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.CreateInstanceRequest.Machine": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "title": "user_name"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "personalAccessToken": {
+            "title": "personal_access_token",
+            "$ref": "#/components/schemas/zitadel.system.v1.CreateInstanceRequest.PersonalAccessToken"
+          },
+          "machineKey": {
+            "title": "machine_key",
+            "$ref": "#/components/schemas/zitadel.system.v1.CreateInstanceRequest.MachineKey"
+          }
+        },
+        "title": "Machine",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.CreateInstanceRequest.MachineKey": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "title": "type",
+            "$ref": "#/components/schemas/zitadel.authn.v1.KeyType"
+          },
+          "expirationDate": {
+            "title": "expiration_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "MachineKey",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.CreateInstanceRequest.Password": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "title": "password"
+          },
+          "passwordChangeRequired": {
+            "type": "boolean",
+            "title": "password_change_required"
+          }
+        },
+        "title": "Password",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.CreateInstanceRequest.PersonalAccessToken": {
+        "type": "object",
+        "properties": {
+          "expirationDate": {
+            "title": "expiration_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "PersonalAccessToken",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.CreateInstanceRequest.Profile": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "title": "first_name"
+          },
+          "lastName": {
+            "type": "string",
+            "title": "last_name"
+          },
+          "preferredLanguage": {
+            "type": "string",
+            "title": "preferred_language"
+          }
+        },
+        "title": "Profile",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.CreateInstanceResponse": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "pat": {
+            "type": "string",
+            "title": "pat"
+          },
+          "machineKey": {
+            "type": "string",
+            "title": "machine_key",
+            "format": "byte"
+          }
+        },
+        "title": "CreateInstanceResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ExistsDomainRequest": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          }
+        },
+        "title": "ExistsDomainRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ExistsDomainResponse": {
+        "type": "object",
+        "properties": {
+          "exists": {
+            "type": "boolean",
+            "title": "exists"
+          }
+        },
+        "title": "ExistsDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.FailedEvent": {
+        "type": "object",
+        "properties": {
+          "database": {
+            "type": "string",
+            "title": "database"
+          },
+          "viewName": {
+            "type": "string",
+            "title": "view_name"
+          },
+          "failedSequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "failed_sequence",
+            "format": "int64"
+          },
+          "failureCount": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "failure_count",
+            "format": "int64"
+          },
+          "errorMessage": {
+            "type": "string",
+            "title": "error_message"
+          },
+          "lastFailed": {
+            "title": "last_failed",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "FailedEvent",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.GetInstanceRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          }
+        },
+        "title": "GetInstanceRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.GetInstanceResponse": {
+        "type": "object",
+        "properties": {
+          "instance": {
+            "title": "instance",
+            "$ref": "#/components/schemas/zitadel.instance.v1.InstanceDetail"
+          }
+        },
+        "title": "GetInstanceResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.GetUsageRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          }
+        },
+        "title": "GetUsageRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.HealthzRequest": {
+        "type": "object",
+        "title": "HealthzRequest",
+        "additionalProperties": false,
+        "description": "This is an empty request"
+      },
+      "zitadel.system.v1.HealthzResponse": {
+        "type": "object",
+        "title": "HealthzResponse",
+        "additionalProperties": false,
+        "description": "This is an empty response"
+      },
+      "zitadel.system.v1.ListDomainsRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id",
+            "description": "list limitations and ordering"
+          },
+          "query": {
+            "title": "query",
+            "$ref": "#/components/schemas/zitadel.v1.ListQuery"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "description": "the field the result is sorted",
+            "$ref": "#/components/schemas/zitadel.instance.v1.DomainFieldName"
+          },
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v1.DomainSearchQuery"
+            },
+            "title": "queries",
+            "description": "criterias the client is looking for"
+          }
+        },
+        "title": "ListDomainsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ListDomainsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ListDetails"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "$ref": "#/components/schemas/zitadel.instance.v1.DomainFieldName"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v1.Domain"
+            },
+            "title": "result"
+          }
+        },
+        "title": "ListDomainsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ListFailedEventsRequest": {
+        "type": "object",
+        "title": "ListFailedEventsRequest",
+        "additionalProperties": false,
+        "description": "This is an empty request"
+      },
+      "zitadel.system.v1.ListFailedEventsResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.system.v1.FailedEvent"
+            },
+            "title": "result",
+            "description": "TODO: list details"
+          }
+        },
+        "title": "ListFailedEventsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ListIAMMembersRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "title": "query",
+            "$ref": "#/components/schemas/zitadel.v1.ListQuery"
+          },
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.member.v1.SearchQuery"
+            },
+            "title": "queries"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "$ref": "#/components/schemas/zitadel.member.v1.MemberFieldColumnName"
+          }
+        },
+        "title": "ListIAMMembersRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ListIAMMembersResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ListDetails"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.member.v1.Member"
+            },
+            "title": "result"
+          }
+        },
+        "title": "ListIAMMembersResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ListInstancesRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "title": "query",
+            "description": "list limitations and ordering",
+            "$ref": "#/components/schemas/zitadel.v1.ListQuery"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "description": "the field the result is sorted",
+            "$ref": "#/components/schemas/zitadel.instance.v1.FieldName"
+          },
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v1.Query"
+            },
+            "title": "queries",
+            "description": "criterias the client is looking for"
+          }
+        },
+        "title": "ListInstancesRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ListInstancesResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ListDetails"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "$ref": "#/components/schemas/zitadel.instance.v1.FieldName"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.instance.v1.Instance"
+            },
+            "title": "result"
+          }
+        },
+        "title": "ListInstancesResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ListViewsRequest": {
+        "type": "object",
+        "title": "ListViewsRequest",
+        "additionalProperties": false,
+        "description": "This is an empty request"
+      },
+      "zitadel.system.v1.ListViewsResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.system.v1.View"
+            },
+            "title": "result",
+            "description": "TODO: list details"
+          }
+        },
+        "title": "ListViewsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.RemoveDomainRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          }
+        },
+        "title": "RemoveDomainRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.RemoveDomainResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          }
+        },
+        "title": "RemoveDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.RemoveFailedEventRequest": {
+        "type": "object",
+        "properties": {
+          "database": {
+            "type": "string",
+            "title": "database"
+          },
+          "viewName": {
+            "type": "string",
+            "title": "view_name"
+          },
+          "failedSequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "failed_sequence",
+            "format": "int64"
+          },
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          }
+        },
+        "title": "RemoveFailedEventRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.RemoveFailedEventResponse": {
+        "type": "object",
+        "title": "RemoveFailedEventResponse",
+        "additionalProperties": false,
+        "description": "This is an empty response"
+      },
+      "zitadel.system.v1.RemoveInstanceRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          }
+        },
+        "title": "RemoveInstanceRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.RemoveInstanceResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          }
+        },
+        "title": "RemoveInstanceResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.RemoveQuotaRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "unit": {
+            "title": "unit",
+            "$ref": "#/components/schemas/zitadel.quota.v1.Unit"
+          }
+        },
+        "title": "RemoveQuotaRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.RemoveQuotaResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          }
+        },
+        "title": "RemoveQuotaResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ResetLimitsRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          }
+        },
+        "title": "ResetLimitsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.ResetLimitsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          }
+        },
+        "title": "ResetLimitsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.SetInstanceFeatureRequest": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "bool": {
+                "type": "boolean",
+                "title": "bool"
+              }
+            },
+            "title": "bool",
+            "required": [
+              "bool"
+            ]
+          }
+        ],
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "featureId": {
+            "title": "feature_id",
+            "$ref": "#/components/schemas/zitadel.feature.v1.InstanceFeature"
+          }
+        },
+        "title": "SetInstanceFeatureRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.SetInstanceFeatureResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          }
+        },
+        "title": "SetInstanceFeatureResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.SetLimitsRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "auditLogRetention": {
+            "title": "audit_log_retention",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "block": {
+            "type": "boolean",
+            "title": "block",
+            "nullable": true
+          }
+        },
+        "title": "SetLimitsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.SetLimitsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          }
+        },
+        "title": "SetLimitsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.SetPrimaryDomainRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          }
+        },
+        "title": "SetPrimaryDomainRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.SetPrimaryDomainResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          }
+        },
+        "title": "SetPrimaryDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.SetQuotaRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "unit": {
+            "title": "unit",
+            "description": "the unit a quota should be imposed on",
+            "$ref": "#/components/schemas/zitadel.quota.v1.Unit"
+          },
+          "from": {
+            "title": "from",
+            "description": "the starting time from which the current quota period is calculated from. This is relevant for querying the current usage.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "resetInterval": {
+            "title": "reset_interval",
+            "description": "the quota periods duration",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "amount": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "amount",
+            "format": "int64",
+            "description": "the quota amount of units"
+          },
+          "limit": {
+            "type": "boolean",
+            "title": "limit",
+            "description": "whether Zitadel should block further usage when the configured amount is used"
+          },
+          "notifications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.quota.v1.Notification"
+            },
+            "title": "notifications",
+            "description": "the handlers, Zitadel executes when certain quota percentages are reached"
+          }
+        },
+        "title": "SetQuotaRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.SetQuotaResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          }
+        },
+        "title": "SetQuotaResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.UpdateInstanceRequest": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "title": "instance_id"
+          },
+          "instanceName": {
+            "type": "string",
+            "title": "instance_name"
+          }
+        },
+        "title": "UpdateInstanceRequest",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.UpdateInstanceResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          }
+        },
+        "title": "UpdateInstanceResponse",
+        "additionalProperties": false
+      },
+      "zitadel.system.v1.View": {
+        "type": "object",
+        "properties": {
+          "database": {
+            "type": "string",
+            "title": "database"
+          },
+          "viewName": {
+            "type": "string",
+            "title": "view_name"
+          },
+          "processedSequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "processed_sequence",
+            "format": "int64"
+          },
+          "eventTimestamp": {
+            "title": "event_timestamp",
+            "description": "The timestamp the event occured",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "lastSuccessfulSpoolerRun": {
+            "title": "last_successful_spooler_run",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "instance": {
+            "type": "string",
+            "title": "instance"
+          }
+        },
+        "title": "View",
+        "additionalProperties": false
+      },
+      "zitadel.v1.ListDetails": {
+        "type": "object",
+        "properties": {
+          "totalResult": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "total_result",
+            "format": "int64"
+          },
+          "processedSequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "processed_sequence",
+            "format": "int64"
+          },
+          "viewTimestamp": {
+            "title": "view_timestamp",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "ListDetails",
+        "additionalProperties": false
+      },
+      "zitadel.v1.ListQuery": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "offset",
+            "format": "int64"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "limit"
+          },
+          "asc": {
+            "type": "boolean",
+            "title": "asc"
+          }
+        },
+        "title": "ListQuery",
+        "additionalProperties": false
+      },
+      "zitadel.v1.ObjectDetails": {
+        "type": "object",
+        "properties": {
+          "sequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "sequence",
+            "format": "int64",
+            "description": "sequence represents the order of events. It's always counting\n\n on read: the sequence of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "creation_date is the timestamp where the first operation on the object was made\n\n on read: the timestamp of the first event of the object\n\n on create: the timestamp of the event(s) added by the manipulation",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "change_date is the timestamp when the object was changed\n\n on read: the timestamp of the last event reduced by the projection\n\n on manipulation: the",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "resourceOwner": {
+            "type": "string",
+            "title": "resource_owner",
+            "description": "resource_owner is the organization an object belongs to"
+          }
+        },
+        "title": "ObjectDetails",
+        "additionalProperties": false
+      },
+      "connect-protocol-version": {
+        "type": "number",
+        "title": "Connect-Protocol-Version",
+        "enum": [
+          1
+        ],
+        "description": "Define the version of the Connect protocol",
+        "const": 1
+      },
+      "connect-timeout-header": {
+        "type": "number",
+        "title": "Connect-Timeout-Ms",
+        "description": "Define the timeout, in ms"
+      },
+      "connect.error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "examples": [
+              "not_found"
+            ],
+            "enum": [
+              "canceled",
+              "unknown",
+              "invalid_argument",
+              "deadline_exceeded",
+              "not_found",
+              "already_exists",
+              "permission_denied",
+              "resource_exhausted",
+              "failed_precondition",
+              "aborted",
+              "out_of_range",
+              "unimplemented",
+              "internal",
+              "unavailable",
+              "data_loss",
+              "unauthenticated"
+            ],
+            "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+          },
+          "message": {
+            "type": "string",
+            "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+          },
+          "detail": {
+            "$ref": "#/components/schemas/google.protobuf.Any"
+          }
+        },
+        "title": "Connect Error",
+        "additionalProperties": true,
+        "description": "Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation"
+      },
+      "google.protobuf.Any": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string",
+            "format": "binary"
+          },
+          "debug": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true,
+        "description": "Contains an arbitrary serialized message along with a @type that describes the type of the serialized message."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "zitadel.system.v1.SystemService"
+    }
+  ]
+}

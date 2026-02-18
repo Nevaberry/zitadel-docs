@@ -1,0 +1,68 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.settings.v2"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.settings.v2.ResourceOwnerType": {
+        "type": "string",
+        "title": "ResourceOwnerType",
+        "enum": [
+          "RESOURCE_OWNER_TYPE_UNSPECIFIED",
+          "RESOURCE_OWNER_TYPE_INSTANCE",
+          "RESOURCE_OWNER_TYPE_ORG"
+        ]
+      },
+      "zitadel.settings.v2.LegalAndSupportSettings": {
+        "type": "object",
+        "properties": {
+          "tosLink": {
+            "type": "string",
+            "title": "tos_link",
+            "description": "Link to the Terms of Service. Can be a relative or absolute URL."
+          },
+          "privacyPolicyLink": {
+            "type": "string",
+            "title": "privacy_policy_link",
+            "description": "Link to the Privacy Policy. Can be a relative or absolute URL."
+          },
+          "helpLink": {
+            "type": "string",
+            "title": "help_link",
+            "description": "Link to a help page. Can be a relative or absolute URL."
+          },
+          "supportEmail": {
+            "type": "string",
+            "title": "support_email",
+            "description": "Email address for support issues."
+          },
+          "resourceOwnerType": {
+            "title": "resource_owner_type",
+            "description": "ResourceOwnerType returns if the setting is managed on the organization explicitly or\n fell back on the instance settings.",
+            "$ref": "#/components/schemas/zitadel.settings.v2.ResourceOwnerType"
+          },
+          "docsLink": {
+            "type": "string",
+            "title": "docs_link",
+            "description": "Link to documentation to be shown in the management console."
+          },
+          "customLink": {
+            "type": "string",
+            "title": "custom_link",
+            "description": "Link to an external resource that will be available to users in the management console."
+          },
+          "customLinkText": {
+            "type": "string",
+            "title": "custom_link_text",
+            "description": "The button text that would be shown in the management console pointing to custom link."
+          }
+        },
+        "title": "LegalAndSupportSettings",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

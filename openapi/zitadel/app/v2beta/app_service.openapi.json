@@ -1,0 +1,2301 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.app.v2beta"
+  },
+  "paths": {
+    "/v2beta/applications": {
+      "post": {
+        "tags": [
+          "zitadel.app.v2beta.AppService"
+        ],
+        "summary": "CreateApplication",
+        "description": "Create Application\n\n Deprecated: use [application service v2 CreateApplication](/docs/reference/api/application/zitadel.application.v2.ApplicationService.CreateApplication) instead.\n\n Create an application. The application can be OIDC, API or SAML type, based on the input.\n\n Required permissions:\n   - project.app.write",
+        "operationId": "zitadel.app.v2beta.AppService.CreateApplication",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.app.v2beta.CreateApplicationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.app.v2beta.CreateApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/applications/{id}": {
+      "get": {
+        "tags": [
+          "zitadel.app.v2beta.AppService"
+        ],
+        "summary": "GetApplication",
+        "description": "Get Application\n\n Deprecated: use [application service v2 GetApplication](/docs/reference/api/application/zitadel.application.v2.ApplicationService.GetApplication) instead.\n\n Retrieves the application matching the provided ID.\n\n Required permissions:\n   - project.app.read",
+        "operationId": "zitadel.app.v2beta.AppService.GetApplication",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "id"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.app.v2beta.GetApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "zitadel.app.v2beta.AppService"
+        ],
+        "summary": "DeleteApplication",
+        "description": "Delete Application\n\n Deprecated: use [application service v2 DeleteApplication](/docs/reference/api/application/zitadel.application.v2.ApplicationService.DeleteApplication) instead.\n\n Deletes the application belonging to the input project and matching the provided\n application ID.\n\n Required permissions:\n   - project.app.delete",
+        "operationId": "zitadel.app.v2beta.AppService.DeleteApplication",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "id"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "project_id"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.app.v2beta.DeleteApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "zitadel.app.v2beta.AppService"
+        ],
+        "summary": "UpdateApplication",
+        "description": "Update Application\n\n Deprecated: use [application service v2 UpdateApplication](/docs/reference/api/application/zitadel.application.v2.ApplicationService.UpdateApplication) instead.\n\n Changes the configuration of an OIDC, API or SAML type application, as well as\n the application name, based on the input provided.\n\n Required permissions:\n   - project.app.write",
+        "operationId": "zitadel.app.v2beta.AppService.UpdateApplication",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "oneOf": [
+                  {
+                    "properties": {
+                      "apiConfigurationRequest": {
+                        "title": "api_configuration_request",
+                        "$ref": "#/components/schemas/zitadel.app.v2beta.UpdateAPIApplicationConfigurationRequest"
+                      }
+                    },
+                    "title": "api_configuration_request",
+                    "required": [
+                      "apiConfigurationRequest"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "oidcConfigurationRequest": {
+                        "title": "oidc_configuration_request",
+                        "$ref": "#/components/schemas/zitadel.app.v2beta.UpdateOIDCApplicationConfigurationRequest"
+                      }
+                    },
+                    "title": "oidc_configuration_request",
+                    "required": [
+                      "oidcConfigurationRequest"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "samlConfigurationRequest": {
+                        "title": "saml_configuration_request",
+                        "$ref": "#/components/schemas/zitadel.app.v2beta.UpdateSAMLApplicationConfigurationRequest"
+                      }
+                    },
+                    "title": "saml_configuration_request",
+                    "required": [
+                      "samlConfigurationRequest"
+                    ]
+                  }
+                ],
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "title": "project_id"
+                  },
+                  "name": {
+                    "type": "string",
+                    "title": "name"
+                  }
+                },
+                "title": "UpdateApplicationRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.app.v2beta.UpdateApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/applications/{id}/deactivate": {
+      "post": {
+        "tags": [
+          "zitadel.app.v2beta.AppService"
+        ],
+        "summary": "DeactivateApplication",
+        "description": "Deactivate Application\n\n Deprecated: use [application service v2 DeactivateApplication](/docs/reference/api/application/zitadel.application.v2.ApplicationService.DeactivateApplication) instead.\n\n Deactivates the application belonging to the input project and matching the provided\n application ID.\n\n Required permissions:\n   - project.app.write",
+        "operationId": "zitadel.app.v2beta.AppService.DeactivateApplication",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "title": "project_id"
+                  }
+                },
+                "title": "DeactivateApplicationRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.app.v2beta.DeactivateApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/applications/{id}/reactivate": {
+      "post": {
+        "tags": [
+          "zitadel.app.v2beta.AppService"
+        ],
+        "summary": "ReactivateApplication",
+        "description": "Reactivate Application\n\n Deprecated: use [application service v2 ReactivateApplication](/docs/reference/api/application/zitadel.application.v2.ApplicationService.ReactivateApplication) instead.\n\n Reactivates the application belonging to the input project and matching the provided\n application ID.\n\n Required permissions:\n   - project.app.write",
+        "operationId": "zitadel.app.v2beta.AppService.ReactivateApplication",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "title": "project_id"
+                  }
+                },
+                "title": "ReactivateApplicationRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.app.v2beta.ReactivateApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/applications/{application_id}/generate_client_secret": {
+      "post": {
+        "tags": [
+          "zitadel.app.v2beta.AppService"
+        ],
+        "summary": "RegenerateClientSecret",
+        "description": "Regenerate Client Secret\n\n Deprecated: use [application service v2 GenerateClientSecret](/docs/reference/api/application/zitadel.application.v2.ApplicationService.GenerateClientSecret) instead.\n\n Regenerates the client secret of an API or OIDC application that belongs to the input project.\n \n Required permissions:\n   - project.app.write",
+        "operationId": "zitadel.app.v2beta.AppService.RegenerateClientSecret",
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "application_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "oneOf": [
+                  {
+                    "properties": {
+                      "isApi": {
+                        "type": "boolean",
+                        "title": "is_api"
+                      }
+                    },
+                    "title": "is_api",
+                    "required": [
+                      "isApi"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "isOidc": {
+                        "type": "boolean",
+                        "title": "is_oidc"
+                      }
+                    },
+                    "title": "is_oidc",
+                    "required": [
+                      "isOidc"
+                    ]
+                  }
+                ],
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "title": "project_id"
+                  }
+                },
+                "title": "RegenerateClientSecretRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.app.v2beta.RegenerateClientSecretResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/applications/search": {
+      "post": {
+        "tags": [
+          "zitadel.app.v2beta.AppService"
+        ],
+        "summary": "ListApplications",
+        "description": "List Applications\n\n Deprecated: use [application service v2 ListApplications](/docs/reference/api/application/zitadel.application.v2.ApplicationService.ListApplications) instead.\n\n Returns a list of applications matching the input parameters that belong to the provided\n project.\n\n The result can be sorted by app id, name, creation date, change date or state. It can also\n be filtered by app state, app type and app name.\n\n Required permissions:\n   - project.app.read",
+        "operationId": "zitadel.app.v2beta.AppService.ListApplications",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.app.v2beta.ListApplicationsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.app.v2beta.ListApplicationsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/application_keys": {
+      "post": {
+        "tags": [
+          "zitadel.app.v2beta.AppService"
+        ],
+        "summary": "CreateApplicationKey",
+        "description": "Create Application Key \n\n Deprecated: use [application service v2 CreateApplicationKey](/docs/reference/api/application/zitadel.application.v2.ApplicationService.CreateApplicationKey) instead.\n\n Create a new application key, which is used to authorize an API application.\n\n Key details are returned in the response. They must be stored safely, as it will not\n be possible to retrieve them again.\n\n Required permissions:\n   - `project.app.write`",
+        "operationId": "zitadel.app.v2beta.AppService.CreateApplicationKey",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.app.v2beta.CreateApplicationKeyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.app.v2beta.CreateApplicationKeyResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/application_keys/{id}": {
+      "get": {
+        "tags": [
+          "zitadel.app.v2beta.AppService"
+        ],
+        "summary": "GetApplicationKey",
+        "description": "Get Application Key\n\n Deprecated: use [application service v2 GetApplicationKey](/docs/reference/api/application/zitadel.application.v2.ApplicationService.GetApplicationKey) instead.\n\n Retrieves the application key matching the provided ID.\n\n Specifying a project, organization and app ID is optional but help with filtering/performance.\n\n Required permissions:\n   - project.app.read",
+        "operationId": "zitadel.app.v2beta.AppService.GetApplicationKey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "id"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "project_id"
+            }
+          },
+          {
+            "name": "applicationId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "application_id"
+            }
+          },
+          {
+            "name": "organizationId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "organization_id"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.app.v2beta.GetApplicationKeyResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "zitadel.app.v2beta.AppService"
+        ],
+        "summary": "DeleteApplicationKey",
+        "description": "Delete Application Key \n\n Deprecated: use [application service v2 DeleteApplicationKey](/docs/reference/api/application/zitadel.application.v2.ApplicationService.DeleteApplicationKey) instead.\n\n Deletes an application key matching the provided ID.\n\n Organization ID is not mandatory, but helps with filtering/performance.\n\n The deletion time is returned in response message.\n\n Required permissions:\n   - `project.app.write`",
+        "operationId": "zitadel.app.v2beta.AppService.DeleteApplicationKey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "id"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "project_id"
+            }
+          },
+          {
+            "name": "applicationId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "application_id"
+            }
+          },
+          {
+            "name": "organizationId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "organization_id"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.app.v2beta.DeleteApplicationKeyResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/application_keys/search": {
+      "post": {
+        "tags": [
+          "zitadel.app.v2beta.AppService"
+        ],
+        "summary": "ListApplicationKeys",
+        "description": "List Application Keys\n\n Deprecated: use [application service v2 ListApplicationKeys](/docs/reference/api/application/zitadel.application.v2.ApplicationService.ListApplicationKeys) instead.\n\n Returns a list of application keys matching the input parameters.\n\n The result can be sorted by id, aggregate, creation date, expiration date, resource owner or type.\n It can also be filtered by app, project or organization ID.\n\n Required permissions:\n   - project.app.read",
+        "operationId": "zitadel.app.v2beta.AppService.ListApplicationKeys",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.app.v2beta.ListApplicationKeysRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.app.v2beta.ListApplicationKeysResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "zitadel.app.v2beta.APIAuthMethodType": {
+        "type": "string",
+        "title": "APIAuthMethodType",
+        "enum": [
+          "API_AUTH_METHOD_TYPE_BASIC",
+          "API_AUTH_METHOD_TYPE_PRIVATE_KEY_JWT"
+        ]
+      },
+      "zitadel.app.v2beta.AppSorting": {
+        "type": "string",
+        "title": "AppSorting",
+        "enum": [
+          "APP_SORT_BY_ID",
+          "APP_SORT_BY_NAME",
+          "APP_SORT_BY_STATE",
+          "APP_SORT_BY_CREATION_DATE",
+          "APP_SORT_BY_CHANGE_DATE"
+        ]
+      },
+      "zitadel.app.v2beta.AppState": {
+        "type": "string",
+        "title": "AppState",
+        "enum": [
+          "APP_STATE_UNSPECIFIED",
+          "APP_STATE_ACTIVE",
+          "APP_STATE_INACTIVE",
+          "APP_STATE_REMOVED"
+        ]
+      },
+      "zitadel.app.v2beta.ApplicationKeysSorting": {
+        "type": "string",
+        "title": "ApplicationKeysSorting",
+        "enum": [
+          "APPLICATION_KEYS_SORT_BY_ID",
+          "APPLICATION_KEYS_SORT_BY_PROJECT_ID",
+          "APPLICATION_KEYS_SORT_BY_APPLICATION_ID",
+          "APPLICATION_KEYS_SORT_BY_CREATION_DATE",
+          "APPLICATION_KEYS_SORT_BY_ORGANIZATION_ID",
+          "APPLICATION_KEYS_SORT_BY_EXPIRATION",
+          "APPLICATION_KEYS_SORT_BY_TYPE"
+        ]
+      },
+      "zitadel.app.v2beta.OIDCAppType": {
+        "type": "string",
+        "title": "OIDCAppType",
+        "enum": [
+          "OIDC_APP_TYPE_WEB",
+          "OIDC_APP_TYPE_USER_AGENT",
+          "OIDC_APP_TYPE_NATIVE"
+        ]
+      },
+      "zitadel.app.v2beta.OIDCAuthMethodType": {
+        "type": "string",
+        "title": "OIDCAuthMethodType",
+        "enum": [
+          "OIDC_AUTH_METHOD_TYPE_BASIC",
+          "OIDC_AUTH_METHOD_TYPE_POST",
+          "OIDC_AUTH_METHOD_TYPE_NONE",
+          "OIDC_AUTH_METHOD_TYPE_PRIVATE_KEY_JWT"
+        ]
+      },
+      "zitadel.app.v2beta.OIDCGrantType": {
+        "type": "string",
+        "title": "OIDCGrantType",
+        "enum": [
+          "OIDC_GRANT_TYPE_AUTHORIZATION_CODE",
+          "OIDC_GRANT_TYPE_IMPLICIT",
+          "OIDC_GRANT_TYPE_REFRESH_TOKEN",
+          "OIDC_GRANT_TYPE_DEVICE_CODE",
+          "OIDC_GRANT_TYPE_TOKEN_EXCHANGE"
+        ]
+      },
+      "zitadel.app.v2beta.OIDCResponseType": {
+        "type": "string",
+        "title": "OIDCResponseType",
+        "enum": [
+          "OIDC_RESPONSE_TYPE_UNSPECIFIED",
+          "OIDC_RESPONSE_TYPE_CODE",
+          "OIDC_RESPONSE_TYPE_ID_TOKEN",
+          "OIDC_RESPONSE_TYPE_ID_TOKEN_TOKEN"
+        ]
+      },
+      "zitadel.app.v2beta.OIDCTokenType": {
+        "type": "string",
+        "title": "OIDCTokenType",
+        "enum": [
+          "OIDC_TOKEN_TYPE_BEARER",
+          "OIDC_TOKEN_TYPE_JWT"
+        ]
+      },
+      "zitadel.app.v2beta.OIDCVersion": {
+        "type": "string",
+        "title": "OIDCVersion",
+        "enum": [
+          "OIDC_VERSION_1_0"
+        ]
+      },
+      "zitadel.filter.v2.TextFilterMethod": {
+        "type": "string",
+        "title": "TextFilterMethod",
+        "enum": [
+          "TEXT_FILTER_METHOD_EQUALS",
+          "TEXT_FILTER_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_STARTS_WITH",
+          "TEXT_FILTER_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_CONTAINS",
+          "TEXT_FILTER_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_ENDS_WITH",
+          "TEXT_FILTER_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      },
+      "google.protobuf.Duration": {
+        "type": "string",
+        "format": "duration",
+        "description": "A Duration represents a signed, fixed-length span of time represented\n as a count of seconds and fractions of seconds at nanosecond\n resolution. It is independent of any calendar and concepts like \"day\"\n or \"month\". It is related to Timestamp in that the difference between\n two Timestamp values is a Duration and it can be added or subtracted\n from a Timestamp. Range is approximately +-10,000 years.\n\n # Examples\n\n Example 1: Compute Duration from two Timestamps in pseudo code.\n\n     Timestamp start = ...;\n     Timestamp end = ...;\n     Duration duration = ...;\n\n     duration.seconds = end.seconds - start.seconds;\n     duration.nanos = end.nanos - start.nanos;\n\n     if (duration.seconds \u003c 0 \u0026\u0026 duration.nanos \u003e 0) {\n       duration.seconds += 1;\n       duration.nanos -= 1000000000;\n     } else if (duration.seconds \u003e 0 \u0026\u0026 duration.nanos \u003c 0) {\n       duration.seconds -= 1;\n       duration.nanos += 1000000000;\n     }\n\n Example 2: Compute Timestamp from Timestamp + Duration in pseudo code.\n\n     Timestamp start = ...;\n     Duration duration = ...;\n     Timestamp end = ...;\n\n     end.seconds = start.seconds + duration.seconds;\n     end.nanos = start.nanos + duration.nanos;\n\n     if (end.nanos \u003c 0) {\n       end.seconds -= 1;\n       end.nanos += 1000000000;\n     } else if (end.nanos \u003e= 1000000000) {\n       end.seconds += 1;\n       end.nanos -= 1000000000;\n     }\n\n Example 3: Compute Duration from datetime.timedelta in Python.\n\n     td = datetime.timedelta(days=3, minutes=10)\n     duration = Duration()\n     duration.FromTimedelta(td)\n\n # JSON Mapping\n\n In JSON format, the Duration type is encoded as a string rather than an\n object, where the string ends in the suffix \"s\" (indicating seconds) and\n is preceded by the number of seconds, with nanoseconds expressed as\n fractional seconds. For example, 3 seconds with 0 nanoseconds should be\n encoded in JSON format as \"3s\", while 3 seconds and 1 nanosecond should\n be expressed in JSON format as \"3.000000001s\", and 3 seconds and 1\n microsecond should be expressed in JSON format as \"3.000001s\"."
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "1s",
+          "1.000340012s"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.app.v2beta.APIConfig": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "title": "client_id"
+          },
+          "authMethodType": {
+            "title": "auth_method_type",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.APIAuthMethodType"
+          }
+        },
+        "title": "APIConfig",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.Application": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "apiConfig": {
+                "title": "api_config",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.APIConfig"
+              }
+            },
+            "title": "api_config",
+            "required": [
+              "apiConfig"
+            ]
+          },
+          {
+            "properties": {
+              "oidcConfig": {
+                "title": "oidc_config",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCConfig"
+              }
+            },
+            "title": "oidc_config",
+            "required": [
+              "oidcConfig"
+            ]
+          },
+          {
+            "properties": {
+              "samlConfig": {
+                "title": "saml_config",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.SAMLConfig"
+              }
+            },
+            "title": "saml_config",
+            "required": [
+              "samlConfig"
+            ]
+          }
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the app creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the app update.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "state": {
+            "title": "state",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.AppState"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          }
+        },
+        "title": "Application",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.ApplicationKey": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "applicationId": {
+            "type": "string",
+            "title": "application_id"
+          },
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id"
+          },
+          "expirationDate": {
+            "title": "expiration_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "ApplicationKey",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.ApplicationNameQuery": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.filter.v2.TextFilterMethod"
+          }
+        },
+        "title": "ApplicationNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.ApplicationSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "apiAppOnly": {
+                "type": "boolean",
+                "title": "api_app_only"
+              }
+            },
+            "title": "api_app_only",
+            "required": [
+              "apiAppOnly"
+            ]
+          },
+          {
+            "properties": {
+              "nameFilter": {
+                "title": "name_filter",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.ApplicationNameQuery"
+              }
+            },
+            "title": "name_filter",
+            "required": [
+              "nameFilter"
+            ]
+          },
+          {
+            "properties": {
+              "oidcAppOnly": {
+                "type": "boolean",
+                "title": "oidc_app_only"
+              }
+            },
+            "title": "oidc_app_only",
+            "required": [
+              "oidcAppOnly"
+            ]
+          },
+          {
+            "properties": {
+              "samlAppOnly": {
+                "type": "boolean",
+                "title": "saml_app_only"
+              }
+            },
+            "title": "saml_app_only",
+            "required": [
+              "samlAppOnly"
+            ]
+          },
+          {
+            "properties": {
+              "stateFilter": {
+                "title": "state_filter",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.AppState"
+              }
+            },
+            "title": "state_filter",
+            "required": [
+              "stateFilter"
+            ]
+          }
+        ],
+        "title": "ApplicationSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.CreateAPIApplicationRequest": {
+        "type": "object",
+        "properties": {
+          "authMethodType": {
+            "title": "auth_method_type",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.APIAuthMethodType"
+          }
+        },
+        "title": "CreateAPIApplicationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.CreateAPIApplicationResponse": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "title": "client_id"
+          },
+          "clientSecret": {
+            "type": "string",
+            "title": "client_secret"
+          }
+        },
+        "title": "CreateAPIApplicationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.CreateApplicationKeyRequest": {
+        "type": "object",
+        "properties": {
+          "appId": {
+            "type": "string",
+            "title": "app_id"
+          },
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "expirationDate": {
+            "title": "expiration_date",
+            "description": "The date the key will expire",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "CreateApplicationKeyRequest",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.CreateApplicationKeyResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the app creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "keyDetails": {
+            "type": "string",
+            "title": "key_details",
+            "format": "byte"
+          }
+        },
+        "title": "CreateApplicationKeyResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.CreateApplicationRequest": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "apiRequest": {
+                "title": "api_request",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.CreateAPIApplicationRequest"
+              }
+            },
+            "title": "api_request",
+            "required": [
+              "apiRequest"
+            ]
+          },
+          {
+            "properties": {
+              "oidcRequest": {
+                "title": "oidc_request",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.CreateOIDCApplicationRequest"
+              }
+            },
+            "title": "oidc_request",
+            "required": [
+              "oidcRequest"
+            ]
+          },
+          {
+            "properties": {
+              "samlRequest": {
+                "title": "saml_request",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.CreateSAMLApplicationRequest"
+              }
+            },
+            "title": "saml_request",
+            "required": [
+              "samlRequest"
+            ]
+          }
+        ],
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          }
+        },
+        "title": "CreateApplicationRequest",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.CreateApplicationResponse": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "apiResponse": {
+                "title": "api_response",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.CreateAPIApplicationResponse"
+              }
+            },
+            "title": "api_response",
+            "required": [
+              "apiResponse"
+            ]
+          },
+          {
+            "properties": {
+              "oidcResponse": {
+                "title": "oidc_response",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.CreateOIDCApplicationResponse"
+              }
+            },
+            "title": "oidc_response",
+            "required": [
+              "oidcResponse"
+            ]
+          },
+          {
+            "properties": {
+              "samlResponse": {
+                "title": "saml_response",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.CreateSAMLApplicationResponse"
+              }
+            },
+            "title": "saml_response",
+            "required": [
+              "samlResponse"
+            ]
+          }
+        ],
+        "properties": {
+          "appId": {
+            "type": "string",
+            "title": "app_id"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the app creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "CreateApplicationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.CreateOIDCApplicationRequest": {
+        "type": "object",
+        "properties": {
+          "redirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "redirect_uris",
+            "description": "Callback URI of the authorization request where the code or tokens will be sent to"
+          },
+          "responseTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCResponseType"
+            },
+            "title": "response_types"
+          },
+          "grantTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCGrantType"
+            },
+            "title": "grant_types"
+          },
+          "appType": {
+            "title": "app_type",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCAppType"
+          },
+          "authMethodType": {
+            "title": "auth_method_type",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCAuthMethodType"
+          },
+          "postLogoutRedirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "post_logout_redirect_uris",
+            "description": "Zitadel will redirect to this link after a successful logout"
+          },
+          "version": {
+            "title": "version",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCVersion"
+          },
+          "devMode": {
+            "type": "boolean",
+            "title": "dev_mode"
+          },
+          "accessTokenType": {
+            "title": "access_token_type",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCTokenType"
+          },
+          "accessTokenRoleAssertion": {
+            "type": "boolean",
+            "title": "access_token_role_assertion"
+          },
+          "idTokenRoleAssertion": {
+            "type": "boolean",
+            "title": "id_token_role_assertion"
+          },
+          "idTokenUserinfoAssertion": {
+            "type": "boolean",
+            "title": "id_token_userinfo_assertion"
+          },
+          "clockSkew": {
+            "title": "clock_skew",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "additionalOrigins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "additional_origins"
+          },
+          "skipNativeAppSuccessPage": {
+            "type": "boolean",
+            "title": "skip_native_app_success_page"
+          },
+          "backChannelLogoutUri": {
+            "type": "string",
+            "title": "back_channel_logout_uri"
+          },
+          "loginVersion": {
+            "title": "login_version",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.LoginVersion"
+          }
+        },
+        "title": "CreateOIDCApplicationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.CreateOIDCApplicationResponse": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "title": "client_id"
+          },
+          "clientSecret": {
+            "type": "string",
+            "title": "client_secret"
+          },
+          "noneCompliant": {
+            "type": "boolean",
+            "title": "none_compliant"
+          },
+          "complianceProblems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCLocalizedMessage"
+            },
+            "title": "compliance_problems"
+          }
+        },
+        "title": "CreateOIDCApplicationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.CreateSAMLApplicationRequest": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "metadataUrl": {
+                "type": "string",
+                "title": "metadata_url"
+              }
+            },
+            "title": "metadata_url",
+            "required": [
+              "metadataUrl"
+            ]
+          },
+          {
+            "properties": {
+              "metadataXml": {
+                "type": "string",
+                "title": "metadata_xml",
+                "format": "byte"
+              }
+            },
+            "title": "metadata_xml",
+            "required": [
+              "metadataXml"
+            ]
+          }
+        ],
+        "properties": {
+          "loginVersion": {
+            "title": "login_version",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.LoginVersion"
+          }
+        },
+        "title": "CreateSAMLApplicationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.CreateSAMLApplicationResponse": {
+        "type": "object",
+        "title": "CreateSAMLApplicationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.DeactivateApplicationRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "id": {
+            "type": "string",
+            "title": "id"
+          }
+        },
+        "title": "DeactivateApplicationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.DeactivateApplicationResponse": {
+        "type": "object",
+        "properties": {
+          "deactivationDate": {
+            "title": "deactivation_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeactivateApplicationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.DeleteApplicationKeyRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "applicationId": {
+            "type": "string",
+            "title": "application_id"
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id"
+          }
+        },
+        "title": "DeleteApplicationKeyRequest",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.DeleteApplicationKeyResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeleteApplicationKeyResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.DeleteApplicationRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "id": {
+            "type": "string",
+            "title": "id"
+          }
+        },
+        "title": "DeleteApplicationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.DeleteApplicationResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeleteApplicationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.GetApplicationKeyRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "applicationId": {
+            "type": "string",
+            "title": "application_id"
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id"
+          }
+        },
+        "title": "GetApplicationKeyRequest",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.GetApplicationKeyResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "expirationDate": {
+            "title": "expiration_date",
+            "description": "the date a key will expire",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "GetApplicationKeyResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.GetApplicationRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          }
+        },
+        "title": "GetApplicationRequest",
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.GetApplicationResponse": {
+        "type": "object",
+        "properties": {
+          "app": {
+            "title": "app",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.Application"
+          }
+        },
+        "title": "GetApplicationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.ListApplicationKeysRequest": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "applicationId": {
+                "type": "string",
+                "title": "application_id"
+              }
+            },
+            "title": "application_id",
+            "required": [
+              "applicationId"
+            ]
+          },
+          {
+            "properties": {
+              "organizationId": {
+                "type": "string",
+                "title": "organization_id"
+              }
+            },
+            "title": "organization_id",
+            "required": [
+              "organizationId"
+            ]
+          },
+          {
+            "properties": {
+              "projectId": {
+                "type": "string",
+                "title": "project_id"
+              }
+            },
+            "title": "project_id",
+            "required": [
+              "projectId"
+            ]
+          }
+        ],
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "description": "Pagination and sorting.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationRequest"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.ApplicationKeysSorting"
+          }
+        },
+        "title": "ListApplicationKeysRequest",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.ListApplicationKeysResponse": {
+        "type": "object",
+        "properties": {
+          "keys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.app.v2beta.ApplicationKey"
+            },
+            "title": "keys"
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "Contains the total number of app keys matching the query and the applied limit.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationResponse"
+          }
+        },
+        "title": "ListApplicationKeysResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.ListApplicationsRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "Pagination and sorting.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationRequest"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.app.v2beta.ApplicationSearchFilter"
+            },
+            "title": "filters",
+            "description": "criteria the client is looking for"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.AppSorting"
+          }
+        },
+        "title": "ListApplicationsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.ListApplicationsResponse": {
+        "type": "object",
+        "properties": {
+          "applications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.app.v2beta.Application"
+            },
+            "title": "applications"
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "Contains the total number of apps matching the query and the applied limit.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationResponse"
+          }
+        },
+        "title": "ListApplicationsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.LoginV1": {
+        "type": "object",
+        "title": "LoginV1",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.LoginV2": {
+        "type": "object",
+        "properties": {
+          "baseUri": {
+            "type": "string",
+            "title": "base_uri",
+            "description": "Optionally specify a base uri of the login UI. If unspecified the default URI will be used.",
+            "nullable": true
+          }
+        },
+        "title": "LoginV2",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.LoginVersion": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "loginV1": {
+                "title": "login_v1",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.LoginV1"
+              }
+            },
+            "title": "login_v1",
+            "required": [
+              "loginV1"
+            ]
+          },
+          {
+            "properties": {
+              "loginV2": {
+                "title": "login_v2",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.LoginV2"
+              }
+            },
+            "title": "login_v2",
+            "required": [
+              "loginV2"
+            ]
+          }
+        ],
+        "title": "LoginVersion",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.OIDCConfig": {
+        "type": "object",
+        "properties": {
+          "redirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "redirect_uris"
+          },
+          "responseTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCResponseType"
+            },
+            "title": "response_types"
+          },
+          "grantTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCGrantType"
+            },
+            "title": "grant_types"
+          },
+          "appType": {
+            "title": "app_type",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCAppType"
+          },
+          "clientId": {
+            "type": "string",
+            "title": "client_id"
+          },
+          "authMethodType": {
+            "title": "auth_method_type",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCAuthMethodType"
+          },
+          "postLogoutRedirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "post_logout_redirect_uris"
+          },
+          "version": {
+            "title": "version",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCVersion"
+          },
+          "noneCompliant": {
+            "type": "boolean",
+            "title": "none_compliant"
+          },
+          "complianceProblems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCLocalizedMessage"
+            },
+            "title": "compliance_problems"
+          },
+          "devMode": {
+            "type": "boolean",
+            "title": "dev_mode"
+          },
+          "accessTokenType": {
+            "title": "access_token_type",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCTokenType"
+          },
+          "accessTokenRoleAssertion": {
+            "type": "boolean",
+            "title": "access_token_role_assertion"
+          },
+          "idTokenRoleAssertion": {
+            "type": "boolean",
+            "title": "id_token_role_assertion"
+          },
+          "idTokenUserinfoAssertion": {
+            "type": "boolean",
+            "title": "id_token_userinfo_assertion"
+          },
+          "clockSkew": {
+            "title": "clock_skew",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "additionalOrigins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "additional_origins"
+          },
+          "allowedOrigins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "allowed_origins"
+          },
+          "skipNativeAppSuccessPage": {
+            "type": "boolean",
+            "title": "skip_native_app_success_page"
+          },
+          "backChannelLogoutUri": {
+            "type": "string",
+            "title": "back_channel_logout_uri"
+          },
+          "loginVersion": {
+            "title": "login_version",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.LoginVersion"
+          }
+        },
+        "title": "OIDCConfig",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.OIDCLocalizedMessage": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "localizedMessage": {
+            "type": "string",
+            "title": "localized_message"
+          }
+        },
+        "title": "OIDCLocalizedMessage",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.ReactivateApplicationRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "id": {
+            "type": "string",
+            "title": "id"
+          }
+        },
+        "title": "ReactivateApplicationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.ReactivateApplicationResponse": {
+        "type": "object",
+        "properties": {
+          "reactivationDate": {
+            "title": "reactivation_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "ReactivateApplicationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.RegenerateClientSecretRequest": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "isApi": {
+                "type": "boolean",
+                "title": "is_api"
+              }
+            },
+            "title": "is_api",
+            "required": [
+              "isApi"
+            ]
+          },
+          {
+            "properties": {
+              "isOidc": {
+                "type": "boolean",
+                "title": "is_oidc"
+              }
+            },
+            "title": "is_oidc",
+            "required": [
+              "isOidc"
+            ]
+          }
+        ],
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "applicationId": {
+            "type": "string",
+            "title": "application_id"
+          }
+        },
+        "title": "RegenerateClientSecretRequest",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.RegenerateClientSecretResponse": {
+        "type": "object",
+        "properties": {
+          "clientSecret": {
+            "type": "string",
+            "title": "client_secret"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the creation of the new client secret",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "RegenerateClientSecretResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.SAMLConfig": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "metadataUrl": {
+                "type": "string",
+                "title": "metadata_url"
+              }
+            },
+            "title": "metadata_url",
+            "required": [
+              "metadataUrl"
+            ]
+          },
+          {
+            "properties": {
+              "metadataXml": {
+                "type": "string",
+                "title": "metadata_xml",
+                "format": "byte"
+              }
+            },
+            "title": "metadata_xml",
+            "required": [
+              "metadataXml"
+            ]
+          }
+        ],
+        "properties": {
+          "loginVersion": {
+            "title": "login_version",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.LoginVersion"
+          }
+        },
+        "title": "SAMLConfig",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.UpdateAPIApplicationConfigurationRequest": {
+        "type": "object",
+        "properties": {
+          "authMethodType": {
+            "title": "auth_method_type",
+            "$ref": "#/components/schemas/zitadel.app.v2beta.APIAuthMethodType"
+          }
+        },
+        "title": "UpdateAPIApplicationConfigurationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.UpdateApplicationRequest": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "apiConfigurationRequest": {
+                "title": "api_configuration_request",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.UpdateAPIApplicationConfigurationRequest"
+              }
+            },
+            "title": "api_configuration_request",
+            "required": [
+              "apiConfigurationRequest"
+            ]
+          },
+          {
+            "properties": {
+              "oidcConfigurationRequest": {
+                "title": "oidc_configuration_request",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.UpdateOIDCApplicationConfigurationRequest"
+              }
+            },
+            "title": "oidc_configuration_request",
+            "required": [
+              "oidcConfigurationRequest"
+            ]
+          },
+          {
+            "properties": {
+              "samlConfigurationRequest": {
+                "title": "saml_configuration_request",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.UpdateSAMLApplicationConfigurationRequest"
+              }
+            },
+            "title": "saml_configuration_request",
+            "required": [
+              "samlConfigurationRequest"
+            ]
+          }
+        ],
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          }
+        },
+        "title": "UpdateApplicationRequest",
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.UpdateApplicationResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the app update.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "UpdateApplicationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.UpdateOIDCApplicationConfigurationRequest": {
+        "type": "object",
+        "properties": {
+          "redirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "redirect_uris"
+          },
+          "responseTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCResponseType"
+            },
+            "title": "response_types"
+          },
+          "grantTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCGrantType"
+            },
+            "title": "grant_types"
+          },
+          "appType": {
+            "title": "app_type",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCAppType"
+          },
+          "authMethodType": {
+            "title": "auth_method_type",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCAuthMethodType"
+          },
+          "postLogoutRedirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "post_logout_redirect_uris"
+          },
+          "version": {
+            "title": "version",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCVersion"
+          },
+          "devMode": {
+            "type": "boolean",
+            "title": "dev_mode",
+            "nullable": true
+          },
+          "accessTokenType": {
+            "title": "access_token_type",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.app.v2beta.OIDCTokenType"
+          },
+          "accessTokenRoleAssertion": {
+            "type": "boolean",
+            "title": "access_token_role_assertion",
+            "nullable": true
+          },
+          "idTokenRoleAssertion": {
+            "type": "boolean",
+            "title": "id_token_role_assertion",
+            "nullable": true
+          },
+          "idTokenUserinfoAssertion": {
+            "type": "boolean",
+            "title": "id_token_userinfo_assertion",
+            "nullable": true
+          },
+          "clockSkew": {
+            "title": "clock_skew",
+            "nullable": true,
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "additionalOrigins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "additional_origins"
+          },
+          "skipNativeAppSuccessPage": {
+            "type": "boolean",
+            "title": "skip_native_app_success_page",
+            "nullable": true
+          },
+          "backChannelLogoutUri": {
+            "type": "string",
+            "title": "back_channel_logout_uri",
+            "nullable": true
+          },
+          "loginVersion": {
+            "title": "login_version",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.app.v2beta.LoginVersion"
+          }
+        },
+        "title": "UpdateOIDCApplicationConfigurationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.UpdateSAMLApplicationConfigurationRequest": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "metadataUrl": {
+                "type": "string",
+                "title": "metadata_url"
+              }
+            },
+            "title": "metadata_url",
+            "required": [
+              "metadataUrl"
+            ]
+          },
+          {
+            "properties": {
+              "metadataXml": {
+                "type": "string",
+                "title": "metadata_xml",
+                "format": "byte"
+              }
+            },
+            "title": "metadata_xml",
+            "required": [
+              "metadataXml"
+            ]
+          }
+        ],
+        "properties": {
+          "loginVersion": {
+            "title": "login_version",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.app.v2beta.LoginVersion"
+          }
+        },
+        "title": "UpdateSAMLApplicationConfigurationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.PaginationRequest": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "offset",
+            "format": "int64",
+            "description": "Starting point for retrieval, in combination of offset used to query a set list of objects."
+          },
+          "limit": {
+            "type": "integer",
+            "title": "limit",
+            "description": "limit is the maximum amount of objects returned. The default is set to 100\n with a maximum of 1000 in the runtime configuration.\n If the limit exceeds the maximum configured Zitadel will throw an error.\n If no limit is present the default is taken."
+          },
+          "asc": {
+            "type": "boolean",
+            "title": "asc",
+            "description": "Asc is the sorting order. If true the list is sorted ascending, if false\n the list is sorted descending. The default is descending."
+          }
+        },
+        "title": "PaginationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.PaginationResponse": {
+        "type": "object",
+        "properties": {
+          "totalResult": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "total_result",
+            "format": "int64",
+            "description": "Absolute number of objects matching the query, regardless of applied limit."
+          },
+          "appliedLimit": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "applied_limit",
+            "format": "int64",
+            "description": "Applied limit from query, defines maximum amount of objects per request, to compare if all objects are returned."
+          }
+        },
+        "title": "PaginationResponse",
+        "additionalProperties": false
+      },
+      "connect-protocol-version": {
+        "type": "number",
+        "title": "Connect-Protocol-Version",
+        "enum": [
+          1
+        ],
+        "description": "Define the version of the Connect protocol",
+        "const": 1
+      },
+      "connect-timeout-header": {
+        "type": "number",
+        "title": "Connect-Timeout-Ms",
+        "description": "Define the timeout, in ms"
+      },
+      "connect.error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "examples": [
+              "not_found"
+            ],
+            "enum": [
+              "canceled",
+              "unknown",
+              "invalid_argument",
+              "deadline_exceeded",
+              "not_found",
+              "already_exists",
+              "permission_denied",
+              "resource_exhausted",
+              "failed_precondition",
+              "aborted",
+              "out_of_range",
+              "unimplemented",
+              "internal",
+              "unavailable",
+              "data_loss",
+              "unauthenticated"
+            ],
+            "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+          },
+          "message": {
+            "type": "string",
+            "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+          },
+          "detail": {
+            "$ref": "#/components/schemas/google.protobuf.Any"
+          }
+        },
+        "title": "Connect Error",
+        "additionalProperties": true,
+        "description": "Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation"
+      },
+      "google.protobuf.Any": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string",
+            "format": "binary"
+          },
+          "debug": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true,
+        "description": "Contains an arbitrary serialized message along with a @type that describes the type of the serialized message."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "zitadel.app.v2beta.AppService",
+      "description": "Service to manage apps.\n The service provides methods to create, update, delete and list apps and app keys."
+    }
+  ]
+}

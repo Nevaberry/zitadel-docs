@@ -1,0 +1,110 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.settings.v2"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.settings.v2.ResourceOwnerType": {
+        "type": "string",
+        "title": "ResourceOwnerType",
+        "enum": [
+          "RESOURCE_OWNER_TYPE_UNSPECIFIED",
+          "RESOURCE_OWNER_TYPE_INSTANCE",
+          "RESOURCE_OWNER_TYPE_ORG"
+        ]
+      },
+      "zitadel.settings.v2.ThemeMode": {
+        "type": "string",
+        "title": "ThemeMode",
+        "enum": [
+          "THEME_MODE_UNSPECIFIED",
+          "THEME_MODE_AUTO",
+          "THEME_MODE_LIGHT",
+          "THEME_MODE_DARK"
+        ]
+      },
+      "zitadel.settings.v2.BrandingSettings": {
+        "type": "object",
+        "properties": {
+          "lightTheme": {
+            "title": "light_theme",
+            "description": "Theme used for light mode.",
+            "$ref": "#/components/schemas/zitadel.settings.v2.Theme"
+          },
+          "darkTheme": {
+            "title": "dark_theme",
+            "description": "Theme used for dark mode.",
+            "$ref": "#/components/schemas/zitadel.settings.v2.Theme"
+          },
+          "fontUrl": {
+            "type": "string",
+            "title": "font_url",
+            "description": "The url where the font is served."
+          },
+          "hideLoginNameSuffix": {
+            "type": "boolean",
+            "title": "hide_login_name_suffix",
+            "description": "If enabled, the organization suffix will be hidden on the login form if the scope \\\"urn:zitadel:iam:org:domain:primary:{domainname}\\\" is used."
+          },
+          "disableWatermark": {
+            "type": "boolean",
+            "title": "disable_watermark",
+            "description": "If enabled, the Zitadel logo will not be displayed on the login screen."
+          },
+          "resourceOwnerType": {
+            "title": "resource_owner_type",
+            "description": "ResourceOwnerType returns if the setting is managed on the organization explicitly or\n fell back on the instance settings.",
+            "$ref": "#/components/schemas/zitadel.settings.v2.ResourceOwnerType"
+          },
+          "themeMode": {
+            "title": "theme_mode",
+            "description": "States which themes will be used. If auto is selected, the theme will be changed based on the users system preferences.\n You can also choose to only allow dark or light theme.",
+            "$ref": "#/components/schemas/zitadel.settings.v2.ThemeMode"
+          }
+        },
+        "title": "BrandingSettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2.Theme": {
+        "type": "object",
+        "properties": {
+          "primaryColor": {
+            "type": "string",
+            "title": "primary_color",
+            "description": "The hex value for primary color."
+          },
+          "backgroundColor": {
+            "type": "string",
+            "title": "background_color",
+            "description": "The hex value for background color."
+          },
+          "warnColor": {
+            "type": "string",
+            "title": "warn_color",
+            "description": "The hex value for warning color."
+          },
+          "fontColor": {
+            "type": "string",
+            "title": "font_color",
+            "description": "The value for font color."
+          },
+          "logoUrl": {
+            "type": "string",
+            "title": "logo_url",
+            "description": "The URL where the logo is served."
+          },
+          "iconUrl": {
+            "type": "string",
+            "title": "icon_url",
+            "description": "The URL where the icon is served."
+          }
+        },
+        "title": "Theme",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

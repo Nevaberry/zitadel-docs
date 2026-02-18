@@ -1,0 +1,509 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.project.v2beta"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.filter.v2beta.TextFilterMethod": {
+        "type": "string",
+        "title": "TextFilterMethod",
+        "enum": [
+          "TEXT_FILTER_METHOD_EQUALS",
+          "TEXT_FILTER_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_STARTS_WITH",
+          "TEXT_FILTER_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_CONTAINS",
+          "TEXT_FILTER_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_ENDS_WITH",
+          "TEXT_FILTER_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      },
+      "zitadel.project.v2beta.GrantedProjectState": {
+        "type": "string",
+        "title": "GrantedProjectState",
+        "enum": [
+          "GRANTED_PROJECT_STATE_UNSPECIFIED",
+          "GRANTED_PROJECT_STATE_ACTIVE",
+          "GRANTED_PROJECT_STATE_INACTIVE"
+        ]
+      },
+      "zitadel.project.v2beta.PrivateLabelingSetting": {
+        "type": "string",
+        "title": "PrivateLabelingSetting",
+        "enum": [
+          "PRIVATE_LABELING_SETTING_UNSPECIFIED",
+          "PRIVATE_LABELING_SETTING_ENFORCE_PROJECT_RESOURCE_OWNER_POLICY",
+          "PRIVATE_LABELING_SETTING_ALLOW_LOGIN_USER_RESOURCE_OWNER_POLICY"
+        ]
+      },
+      "zitadel.project.v2beta.ProjectFieldName": {
+        "type": "string",
+        "title": "ProjectFieldName",
+        "enum": [
+          "PROJECT_FIELD_NAME_UNSPECIFIED",
+          "PROJECT_FIELD_NAME_ID",
+          "PROJECT_FIELD_NAME_CREATION_DATE",
+          "PROJECT_FIELD_NAME_CHANGE_DATE",
+          "PROJECT_FIELD_NAME_NAME"
+        ]
+      },
+      "zitadel.project.v2beta.ProjectGrantFieldName": {
+        "type": "string",
+        "title": "ProjectGrantFieldName",
+        "enum": [
+          "PROJECT_GRANT_FIELD_NAME_UNSPECIFIED",
+          "PROJECT_GRANT_FIELD_NAME_PROJECT_ID",
+          "PROJECT_GRANT_FIELD_NAME_CREATION_DATE",
+          "PROJECT_GRANT_FIELD_NAME_CHANGE_DATE"
+        ]
+      },
+      "zitadel.project.v2beta.ProjectGrantState": {
+        "type": "string",
+        "title": "ProjectGrantState",
+        "enum": [
+          "PROJECT_GRANT_STATE_UNSPECIFIED",
+          "PROJECT_GRANT_STATE_ACTIVE",
+          "PROJECT_GRANT_STATE_INACTIVE"
+        ]
+      },
+      "zitadel.project.v2beta.ProjectRoleFieldName": {
+        "type": "string",
+        "title": "ProjectRoleFieldName",
+        "enum": [
+          "PROJECT_ROLE_FIELD_NAME_UNSPECIFIED",
+          "PROJECT_ROLE_FIELD_NAME_KEY",
+          "PROJECT_ROLE_FIELD_NAME_CREATION_DATE",
+          "PROJECT_ROLE_FIELD_NAME_CHANGE_DATE"
+        ]
+      },
+      "zitadel.project.v2beta.ProjectState": {
+        "type": "string",
+        "title": "ProjectState",
+        "enum": [
+          "PROJECT_STATE_UNSPECIFIED",
+          "PROJECT_STATE_ACTIVE",
+          "PROJECT_STATE_INACTIVE"
+        ]
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "1s",
+          "1.000340012s"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.filter.v2beta.IDFilter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Only return resources that belong to this id."
+          }
+        },
+        "title": "IDFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2beta.InIDsFilter": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ids",
+            "description": "Defines the ids to query for."
+          }
+        },
+        "title": "InIDsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2beta.Project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "The unique identifier of the project."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "The unique identifier of the organization the project belongs to."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the project creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the last change to the project (e.g. creation, activation, deactivation).",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "The name of the project."
+          },
+          "state": {
+            "title": "state",
+            "description": "Describes the current state of the project.",
+            "$ref": "#/components/schemas/zitadel.project.v2beta.ProjectState"
+          },
+          "projectRoleAssertion": {
+            "type": "boolean",
+            "title": "project_role_assertion",
+            "description": "Describes if the roles of the user should be added to the token."
+          },
+          "authorizationRequired": {
+            "type": "boolean",
+            "title": "authorization_required",
+            "description": "When enabled, ZITADEL will check if a user has appropriate role assignments to use this project when they log into an application of this project."
+          },
+          "projectAccessRequired": {
+            "type": "boolean",
+            "title": "project_access_required",
+            "description": "When enabled, ZITADEL will check if the organization of the user, that is trying to log in, has access to this project (either owns the project or is granted)."
+          },
+          "privateLabelingSetting": {
+            "title": "private_labeling_setting",
+            "description": "Defines from where the private labeling should be triggered.",
+            "$ref": "#/components/schemas/zitadel.project.v2beta.PrivateLabelingSetting"
+          },
+          "grantedOrganizationId": {
+            "type": "string",
+            "title": "granted_organization_id",
+            "description": "The ID of the organization the project is granted to.",
+            "nullable": true
+          },
+          "grantedOrganizationName": {
+            "type": "string",
+            "title": "granted_organization_name",
+            "description": "The name of the organization the project is granted to.",
+            "nullable": true
+          },
+          "grantedState": {
+            "title": "granted_state",
+            "description": "Describes the current state of the granted project.",
+            "$ref": "#/components/schemas/zitadel.project.v2beta.GrantedProjectState"
+          }
+        },
+        "title": "Project",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2beta.ProjectGrant": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "The unique identifier of the organization which granted the project to the granted_organization_id."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the granted project creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the last change to the granted project (e.g. creation, activation, deactivation).",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "grantedOrganizationId": {
+            "type": "string",
+            "title": "granted_organization_id",
+            "description": "The ID of the organization the project is granted to."
+          },
+          "grantedOrganizationName": {
+            "type": "string",
+            "title": "granted_organization_name",
+            "description": "The name of the organization the project is granted to."
+          },
+          "grantedRoleKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "granted_role_keys",
+            "description": "The roles of the granted project."
+          },
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "The ID of the granted project."
+          },
+          "projectName": {
+            "type": "string",
+            "title": "project_name",
+            "description": "The name of the granted project."
+          },
+          "state": {
+            "title": "state",
+            "description": "Describes the current state of the granted project.",
+            "$ref": "#/components/schemas/zitadel.project.v2beta.ProjectGrantState"
+          }
+        },
+        "title": "ProjectGrant",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2beta.ProjectGrantSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "inProjectIdsFilter": {
+                "title": "in_project_ids_filter",
+                "$ref": "#/components/schemas/zitadel.filter.v2beta.InIDsFilter"
+              }
+            },
+            "title": "in_project_ids_filter",
+            "required": [
+              "inProjectIdsFilter"
+            ]
+          },
+          {
+            "properties": {
+              "projectGrantResourceOwnerFilter": {
+                "title": "project_grant_resource_owner_filter",
+                "$ref": "#/components/schemas/zitadel.filter.v2beta.IDFilter"
+              }
+            },
+            "title": "project_grant_resource_owner_filter",
+            "required": [
+              "projectGrantResourceOwnerFilter"
+            ]
+          },
+          {
+            "properties": {
+              "projectNameFilter": {
+                "title": "project_name_filter",
+                "$ref": "#/components/schemas/zitadel.project.v2beta.ProjectNameFilter"
+              }
+            },
+            "title": "project_name_filter",
+            "required": [
+              "projectNameFilter"
+            ]
+          },
+          {
+            "properties": {
+              "projectResourceOwnerFilter": {
+                "title": "project_resource_owner_filter",
+                "$ref": "#/components/schemas/zitadel.filter.v2beta.IDFilter"
+              }
+            },
+            "title": "project_resource_owner_filter",
+            "required": [
+              "projectResourceOwnerFilter"
+            ]
+          },
+          {
+            "properties": {
+              "roleKeyFilter": {
+                "title": "role_key_filter",
+                "$ref": "#/components/schemas/zitadel.project.v2beta.ProjectRoleKeyFilter"
+              }
+            },
+            "title": "role_key_filter",
+            "required": [
+              "roleKeyFilter"
+            ]
+          }
+        ],
+        "title": "ProjectGrantSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2beta.ProjectNameFilter": {
+        "type": "object",
+        "properties": {
+          "projectName": {
+            "type": "string",
+            "title": "project_name",
+            "description": "Defines the name of the project to query for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the name query.",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.TextFilterMethod"
+          }
+        },
+        "title": "ProjectNameFilter",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2beta.ProjectRole": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ID of the project."
+          },
+          "key": {
+            "type": "string",
+            "title": "key",
+            "description": "Key of the project role."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the project role creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the last change to the project role.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name",
+            "description": "Display name of the project role."
+          },
+          "group": {
+            "type": "string",
+            "title": "group",
+            "description": "Group of the project role."
+          }
+        },
+        "title": "ProjectRole",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2beta.ProjectRoleDisplayNameFilter": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the name query.",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.TextFilterMethod"
+          }
+        },
+        "title": "ProjectRoleDisplayNameFilter",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2beta.ProjectRoleKeyFilter": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the name query.",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.TextFilterMethod"
+          }
+        },
+        "title": "ProjectRoleKeyFilter",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2beta.ProjectRoleSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "displayNameFilter": {
+                "title": "display_name_filter",
+                "$ref": "#/components/schemas/zitadel.project.v2beta.ProjectRoleDisplayNameFilter"
+              }
+            },
+            "title": "display_name_filter",
+            "required": [
+              "displayNameFilter"
+            ]
+          },
+          {
+            "properties": {
+              "roleKeyFilter": {
+                "title": "role_key_filter",
+                "$ref": "#/components/schemas/zitadel.project.v2beta.ProjectRoleKeyFilter"
+              }
+            },
+            "title": "role_key_filter",
+            "required": [
+              "roleKeyFilter"
+            ]
+          }
+        ],
+        "title": "ProjectRoleSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2beta.ProjectSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "inProjectIdsFilter": {
+                "title": "in_project_ids_filter",
+                "$ref": "#/components/schemas/zitadel.filter.v2beta.InIDsFilter"
+              }
+            },
+            "title": "in_project_ids_filter",
+            "required": [
+              "inProjectIdsFilter"
+            ]
+          },
+          {
+            "properties": {
+              "projectGrantResourceOwnerFilter": {
+                "title": "project_grant_resource_owner_filter",
+                "$ref": "#/components/schemas/zitadel.filter.v2beta.IDFilter"
+              }
+            },
+            "title": "project_grant_resource_owner_filter",
+            "required": [
+              "projectGrantResourceOwnerFilter"
+            ]
+          },
+          {
+            "properties": {
+              "projectNameFilter": {
+                "title": "project_name_filter",
+                "$ref": "#/components/schemas/zitadel.project.v2beta.ProjectNameFilter"
+              }
+            },
+            "title": "project_name_filter",
+            "required": [
+              "projectNameFilter"
+            ]
+          },
+          {
+            "properties": {
+              "projectOrganizationIdFilter": {
+                "title": "project_organization_id_filter",
+                "$ref": "#/components/schemas/zitadel.filter.v2beta.IDFilter"
+              }
+            },
+            "title": "project_organization_id_filter",
+            "required": [
+              "projectOrganizationIdFilter"
+            ]
+          },
+          {
+            "properties": {
+              "projectResourceOwnerFilter": {
+                "title": "project_resource_owner_filter",
+                "$ref": "#/components/schemas/zitadel.filter.v2beta.IDFilter"
+              }
+            },
+            "title": "project_resource_owner_filter",
+            "required": [
+              "projectResourceOwnerFilter"
+            ]
+          }
+        ],
+        "title": "ProjectSearchFilter",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

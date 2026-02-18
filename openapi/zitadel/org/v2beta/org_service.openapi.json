@@ -1,0 +1,2291 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.org.v2beta"
+  },
+  "paths": {
+    "/v2beta/organizations": {
+      "post": {
+        "tags": [
+          "zitadel.org.v2beta.OrganizationService"
+        ],
+        "summary": "CreateOrganization",
+        "description": "Create Organization\n\n Create a new organization with an administrative user. If no specific roles are sent for the users, they will be granted the role ORG_OWNER.\n\n Required permission:\n  - `org.create`\n\n Deprecated: Use [AddOrganization](/docs/reference/api/org/zitadel.org.v2.OrganizationService.AddOrganization) instead to create an organization.",
+        "operationId": "zitadel.org.v2beta.OrganizationService.CreateOrganization",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.org.v2beta.CreateOrganizationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.org.v2beta.CreateOrganizationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/organizations/{id}": {
+      "post": {
+        "tags": [
+          "zitadel.org.v2beta.OrganizationService"
+        ],
+        "summary": "UpdateOrganization",
+        "description": "Update Organization\n\n Deprecated: please move to the corresponding endpoint under organization service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Change the name of the organization.\n\n Required permission:\n  - `org.write`",
+        "operationId": "zitadel.org.v2beta.OrganizationService.UpdateOrganization",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Organization Id for the Organization to be updated",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "id",
+              "description": "Organization Id for the Organization to be updated"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "title": "name",
+                    "description": "New Name for the Organization to be updated"
+                  }
+                },
+                "title": "UpdateOrganizationRequest",
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.org.v2beta.UpdateOrganizationResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "zitadel.org.v2beta.OrganizationService"
+        ],
+        "summary": "DeleteOrganization",
+        "description": "Delete Organization\n\n Deprecated: please move to the corresponding endpoint under organization service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Deletes the organization and all its resources (Users, Projects, Grants to and from the org). Users of this organization will not be able to log in.\n\n Required permission:\n  - `org.delete`",
+        "operationId": "zitadel.org.v2beta.OrganizationService.DeleteOrganization",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Organization Id for the Organization to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "id",
+              "description": "Organization Id for the Organization to be deleted"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.org.v2beta.DeleteOrganizationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/organizations/search": {
+      "post": {
+        "tags": [
+          "zitadel.org.v2beta.OrganizationService"
+        ],
+        "summary": "ListOrganizations",
+        "description": "List Organizations\n\n Deprecated: please move to the corresponding endpoint under organization service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Returns a list of organizations that match the requesting filters. All filters are applied with an AND condition.\n\n Required permission:\n  - `org.read`\n\n Deprecated: Use [ListOrganizations](/docs/reference/api/org/zitadel.org.v2.OrganizationService.ListOrganizations) instead to list organizations.",
+        "operationId": "zitadel.org.v2beta.OrganizationService.ListOrganizations",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.org.v2beta.ListOrganizationsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.org.v2beta.ListOrganizationsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/organizations/{organization_id}/metadata": {
+      "post": {
+        "tags": [
+          "zitadel.org.v2beta.OrganizationService"
+        ],
+        "summary": "SetOrganizationMetadata",
+        "description": "Set Organization Metadata\n\n Deprecated: please move to the corresponding endpoint under organization service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Adds or updates a metadata value for the requested key. Make sure the value is base64 encoded.\n\n Required permission:\n  - `org.write`",
+        "operationId": "zitadel.org.v2beta.OrganizationService.SetOrganizationMetadata",
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "description": "Organization Id for the Organization doman to be verified.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "organization_id",
+              "description": "Organization Id for the Organization doman to be verified."
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "metadata": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/zitadel.org.v2beta.Metadata"
+                    },
+                    "title": "metadata",
+                    "description": "Metadata to set."
+                  }
+                },
+                "title": "SetOrganizationMetadataRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.org.v2beta.SetOrganizationMetadataResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "zitadel.org.v2beta.OrganizationService"
+        ],
+        "summary": "DeleteOrganizationMetadata",
+        "description": "Delete Organization Metadata\n\n Deprecated: please move to the corresponding endpoint under organization service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Delete metadata objects from an organization with a specific key.\n\n Required permission:\n  - `org.write`",
+        "operationId": "zitadel.org.v2beta.OrganizationService.DeleteOrganizationMetadata",
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "description": "Organization ID of Orgalization which metadata is to be deleted is stored on.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "organization_id",
+              "description": "Organization ID of Orgalization which metadata is to be deleted is stored on."
+            }
+          },
+          {
+            "name": "keys",
+            "in": "query",
+            "description": "The keys for the Organization metadata to be deleted.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "title": "keys",
+              "description": "The keys for the Organization metadata to be deleted."
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.org.v2beta.DeleteOrganizationMetadataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/organizations/{organization_id}/metadata/search": {
+      "post": {
+        "tags": [
+          "zitadel.org.v2beta.OrganizationService"
+        ],
+        "summary": "ListOrganizationMetadata",
+        "description": "List Organization Metadata\n\n Deprecated: please move to the corresponding endpoint under organization service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n List metadata of an organization filtered by query.\n\n Required permission:\n  - `org.read`",
+        "operationId": "zitadel.org.v2beta.OrganizationService.ListOrganizationMetadata",
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "description": "Organization ID of Orgalization which metadata is to be listed.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "organization_id",
+              "description": "Organization ID of Orgalization which metadata is to be listed."
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pagination": {
+                    "title": "pagination",
+                    "description": "List limitations and ordering.",
+                    "nullable": true,
+                    "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationRequest"
+                  },
+                  "filter": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/zitadel.metadata.v2beta.MetadataQuery"
+                    },
+                    "title": "filter",
+                    "description": "Define the criteria to query for."
+                  }
+                },
+                "title": "ListOrganizationMetadataRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.org.v2beta.ListOrganizationMetadataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/organizations/{organization_id}/domains": {
+      "post": {
+        "tags": [
+          "zitadel.org.v2beta.OrganizationService"
+        ],
+        "summary": "AddOrganizationDomain",
+        "description": "Add Organization Domain\n\n Deprecated: please move to the corresponding endpoint under organization service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Add a new domain to an organization. The domains are used to identify to which organization a user belongs.\n\n Required permission:\n  - `org.write`",
+        "operationId": "zitadel.org.v2beta.OrganizationService.AddOrganizationDomain",
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "description": "Organization Id for the Organization for which the domain is to be added to.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "organization_id",
+              "description": "Organization Id for the Organization for which the domain is to be added to."
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "title": "domain",
+                    "description": "The domain you want to add to the organization."
+                  }
+                },
+                "title": "AddOrganizationDomainRequest",
+                "required": [
+                  "domain"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.org.v2beta.AddOrganizationDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "zitadel.org.v2beta.OrganizationService"
+        ],
+        "summary": "DeleteOrganizationDomain",
+        "description": "Delete Organization Domain\n\n Deprecated: please move to the corresponding endpoint under organization service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Delete a new domain from an organization. The domains are used to identify to which organization a user belongs. If the uses use the domain for login, this will not be possible afterwards. They have to use another domain instead.\n\n Required permission:\n  - `org.write`",
+        "operationId": "zitadel.org.v2beta.OrganizationService.DeleteOrganizationDomain",
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "description": "Organization Id for the Organization which domain is to be deleted.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "organization_id",
+              "description": "Organization Id for the Organization which domain is to be deleted."
+            }
+          },
+          {
+            "name": "domain",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "domain"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.org.v2beta.DeleteOrganizationDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/organizations/{organization_id}/domains/search": {
+      "post": {
+        "tags": [
+          "zitadel.org.v2beta.OrganizationService"
+        ],
+        "summary": "ListOrganizationDomains",
+        "description": "List Organization Domains\n\n Deprecated: please move to the corresponding endpoint under organization service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Returns the list of registered domains of an organization. The domains are used to identify to which organization a user belongs. \n\n Required permission:\n  - `org.read`",
+        "operationId": "zitadel.org.v2beta.OrganizationService.ListOrganizationDomains",
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "description": "Organization Id for the Organization which domains are to be listed.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "organization_id",
+              "description": "Organization Id for the Organization which domains are to be listed."
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pagination": {
+                    "title": "pagination",
+                    "description": "List limitations and ordering.",
+                    "nullable": true,
+                    "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationRequest"
+                  },
+                  "filters": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/zitadel.org.v2beta.DomainSearchFilter"
+                    },
+                    "title": "filters",
+                    "description": "Define the criteria to query for."
+                  }
+                },
+                "title": "ListOrganizationDomainsRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.org.v2beta.ListOrganizationDomainsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/organizations/{organization_id}/domains/validation/generate": {
+      "post": {
+        "tags": [
+          "zitadel.org.v2beta.OrganizationService"
+        ],
+        "summary": "GenerateOrganizationDomainValidation",
+        "description": "Generate Organization Domain Validation\n\n Deprecated: please move to the corresponding endpoint under organization service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Generate a new file to be able to verify your domain with DNS or HTTP challenge.\n\n Required permission:\n  - `org.write`",
+        "operationId": "zitadel.org.v2beta.OrganizationService.GenerateOrganizationDomainValidation",
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "description": "Organization Id for the Organization which doman to be validated.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "organization_id",
+              "description": "Organization Id for the Organization which doman to be validated."
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "title": "domain",
+                    "description": "The domain which to be deleted."
+                  },
+                  "type": {
+                    "title": "type",
+                    "$ref": "#/components/schemas/zitadel.org.v2beta.DomainValidationType"
+                  }
+                },
+                "title": "GenerateOrganizationDomainValidationRequest",
+                "required": [
+                  "domain"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.org.v2beta.GenerateOrganizationDomainValidationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/organizations/{organization_id}/domains/validation/verify": {
+      "post": {
+        "tags": [
+          "zitadel.org.v2beta.OrganizationService"
+        ],
+        "summary": "VerifyOrganizationDomain",
+        "description": "Verify Organization Domain\n\n Deprecated: please move to the corresponding endpoint under organization service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Make sure you have added the required verification to your domain, depending on the method you have chosen (HTTP or DNS challenge). Zitadel will check it and set the domain as verified if it was successful. A verify domain has to be unique.\n\n Required permission:\n  - `org.write`",
+        "operationId": "zitadel.org.v2beta.OrganizationService.VerifyOrganizationDomain",
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "description": "Organization Id for the Organization doman to be verified.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "organization_id",
+              "description": "Organization Id for the Organization doman to be verified."
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domain": {
+                    "type": "string",
+                    "title": "domain",
+                    "description": "Organization Id for the Organization doman to be verified."
+                  }
+                },
+                "title": "VerifyOrganizationDomainRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.org.v2beta.VerifyOrganizationDomainResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/organizations/{id}/deactivate": {
+      "post": {
+        "tags": [
+          "zitadel.org.v2beta.OrganizationService"
+        ],
+        "summary": "DeactivateOrganization",
+        "description": "Deactivate Organization\n\n Deprecated: please move to the corresponding endpoint under organization service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Sets the state of my organization to deactivated. Users of this organization will not be able to log in.\n\n Required permission:\n  - `org.write`",
+        "operationId": "zitadel.org.v2beta.OrganizationService.DeactivateOrganization",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Organization Id for the Organization to be deactivated",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "id",
+              "description": "Organization Id for the Organization to be deactivated"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.org.v2beta.DeactivateOrganizationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/organizations/{id}/activate": {
+      "post": {
+        "tags": [
+          "zitadel.org.v2beta.OrganizationService"
+        ],
+        "summary": "ActivateOrganization",
+        "description": "Activate Organization\n\n Deprecated: please move to the corresponding endpoint under organization service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Set the state of my organization to active. The state of the organization has to be deactivated to perform the request. Users of this organization will be able to log in again.\n\n Required permission:\n  - `org.write`",
+        "operationId": "zitadel.org.v2beta.OrganizationService.ActivateOrganization",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Organization Id for the Organization to be activated",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "id",
+              "description": "Organization Id for the Organization to be activated"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.org.v2beta.ActivateOrganizationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "zitadel.object.v2beta.TextQueryMethod": {
+        "type": "string",
+        "title": "TextQueryMethod",
+        "enum": [
+          "TEXT_QUERY_METHOD_EQUALS",
+          "TEXT_QUERY_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_STARTS_WITH",
+          "TEXT_QUERY_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_CONTAINS",
+          "TEXT_QUERY_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_ENDS_WITH",
+          "TEXT_QUERY_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      },
+      "zitadel.org.v2beta.DomainValidationType": {
+        "type": "string",
+        "title": "DomainValidationType",
+        "enum": [
+          "DOMAIN_VALIDATION_TYPE_UNSPECIFIED",
+          "DOMAIN_VALIDATION_TYPE_HTTP",
+          "DOMAIN_VALIDATION_TYPE_DNS"
+        ],
+        "description": "from proto/zitadel/org.proto"
+      },
+      "zitadel.org.v2beta.OrgFieldName": {
+        "type": "string",
+        "title": "OrgFieldName",
+        "enum": [
+          "ORG_FIELD_NAME_UNSPECIFIED",
+          "ORG_FIELD_NAME_NAME",
+          "ORG_FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.org.v2beta.OrgState": {
+        "type": "string",
+        "title": "OrgState",
+        "enum": [
+          "ORG_STATE_UNSPECIFIED",
+          "ORG_STATE_ACTIVE",
+          "ORG_STATE_INACTIVE",
+          "ORG_STATE_REMOVED"
+        ]
+      },
+      "zitadel.user.v2beta.Gender": {
+        "type": "string",
+        "title": "Gender",
+        "enum": [
+          "GENDER_UNSPECIFIED",
+          "GENDER_FEMALE",
+          "GENDER_MALE",
+          "GENDER_DIVERSE"
+        ]
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "1s",
+          "1.000340012s"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.filter.v2beta.PaginationRequest": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "offset",
+            "format": "int64",
+            "description": "Starting point for retrieval, in combination of offset used to query a set list of objects."
+          },
+          "limit": {
+            "type": "integer",
+            "title": "limit",
+            "description": "limit is the maximum amount of objects returned. The default is set to 100\n with a maximum of 1000 in the runtime configuration.\n If the limit exceeds the maximum configured Zitadel will throw an error.\n If no limit is present the default is taken."
+          },
+          "asc": {
+            "type": "boolean",
+            "title": "asc",
+            "description": "Asc is the sorting order. If true the list is sorted ascending, if false\n the list is sorted descending. The default is descending."
+          }
+        },
+        "title": "PaginationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2beta.PaginationResponse": {
+        "type": "object",
+        "properties": {
+          "totalResult": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "total_result",
+            "format": "int64",
+            "description": "Absolute number of objects matching the query, regardless of applied limit."
+          },
+          "appliedLimit": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "applied_limit",
+            "format": "int64",
+            "description": "Applied limit from query, defines maximum amount of objects per request, to compare if all objects are returned."
+          }
+        },
+        "title": "PaginationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.metadata.v2beta.Metadata": {
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "title": "creation_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "type": "string",
+            "title": "value",
+            "format": "byte"
+          }
+        },
+        "title": "Metadata",
+        "additionalProperties": false
+      },
+      "zitadel.metadata.v2beta.MetadataKeyQuery": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.TextQueryMethod"
+          }
+        },
+        "title": "MetadataKeyQuery",
+        "additionalProperties": false
+      },
+      "zitadel.metadata.v2beta.MetadataQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "keyQuery": {
+                "title": "key_query",
+                "$ref": "#/components/schemas/zitadel.metadata.v2beta.MetadataKeyQuery"
+              }
+            },
+            "title": "key_query",
+            "required": [
+              "keyQuery"
+            ]
+          }
+        ],
+        "title": "MetadataQuery",
+        "additionalProperties": false
+      },
+      "zitadel.object.v2beta.Organization": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "orgDomain": {
+                "type": "string",
+                "title": "org_domain"
+              }
+            },
+            "title": "org_domain",
+            "required": [
+              "orgDomain"
+            ]
+          },
+          {
+            "properties": {
+              "orgId": {
+                "type": "string",
+                "title": "org_id"
+              }
+            },
+            "title": "org_id",
+            "required": [
+              "orgId"
+            ]
+          }
+        ],
+        "title": "Organization",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.ActivateOrganizationRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Organization Id for the Organization to be activated"
+          }
+        },
+        "title": "ActivateOrganizationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.ActivateOrganizationResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the activation of the organization.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "ActivateOrganizationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.AddOrganizationDomainRequest": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "Organization Id for the Organization for which the domain is to be added to."
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain",
+            "description": "The domain you want to add to the organization."
+          }
+        },
+        "title": "AddOrganizationDomainRequest",
+        "required": [
+          "organizationId",
+          "domain"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.AddOrganizationDomainResponse": {
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the organization was created.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "AddOrganizationDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.AssignedAdmin": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          }
+        },
+        "title": "AssignedAdmin",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.CreateOrganizationRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "name of the Organization to be created."
+          },
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Optionally set your own id unique for the organization.",
+            "nullable": true
+          },
+          "admins": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.org.v2beta.CreateOrganizationRequest.Admin"
+            },
+            "title": "admins",
+            "description": "Additional Admins for the Organization."
+          }
+        },
+        "title": "CreateOrganizationRequest",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.CreateOrganizationRequest.Admin": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "human": {
+                "title": "human",
+                "$ref": "#/components/schemas/zitadel.user.v2beta.AddHumanUserRequest"
+              }
+            },
+            "title": "human",
+            "required": [
+              "human"
+            ]
+          },
+          {
+            "properties": {
+              "userId": {
+                "type": "string",
+                "title": "user_id"
+              }
+            },
+            "title": "user_id",
+            "required": [
+              "userId"
+            ]
+          }
+        ],
+        "properties": {
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "roles",
+            "description": "specify Organization Member Roles for the provided user (default is ORG_OWNER if roles are empty)"
+          }
+        },
+        "title": "Admin",
+        "additionalProperties": false,
+        "description": "The Admin for the newly created Organization."
+      },
+      "zitadel.org.v2beta.CreateOrganizationResponse": {
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the organization was created.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Organization ID of the newly created organization."
+          },
+          "organizationAdmins": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.org.v2beta.OrganizationAdmin"
+            },
+            "title": "organization_admins",
+            "description": "The admins created/assigned for the Organization"
+          }
+        },
+        "title": "CreateOrganizationResponse",
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.CreatedAdmin": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          },
+          "emailCode": {
+            "type": "string",
+            "title": "email_code",
+            "nullable": true
+          },
+          "phoneCode": {
+            "type": "string",
+            "title": "phone_code",
+            "nullable": true
+          }
+        },
+        "title": "CreatedAdmin",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.DeactivateOrganizationRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Organization Id for the Organization to be deactivated"
+          }
+        },
+        "title": "DeactivateOrganizationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.DeactivateOrganizationResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the deactivation of the organization.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeactivateOrganizationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.DeleteOrganizationDomainRequest": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "Organization Id for the Organization which domain is to be deleted."
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain"
+          }
+        },
+        "title": "DeleteOrganizationDomainRequest",
+        "required": [
+          "organizationId",
+          "domain"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.DeleteOrganizationDomainResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "description": "The timestamp of the deletion of the organization domain.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeleteOrganizationDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.DeleteOrganizationMetadataRequest": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "Organization ID of Orgalization which metadata is to be deleted is stored on."
+          },
+          "keys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "keys",
+            "description": "The keys for the Organization metadata to be deleted."
+          }
+        },
+        "title": "DeleteOrganizationMetadataRequest",
+        "required": [
+          "organizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.DeleteOrganizationMetadataResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "description": "The timestamp of the deletiion of the organization metadata.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeleteOrganizationMetadataResponse",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.DeleteOrganizationRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Organization Id for the Organization to be deleted"
+          }
+        },
+        "title": "DeleteOrganizationRequest",
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.DeleteOrganizationResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "description": "The timestamp of the deletion of the organization.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeleteOrganizationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.Domain": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "The Organization id."
+          },
+          "domainName": {
+            "type": "string",
+            "title": "domain_name",
+            "description": "The domain name."
+          },
+          "isVerified": {
+            "type": "boolean",
+            "title": "is_verified",
+            "description": "Defines if the domain is verified."
+          },
+          "isPrimary": {
+            "type": "boolean",
+            "title": "is_primary",
+            "description": "Defines if the domain is the primary domain."
+          },
+          "validationType": {
+            "title": "validation_type",
+            "description": "Defines the protocol the domain was validated with.",
+            "$ref": "#/components/schemas/zitadel.org.v2beta.DomainValidationType"
+          }
+        },
+        "title": "Domain",
+        "additionalProperties": false,
+        "description": "from proto/zitadel/org.proto"
+      },
+      "zitadel.org.v2beta.DomainNameFilter": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "The domain."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text equality method is used.",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.TextQueryMethod"
+          }
+        },
+        "title": "DomainNameFilter",
+        "additionalProperties": false,
+        "description": "from proto/zitadel/org.proto"
+      },
+      "zitadel.org.v2beta.DomainSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "domainNameFilter": {
+                "title": "domain_name_filter",
+                "$ref": "#/components/schemas/zitadel.org.v2beta.DomainNameFilter"
+              }
+            },
+            "title": "domain_name_filter",
+            "required": [
+              "domainNameFilter"
+            ]
+          }
+        ],
+        "title": "DomainSearchFilter",
+        "additionalProperties": false,
+        "description": "from proto/zitadel/org.proto"
+      },
+      "zitadel.org.v2beta.GenerateOrganizationDomainValidationRequest": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "Organization Id for the Organization which doman to be validated."
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain",
+            "description": "The domain which to be deleted."
+          },
+          "type": {
+            "title": "type",
+            "$ref": "#/components/schemas/zitadel.org.v2beta.DomainValidationType"
+          }
+        },
+        "title": "GenerateOrganizationDomainValidationRequest",
+        "required": [
+          "organizationId",
+          "domain"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.GenerateOrganizationDomainValidationResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "token",
+            "description": "The token verify domain."
+          },
+          "url": {
+            "type": "string",
+            "title": "url",
+            "description": "URL used to verify the domain."
+          }
+        },
+        "title": "GenerateOrganizationDomainValidationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.ListOrganizationDomainsRequest": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "Organization Id for the Organization which domains are to be listed."
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "List limitations and ordering.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationRequest"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.org.v2beta.DomainSearchFilter"
+            },
+            "title": "filters",
+            "description": "Define the criteria to query for."
+          }
+        },
+        "title": "ListOrganizationDomainsRequest",
+        "required": [
+          "organizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.ListOrganizationDomainsResponse": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "description": "Pagination of the Organizations domain results.",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationResponse"
+          },
+          "domains": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.org.v2beta.Domain"
+            },
+            "title": "domains",
+            "description": "The domains requested."
+          }
+        },
+        "title": "ListOrganizationDomainsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.ListOrganizationMetadataRequest": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "Organization ID of Orgalization which metadata is to be listed."
+          },
+          "pagination": {
+            "title": "pagination",
+            "description": "List limitations and ordering.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationRequest"
+          },
+          "filter": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.metadata.v2beta.MetadataQuery"
+            },
+            "title": "filter",
+            "description": "Define the criteria to query for."
+          }
+        },
+        "title": "ListOrganizationMetadataRequest",
+        "required": [
+          "organizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.ListOrganizationMetadataResponse": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "description": "Pagination of the Organizations metadata results.",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationResponse"
+          },
+          "metadata": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.metadata.v2beta.Metadata"
+            },
+            "title": "metadata",
+            "description": "The Organization metadata requested."
+          }
+        },
+        "title": "ListOrganizationMetadataResponse",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.ListOrganizationsRequest": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "description": "List limitations and ordering.",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationRequest"
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "description": "the field the result is sorted",
+            "$ref": "#/components/schemas/zitadel.org.v2beta.OrgFieldName"
+          },
+          "filter": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.org.v2beta.OrganizationSearchFilter"
+            },
+            "title": "filter",
+            "description": "Define the criteria to query for.\n repeated ProjectRoleQuery filters = 4;"
+          }
+        },
+        "title": "ListOrganizationsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.ListOrganizationsResponse": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "description": "Pagination of the Organizations results",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationResponse"
+          },
+          "organizations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.org.v2beta.Organization"
+            },
+            "title": "organizations",
+            "description": "The Organizations requested"
+          }
+        },
+        "title": "ListOrganizationsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.Metadata": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key",
+            "description": "Key in the metadata key/value pair."
+          },
+          "value": {
+            "type": "string",
+            "title": "value",
+            "format": "byte",
+            "description": "Value in the metadata key/value pair."
+          }
+        },
+        "title": "Metadata",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.OrgDomainFilter": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "title": "domain",
+            "description": "The domain."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text equality method is used.",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.TextQueryMethod"
+          }
+        },
+        "title": "OrgDomainFilter",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.OrgIDFilter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "The Organization id."
+          }
+        },
+        "title": "OrgIDFilter",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.OrgNameFilter": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Organization name."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text equality method is used.",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.TextQueryMethod"
+          }
+        },
+        "title": "OrgNameFilter",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.OrgStateFilter": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "title": "state",
+            "description": "Current state of the organization.",
+            "$ref": "#/components/schemas/zitadel.org.v2beta.OrgState"
+          }
+        },
+        "title": "OrgStateFilter",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.Organization": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Unique identifier of the organization."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the organization was created.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changedDate": {
+            "title": "changed_date",
+            "description": "The timestamp of the verification of the organization domain.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "state": {
+            "title": "state",
+            "description": "Current state of the organization, for example active, inactive and deleted.",
+            "$ref": "#/components/schemas/zitadel.org.v2beta.OrgState"
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Name of the organization."
+          },
+          "primaryDomain": {
+            "type": "string",
+            "title": "primary_domain",
+            "description": "Primary domain used in the organization."
+          }
+        },
+        "title": "Organization",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.OrganizationAdmin": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "assignedAdmin": {
+                "title": "assigned_admin",
+                "$ref": "#/components/schemas/zitadel.org.v2beta.AssignedAdmin"
+              }
+            },
+            "title": "assigned_admin",
+            "required": [
+              "assignedAdmin"
+            ]
+          },
+          {
+            "properties": {
+              "createdAdmin": {
+                "title": "created_admin",
+                "$ref": "#/components/schemas/zitadel.org.v2beta.CreatedAdmin"
+              }
+            },
+            "title": "created_admin",
+            "required": [
+              "createdAdmin"
+            ]
+          }
+        ],
+        "title": "OrganizationAdmin",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.OrganizationSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "domainFilter": {
+                "title": "domain_filter",
+                "$ref": "#/components/schemas/zitadel.org.v2beta.OrgDomainFilter"
+              }
+            },
+            "title": "domain_filter",
+            "required": [
+              "domainFilter"
+            ]
+          },
+          {
+            "properties": {
+              "idFilter": {
+                "title": "id_filter",
+                "$ref": "#/components/schemas/zitadel.org.v2beta.OrgIDFilter"
+              }
+            },
+            "title": "id_filter",
+            "required": [
+              "idFilter"
+            ]
+          },
+          {
+            "properties": {
+              "nameFilter": {
+                "title": "name_filter",
+                "$ref": "#/components/schemas/zitadel.org.v2beta.OrgNameFilter"
+              }
+            },
+            "title": "name_filter",
+            "required": [
+              "nameFilter"
+            ]
+          },
+          {
+            "properties": {
+              "stateFilter": {
+                "title": "state_filter",
+                "$ref": "#/components/schemas/zitadel.org.v2beta.OrgStateFilter"
+              }
+            },
+            "title": "state_filter",
+            "required": [
+              "stateFilter"
+            ]
+          }
+        ],
+        "title": "OrganizationSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.SetOrganizationMetadataRequest": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "Organization Id for the Organization doman to be verified."
+          },
+          "metadata": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.org.v2beta.Metadata"
+            },
+            "title": "metadata",
+            "description": "Metadata to set."
+          }
+        },
+        "title": "SetOrganizationMetadataRequest",
+        "required": [
+          "organizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.SetOrganizationMetadataResponse": {
+        "type": "object",
+        "properties": {
+          "setDate": {
+            "title": "set_date",
+            "description": "The timestamp of the update of the organization metadata.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "SetOrganizationMetadataResponse",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.UpdateOrganizationRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Organization Id for the Organization to be updated"
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "New Name for the Organization to be updated"
+          }
+        },
+        "title": "UpdateOrganizationRequest",
+        "required": [
+          "id",
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.UpdateOrganizationResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the update to the organization.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "UpdateOrganizationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.VerifyOrganizationDomainRequest": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "Organization Id for the Organization doman to be verified."
+          },
+          "domain": {
+            "type": "string",
+            "title": "domain",
+            "description": "Organization Id for the Organization doman to be verified."
+          }
+        },
+        "title": "VerifyOrganizationDomainRequest",
+        "required": [
+          "organizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2beta.VerifyOrganizationDomainResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the verification of the organization domain.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "VerifyOrganizationDomainResponse",
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.AddHumanUserRequest": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "hashedPassword": {
+                "title": "hashed_password",
+                "$ref": "#/components/schemas/zitadel.user.v2beta.HashedPassword"
+              }
+            },
+            "title": "hashed_password",
+            "required": [
+              "hashedPassword"
+            ]
+          },
+          {
+            "properties": {
+              "password": {
+                "title": "password",
+                "$ref": "#/components/schemas/zitadel.user.v2beta.Password"
+              }
+            },
+            "title": "password",
+            "required": [
+              "password"
+            ]
+          }
+        ],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id",
+            "description": "optionally set your own id unique for the user.",
+            "nullable": true
+          },
+          "username": {
+            "type": "string",
+            "title": "username",
+            "description": "optionally set a unique username, if none is provided the email will be used.",
+            "nullable": true
+          },
+          "organization": {
+            "title": "organization",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.Organization"
+          },
+          "profile": {
+            "title": "profile",
+            "$ref": "#/components/schemas/zitadel.user.v2beta.SetHumanProfile"
+          },
+          "email": {
+            "title": "email",
+            "$ref": "#/components/schemas/zitadel.user.v2beta.SetHumanEmail"
+          },
+          "phone": {
+            "title": "phone",
+            "$ref": "#/components/schemas/zitadel.user.v2beta.SetHumanPhone"
+          },
+          "metadata": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.user.v2beta.SetMetadataEntry"
+            },
+            "title": "metadata"
+          },
+          "idpLinks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.user.v2beta.IDPLink"
+            },
+            "title": "idp_links"
+          },
+          "totpSecret": {
+            "type": "string",
+            "title": "totp_secret",
+            "description": "An Implementation of RFC 6238 is used, with HMAC-SHA-1 and time-step of 30 seconds.\n Currently no other options are supported, and if anything different is used the validation will fail.",
+            "nullable": true
+          }
+        },
+        "title": "AddHumanUserRequest",
+        "required": [
+          "profile",
+          "email"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.HashedPassword": {
+        "type": "object",
+        "properties": {
+          "hash": {
+            "type": "string",
+            "title": "hash"
+          },
+          "changeRequired": {
+            "type": "boolean",
+            "title": "change_required"
+          }
+        },
+        "title": "HashedPassword",
+        "required": [
+          "hash"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.IDPLink": {
+        "type": "object",
+        "properties": {
+          "idpId": {
+            "type": "string",
+            "title": "idp_id"
+          },
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          },
+          "userName": {
+            "type": "string",
+            "title": "user_name"
+          }
+        },
+        "title": "IDPLink",
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.Password": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "title": "password"
+          },
+          "changeRequired": {
+            "type": "boolean",
+            "title": "change_required"
+          }
+        },
+        "title": "Password",
+        "required": [
+          "password"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.ReturnEmailVerificationCode": {
+        "type": "object",
+        "title": "ReturnEmailVerificationCode",
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.ReturnPhoneVerificationCode": {
+        "type": "object",
+        "title": "ReturnPhoneVerificationCode",
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.SendEmailVerificationCode": {
+        "type": "object",
+        "properties": {
+          "urlTemplate": {
+            "type": "string",
+            "title": "url_template",
+            "nullable": true
+          }
+        },
+        "title": "SendEmailVerificationCode",
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.SendPhoneVerificationCode": {
+        "type": "object",
+        "title": "SendPhoneVerificationCode",
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.SetHumanEmail": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "isVerified": {
+                "type": "boolean",
+                "title": "is_verified"
+              }
+            },
+            "title": "is_verified",
+            "required": [
+              "isVerified"
+            ]
+          },
+          {
+            "properties": {
+              "returnCode": {
+                "title": "return_code",
+                "$ref": "#/components/schemas/zitadel.user.v2beta.ReturnEmailVerificationCode"
+              }
+            },
+            "title": "return_code",
+            "required": [
+              "returnCode"
+            ]
+          },
+          {
+            "properties": {
+              "sendCode": {
+                "title": "send_code",
+                "$ref": "#/components/schemas/zitadel.user.v2beta.SendEmailVerificationCode"
+              }
+            },
+            "title": "send_code",
+            "required": [
+              "sendCode"
+            ]
+          }
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "email"
+          }
+        },
+        "title": "SetHumanEmail",
+        "required": [
+          "email"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.SetHumanPhone": {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "isVerified": {
+                "type": "boolean",
+                "title": "is_verified"
+              }
+            },
+            "title": "is_verified",
+            "required": [
+              "isVerified"
+            ]
+          },
+          {
+            "properties": {
+              "returnCode": {
+                "title": "return_code",
+                "$ref": "#/components/schemas/zitadel.user.v2beta.ReturnPhoneVerificationCode"
+              }
+            },
+            "title": "return_code",
+            "required": [
+              "returnCode"
+            ]
+          },
+          {
+            "properties": {
+              "sendCode": {
+                "title": "send_code",
+                "$ref": "#/components/schemas/zitadel.user.v2beta.SendPhoneVerificationCode"
+              }
+            },
+            "title": "send_code",
+            "required": [
+              "sendCode"
+            ]
+          }
+        ],
+        "properties": {
+          "phone": {
+            "type": "string",
+            "title": "phone"
+          }
+        },
+        "title": "SetHumanPhone",
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.SetHumanProfile": {
+        "type": "object",
+        "properties": {
+          "givenName": {
+            "type": "string",
+            "title": "given_name",
+            "description": "The given name is the first name of the user"
+          },
+          "familyName": {
+            "type": "string",
+            "title": "family_name",
+            "description": "The family name is the last name of the user"
+          },
+          "nickName": {
+            "type": "string",
+            "title": "nick_name",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name",
+            "nullable": true
+          },
+          "preferredLanguage": {
+            "type": "string",
+            "title": "preferred_language",
+            "nullable": true
+          },
+          "gender": {
+            "title": "gender",
+            "nullable": true,
+            "$ref": "#/components/schemas/zitadel.user.v2beta.Gender"
+          }
+        },
+        "title": "SetHumanProfile",
+        "required": [
+          "givenName",
+          "familyName"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.SetMetadataEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "type": "string",
+            "title": "value",
+            "format": "byte"
+          }
+        },
+        "title": "SetMetadataEntry",
+        "required": [
+          "key",
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "connect-protocol-version": {
+        "type": "number",
+        "title": "Connect-Protocol-Version",
+        "enum": [
+          1
+        ],
+        "description": "Define the version of the Connect protocol",
+        "const": 1
+      },
+      "connect-timeout-header": {
+        "type": "number",
+        "title": "Connect-Timeout-Ms",
+        "description": "Define the timeout, in ms"
+      },
+      "connect.error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "examples": [
+              "not_found"
+            ],
+            "enum": [
+              "canceled",
+              "unknown",
+              "invalid_argument",
+              "deadline_exceeded",
+              "not_found",
+              "already_exists",
+              "permission_denied",
+              "resource_exhausted",
+              "failed_precondition",
+              "aborted",
+              "out_of_range",
+              "unimplemented",
+              "internal",
+              "unavailable",
+              "data_loss",
+              "unauthenticated"
+            ],
+            "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+          },
+          "message": {
+            "type": "string",
+            "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+          },
+          "detail": {
+            "$ref": "#/components/schemas/google.protobuf.Any"
+          }
+        },
+        "title": "Connect Error",
+        "additionalProperties": true,
+        "description": "Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation"
+      },
+      "google.protobuf.Any": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string",
+            "format": "binary"
+          },
+          "debug": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true,
+        "description": "Contains an arbitrary serialized message along with a @type that describes the type of the serialized message."
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "zitadel.org.v2beta.OrganizationService",
+      "description": "This service is intended to manage organizations in a Zitadel instance.\n\n Deprecated: use organization service v2 instead. This service will be removed in the next major version of ZITADEL."
+    }
+  ]
+}
