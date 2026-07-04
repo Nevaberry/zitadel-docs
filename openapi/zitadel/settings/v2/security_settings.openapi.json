@@ -1,0 +1,49 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.settings.v2"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.settings.v2.EmbeddedIframeSettings": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "title": "enabled",
+            "description": "Enabled states if iframe embedding is enabled or disabled."
+          },
+          "allowedOrigins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "allowed_origins",
+            "description": "AllowedOrigins defines which origins are allowed to embed Zitadel in an iframe."
+          }
+        },
+        "title": "EmbeddedIframeSettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2.SecuritySettings": {
+        "type": "object",
+        "properties": {
+          "embeddedIframe": {
+            "title": "embedded_iframe",
+            "description": "EmbeddedIframeSettings defines if the login UI can be embedded in an iframe\n and which origins are allowed to do so.",
+            "$ref": "#/components/schemas/zitadel.settings.v2.EmbeddedIframeSettings"
+          },
+          "enableImpersonation": {
+            "type": "boolean",
+            "title": "enable_impersonation",
+            "description": "If enabled, users are allowed to impersonate other users.\n The impersonator needs the appropriate `*_IMPERSONATOR` roles assigned as well\"."
+          }
+        },
+        "title": "SecuritySettings",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

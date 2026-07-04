@@ -1,0 +1,401 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.resources.user.v3alpha"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.resources.object.v3alpha.TextFilterMethod": {
+        "type": "string",
+        "title": "TextFilterMethod",
+        "enum": [
+          "TEXT_FILTER_METHOD_EQUALS",
+          "TEXT_FILTER_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_STARTS_WITH",
+          "TEXT_FILTER_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_CONTAINS"
+        ]
+      },
+      "zitadel.resources.user.v3alpha.AndFilter": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SearchFilter"
+            },
+            "title": "queries"
+          }
+        },
+        "title": "AndFilter",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.EmailFilter": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "title": "address",
+            "description": "Defines the email of the user to query for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the email query.",
+            "$ref": "#/components/schemas/zitadel.resources.object.v3alpha.TextFilterMethod"
+          }
+        },
+        "title": "EmailFilter",
+        "required": [
+          "address"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.FieldName": {
+        "type": "string",
+        "title": "FieldName",
+        "enum": [
+          "FIELD_NAME_UNSPECIFIED",
+          "FIELD_NAME_ID",
+          "FIELD_NAME_CREATION_DATE",
+          "FIELD_NAME_CHANGE_DATE",
+          "FIELD_NAME_EMAIL",
+          "FIELD_NAME_PHONE",
+          "FIELD_NAME_STATE",
+          "FIELD_NAME_SCHEMA_ID",
+          "FIELD_NAME_SCHEMA_TYPE"
+        ]
+      },
+      "zitadel.resources.user.v3alpha.NotFilter": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "title": "query",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SearchFilter"
+          }
+        },
+        "title": "NotFilter",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.OrFilter": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SearchFilter"
+            },
+            "title": "queries"
+          }
+        },
+        "title": "OrFilter",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.OrganizationIDFilter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Defines the ID of the organization to query for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the id query.",
+            "$ref": "#/components/schemas/zitadel.resources.object.v3alpha.TextFilterMethod"
+          }
+        },
+        "title": "OrganizationIDFilter",
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.PhoneFilter": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "title": "number",
+            "description": "Defines the phone of the user to query for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the phone query.",
+            "$ref": "#/components/schemas/zitadel.resources.object.v3alpha.TextFilterMethod"
+          }
+        },
+        "title": "PhoneFilter",
+        "required": [
+          "number"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SchemaIDFilter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Defines the ID of the schema to query for."
+          }
+        },
+        "title": "SchemaIDFilter",
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SchemaTypeFilter": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "type",
+            "description": "Defines which type to query for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the type query.",
+            "$ref": "#/components/schemas/zitadel.resources.object.v3alpha.TextFilterMethod"
+          }
+        },
+        "title": "SchemaTypeFilter",
+        "required": [
+          "type"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "andFilter": {
+                "title": "and_filter",
+                "description": "Limit the result to match all sub queries ('AND').\n Note that if you specify multiple queries, they will be implicitly used as andQueries.\n Use the andFilter in combination with orFilter and notFilter.",
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.AndFilter"
+              }
+            },
+            "title": "and_filter",
+            "required": [
+              "andFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "emailFilter": {
+                "title": "email_filter",
+                "description": "Limit the result to a specific contact email.",
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.EmailFilter"
+              }
+            },
+            "title": "email_filter",
+            "required": [
+              "emailFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "notFilter": {
+                "title": "not_filter",
+                "description": "Exclude / Negate the result of the sub query ('NOT').",
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.NotFilter"
+              }
+            },
+            "title": "not_filter",
+            "required": [
+              "notFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "orFilter": {
+                "title": "or_filter",
+                "description": "Union the results of each sub filter ('OR').",
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.OrFilter"
+              }
+            },
+            "title": "or_filter",
+            "required": [
+              "orFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "organizationIdFilter": {
+                "title": "organization_id_filter",
+                "description": "Limit the result to a specific organization.",
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.OrganizationIDFilter"
+              }
+            },
+            "title": "organization_id_filter",
+            "required": [
+              "organizationIdFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "phoneFilter": {
+                "title": "phone_filter",
+                "description": "Limit the result to a specific contact phone.",
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.PhoneFilter"
+              }
+            },
+            "title": "phone_filter",
+            "required": [
+              "phoneFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "schemaIdFilter": {
+                "title": "schema_id_filter",
+                "description": "Limit the result to a specific schema ID.",
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SchemaIDFilter"
+              }
+            },
+            "title": "schema_id_filter",
+            "required": [
+              "schemaIdFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "schemaTypeFilter": {
+                "title": "schema_type_filter",
+                "description": "Limit the result to a specific schema type.",
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SchemaTypeFilter"
+              }
+            },
+            "title": "schema_type_filter",
+            "required": [
+              "schemaTypeFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "stateFilter": {
+                "title": "state_filter",
+                "description": "Limit the result to a specific state of the user.",
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.StateFilter"
+              }
+            },
+            "title": "state_filter",
+            "required": [
+              "stateFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "userIdFilter": {
+                "title": "user_id_filter",
+                "description": "Limit the result to a specific user ID.",
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.UserIDFilter"
+              }
+            },
+            "title": "user_id_filter",
+            "required": [
+              "userIdFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "usernameFilter": {
+                "title": "username_filter",
+                "description": "Limit the result to a specific username.",
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.UsernameFilter"
+              }
+            },
+            "title": "username_filter",
+            "required": [
+              "usernameFilter"
+            ]
+          }
+        ],
+        "title": "SearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.State": {
+        "type": "string",
+        "title": "State",
+        "enum": [
+          "USER_STATE_UNSPECIFIED",
+          "USER_STATE_ACTIVE",
+          "USER_STATE_INACTIVE",
+          "USER_STATE_DELETED",
+          "USER_STATE_LOCKED"
+        ]
+      },
+      "zitadel.resources.user.v3alpha.StateFilter": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "title": "state",
+            "description": "Defines the state to query for.",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.State"
+          }
+        },
+        "title": "StateFilter",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.UserIDFilter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Defines the ID of the user to query for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the id query.",
+            "$ref": "#/components/schemas/zitadel.resources.object.v3alpha.TextFilterMethod"
+          }
+        },
+        "title": "UserIDFilter",
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.UsernameFilter": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "username",
+            "description": "Defines the username to query for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the username query.",
+            "$ref": "#/components/schemas/zitadel.resources.object.v3alpha.TextFilterMethod"
+          },
+          "isOrganizationSpecific": {
+            "type": "boolean",
+            "title": "is_organization_specific",
+            "description": "Defines that the username must only be unique in the organisation."
+          }
+        },
+        "title": "UsernameFilter",
+        "required": [
+          "username"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

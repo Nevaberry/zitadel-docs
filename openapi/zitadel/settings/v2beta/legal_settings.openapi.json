@@ -1,0 +1,61 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.settings.v2beta"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.settings.v2beta.LegalAndSupportSettings": {
+        "type": "object",
+        "properties": {
+          "tosLink": {
+            "type": "string",
+            "title": "tos_link"
+          },
+          "privacyPolicyLink": {
+            "type": "string",
+            "title": "privacy_policy_link"
+          },
+          "helpLink": {
+            "type": "string",
+            "title": "help_link"
+          },
+          "supportEmail": {
+            "type": "string",
+            "title": "support_email"
+          },
+          "resourceOwnerType": {
+            "title": "resource_owner_type",
+            "description": "resource_owner_type returns if the setting is managed on the organization or on the instance",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.ResourceOwnerType"
+          },
+          "docsLink": {
+            "type": "string",
+            "title": "docs_link"
+          },
+          "customLink": {
+            "type": "string",
+            "title": "custom_link"
+          },
+          "customLinkText": {
+            "type": "string",
+            "title": "custom_link_text"
+          }
+        },
+        "title": "LegalAndSupportSettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.ResourceOwnerType": {
+        "type": "string",
+        "title": "ResourceOwnerType",
+        "enum": [
+          "RESOURCE_OWNER_TYPE_UNSPECIFIED",
+          "RESOURCE_OWNER_TYPE_INSTANCE",
+          "RESOURCE_OWNER_TYPE_ORG"
+        ]
+      }
+    }
+  },
+  "security": []
+}

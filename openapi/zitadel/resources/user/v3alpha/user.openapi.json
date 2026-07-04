@@ -1,0 +1,897 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.resources.user.v3alpha"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "google.protobuf.ListValue": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/google.protobuf.Value"
+            },
+            "title": "values",
+            "description": "Repeated field of dynamically typed values."
+          }
+        },
+        "title": "ListValue",
+        "additionalProperties": false,
+        "description": "`ListValue` is a wrapper around a repeated field of values.\n\n The JSON representation for `ListValue` is JSON array."
+      },
+      "google.protobuf.NullValue": {
+        "type": "string",
+        "title": "NullValue",
+        "enum": [
+          "NULL_VALUE"
+        ],
+        "description": "`NullValue` is a singleton enumeration to represent the null value for the\n `Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`."
+      },
+      "google.protobuf.Struct": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/google.protobuf.Value"
+        },
+        "description": "`Struct` represents a structured data value, consisting of fields\n which map to dynamically typed values. In some languages, `Struct`\n might be supported by a native representation. For example, in\n scripting languages like JS a struct is represented as an\n object. The details of that representation are described together\n with the proto support for the language.\n\n The JSON representation for `Struct` is JSON object."
+      },
+      "google.protobuf.Struct.FieldsEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "title": "value",
+            "$ref": "#/components/schemas/google.protobuf.Value"
+          }
+        },
+        "title": "FieldsEntry",
+        "additionalProperties": false
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "google.protobuf.Value": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "array"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true
+          }
+        ],
+        "description": "`Value` represents a dynamically typed value which can be either\n null, a number, a string, a boolean, a recursive struct value, or a\n list of values. A producer of value is expected to set one of these\n variants. Absence of any variant indicates an error.\n\n The JSON representation for `Value` is JSON value."
+      },
+      "zitadel.object.v3alpha.Owner": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "title": "type",
+            "$ref": "#/components/schemas/zitadel.object.v3alpha.OwnerType"
+          },
+          "id": {
+            "type": "string",
+            "title": "id"
+          }
+        },
+        "title": "Owner",
+        "additionalProperties": false
+      },
+      "zitadel.object.v3alpha.OwnerType": {
+        "type": "string",
+        "title": "OwnerType",
+        "enum": [
+          "OWNER_TYPE_UNSPECIFIED",
+          "OWNER_TYPE_SYSTEM",
+          "OWNER_TYPE_INSTANCE",
+          "OWNER_TYPE_ORG"
+        ]
+      },
+      "zitadel.resources.object.v3alpha.Details": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "created": {
+            "title": "created",
+            "description": "the timestamp of the first event applied to the object.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changed": {
+            "title": "changed",
+            "description": "the timestamp of the last event applied to the object.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "owner": {
+            "title": "owner",
+            "description": "the parent object representing the returned objects context.",
+            "$ref": "#/components/schemas/zitadel.object.v3alpha.Owner"
+          }
+        },
+        "title": "Details",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.AuthNKeyType": {
+        "type": "string",
+        "title": "AuthNKeyType",
+        "enum": [
+          "AUTHN_KEY_TYPE_UNSPECIFIED",
+          "AUTHN_KEY_TYPE_JSON"
+        ]
+      },
+      "zitadel.resources.user.v3alpha.AuthenticationKey": {
+        "type": "object",
+        "properties": {
+          "authenticationKeyId": {
+            "type": "string",
+            "title": "authentication_key_id",
+            "description": "ID is the read-only unique identifier of the authentication key."
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.resources.object.v3alpha.Details"
+          },
+          "type": {
+            "title": "type",
+            "description": "the file type of the key",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.AuthNKeyType"
+          },
+          "expirationDate": {
+            "title": "expiration_date",
+            "description": "After the expiration date, the key will no longer be usable for authentication.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "AuthenticationKey",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.Authenticators": {
+        "type": "object",
+        "properties": {
+          "usernames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.Username"
+            },
+            "title": "usernames",
+            "description": "All of the user's usernames, which will be used for identification during authentication."
+          },
+          "password": {
+            "title": "password",
+            "description": "If the user has set a password, the time it was last changed will be returned.",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.Password"
+          },
+          "webAuthN": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.WebAuthN"
+            },
+            "title": "web_auth_n",
+            "description": "Meta information about the user's WebAuthN authenticators."
+          },
+          "totps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.TOTP"
+            },
+            "title": "totps",
+            "description": "A list of the user's TOTP authenticators,\n incl. the name for identification."
+          },
+          "otpSms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.OTPSMS"
+            },
+            "title": "otp_sms",
+            "description": "A list of the user's OTP SMS authenticators."
+          },
+          "otpEmail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.OTPEmail"
+            },
+            "title": "otp_email",
+            "description": "A list of the user's OTP Email authenticators."
+          },
+          "authenticationKeys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.AuthenticationKey"
+            },
+            "title": "authentication_keys",
+            "description": "A list of the user's authentication keys. They can be used to authenticate e.g. by JWT Profile."
+          },
+          "identityProviders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.IdentityProvider"
+            },
+            "title": "identity_providers",
+            "description": "A list of the user's linked identity providers (IDPs)."
+          }
+        },
+        "title": "Authenticators",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.Contact": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "title": "email",
+            "description": "Email contact information of the user.",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.Email"
+          },
+          "phone": {
+            "title": "phone",
+            "description": "Phone contact information of the user.",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.Phone"
+          }
+        },
+        "title": "Contact",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.CreateUser": {
+        "type": "object",
+        "properties": {
+          "schemaId": {
+            "type": "string",
+            "title": "schema_id",
+            "description": "Define the schema the user's data schema by providing it's ID."
+          },
+          "data": {
+            "title": "data",
+            "$ref": "#/components/schemas/google.protobuf.Struct"
+          },
+          "contact": {
+            "title": "contact",
+            "description": "Set the contact information (email, phone) for the user.",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SetContact"
+          },
+          "authenticators": {
+            "title": "authenticators",
+            "description": "Set the initial authenticators of the user.",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SetAuthenticators"
+          },
+          "userId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "user_id",
+            "description": "Optionally set a unique identifier of the user. If unset, Zitadel will take care of it."
+          }
+        },
+        "title": "CreateUser",
+        "required": [
+          "schemaId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.Email": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "title": "address",
+            "description": "Email address of the user."
+          },
+          "isVerified": {
+            "type": "boolean",
+            "title": "is_verified",
+            "description": "IsVerified states if the email address has been verified to belong to the user."
+          }
+        },
+        "title": "Email",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.GetSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "The unique identifier of the user schema."
+          },
+          "type": {
+            "type": "string",
+            "title": "type",
+            "description": "The human readable name of the user schema."
+          },
+          "revision": {
+            "type": "integer",
+            "title": "revision",
+            "description": "The revision the user's data is based on of the revision."
+          }
+        },
+        "title": "GetSchema",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.GetUser": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "description": "Details provide some base information (such as the last change date) of the user.",
+            "$ref": "#/components/schemas/zitadel.resources.object.v3alpha.Details"
+          },
+          "schema": {
+            "title": "schema",
+            "description": "The schema the user and it's data is based on.",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.GetSchema"
+          },
+          "data": {
+            "title": "data",
+            "$ref": "#/components/schemas/google.protobuf.Struct"
+          },
+          "contact": {
+            "title": "contact",
+            "description": "Contact information for the user. Zitadel will use this in case of internal notifications.",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.Contact"
+          },
+          "authenticators": {
+            "title": "authenticators",
+            "description": "The user's authenticators. They are used to identify and authenticate the user\n during the authentication process.",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.Authenticators"
+          },
+          "state": {
+            "title": "state",
+            "description": "State of the user.",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.State"
+          }
+        },
+        "title": "GetUser",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.IdentityProvider": {
+        "type": "object",
+        "properties": {
+          "idpId": {
+            "type": "string",
+            "title": "idp_id",
+            "description": "IDP ID is the read-only unique identifier of the identity provider in ZITADEL."
+          },
+          "idpName": {
+            "type": "string",
+            "title": "idp_name",
+            "description": "IDP name is the name of the identity provider in ZITADEL."
+          },
+          "userId": {
+            "type": "string",
+            "title": "user_id",
+            "description": "The user ID represents the ID provided by the identity provider.\n This ID is used to link the user in Zitadel with the identity provider."
+          },
+          "username": {
+            "type": "string",
+            "title": "username",
+            "description": "The username represents the username provided by the identity provider."
+          }
+        },
+        "title": "IdentityProvider",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.OTPEmail": {
+        "type": "object",
+        "properties": {
+          "otpEmailId": {
+            "type": "string",
+            "title": "otp_email_id",
+            "description": "unique identifier of the OTP Email authenticator."
+          },
+          "address": {
+            "type": "string",
+            "title": "address",
+            "description": "The email address used for the OTP Email authenticator."
+          },
+          "isVerified": {
+            "type": "boolean",
+            "title": "is_verified",
+            "description": "State whether the OTP Email registration has been completed."
+          }
+        },
+        "title": "OTPEmail",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.OTPSMS": {
+        "type": "object",
+        "properties": {
+          "otpSmsId": {
+            "type": "string",
+            "title": "otp_sms_id",
+            "description": "unique identifier of the OTP SMS authenticator."
+          },
+          "phone": {
+            "type": "string",
+            "title": "phone",
+            "description": "The phone number used for the OTP SMS authenticator."
+          },
+          "isVerified": {
+            "type": "boolean",
+            "title": "is_verified",
+            "description": "State whether the OTP SMS registration has been completed."
+          }
+        },
+        "title": "OTPSMS",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.Password": {
+        "type": "object",
+        "properties": {
+          "lastChanged": {
+            "title": "last_changed",
+            "description": "States the time the password was last changed.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "Password",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.PatchUser": {
+        "type": "object",
+        "properties": {
+          "schemaId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "schema_id"
+          },
+          "data": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/google.protobuf.Struct"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "data"
+          },
+          "contact": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SetContact"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "contact",
+            "description": "Set the contact information (email, phone) for the user. TODO: No SetAuthenticators?"
+          }
+        },
+        "title": "PatchUser",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.Phone": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "title": "number",
+            "description": "Phone number of the user."
+          },
+          "isVerified": {
+            "type": "boolean",
+            "title": "is_verified",
+            "description": "IsVerified states if the phone number has been verified to belong to the user."
+          }
+        },
+        "title": "Phone",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.ReturnEmailVerificationCode": {
+        "type": "object",
+        "title": "ReturnEmailVerificationCode",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.ReturnPhoneVerificationCode": {
+        "type": "object",
+        "title": "ReturnPhoneVerificationCode",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SendEmailVerificationCode": {
+        "type": "object",
+        "properties": {
+          "urlTemplate": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "url_template",
+            "description": "Optionally set a url_template, which will be used in the verification mail sent by Zitadel\n to guide the user to your verification page.\n If no template is set, the default Zitadel url will be used."
+          }
+        },
+        "title": "SendEmailVerificationCode",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SendPhoneVerificationCode": {
+        "type": "object",
+        "title": "SendPhoneVerificationCode",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SetAuthenticators": {
+        "type": "object",
+        "properties": {
+          "usernames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SetUsername"
+            },
+            "title": "usernames"
+          },
+          "password": {
+            "title": "password",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SetPassword"
+          }
+        },
+        "title": "SetAuthenticators",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SetContact": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SetEmail"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "email"
+          },
+          "phone": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SetPhone"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "phone"
+          }
+        },
+        "title": "SetContact",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SetEmail": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "address": {
+                "type": "string",
+                "title": "address",
+                "description": "Set the email address."
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "isVerified": {
+                    "type": "boolean",
+                    "title": "is_verified",
+                    "description": "Set the email as already verified."
+                  }
+                },
+                "title": "is_verified",
+                "required": [
+                  "isVerified"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "returnCode": {
+                    "title": "return_code",
+                    "description": "Get the code back to provide it to the user in your preferred mechanism.",
+                    "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.ReturnEmailVerificationCode"
+                  }
+                },
+                "title": "return_code",
+                "required": [
+                  "returnCode"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "sendCode": {
+                    "title": "send_code",
+                    "description": "Let Zitadel send the link to the user via email.",
+                    "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SendEmailVerificationCode"
+                  }
+                },
+                "title": "send_code",
+                "required": [
+                  "sendCode"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "SetEmail",
+        "required": [
+          "address"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SetPassword": {
+        "type": "object",
+        "allOf": [
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "hash": {
+                    "type": "string",
+                    "title": "hash",
+                    "description": "Encoded hash of a password in Modular Crypt Format:\n https://zitadel.com/docs/learn/architecture/secrets#hashed-secrets."
+                  }
+                },
+                "title": "hash",
+                "required": [
+                  "hash"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "title": "password",
+                    "description": "Provide the plain text password. Zitadel will take care to store it in a secure way (hash)."
+                  }
+                },
+                "title": "password",
+                "required": [
+                  "password"
+                ]
+              }
+            ]
+          },
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "currentPassword": {
+                    "type": "string",
+                    "title": "current_password",
+                    "description": "Provide the current password to verify you're allowed to change the password."
+                  }
+                },
+                "title": "current_password",
+                "required": [
+                  "currentPassword"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "verificationCode": {
+                    "type": "string",
+                    "title": "verification_code",
+                    "description": "Or provider the verification code generated during password reset request."
+                  }
+                },
+                "title": "verification_code",
+                "required": [
+                  "verificationCode"
+                ]
+              }
+            ]
+          }
+        ],
+        "properties": {
+          "changeRequired": {
+            "type": "boolean",
+            "title": "change_required",
+            "description": "Provide if the user needs to change the password on the next use."
+          }
+        },
+        "title": "SetPassword",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SetPhone": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "number": {
+                "type": "string",
+                "title": "number",
+                "description": "Set the user's phone number."
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "isVerified": {
+                    "type": "boolean",
+                    "title": "is_verified",
+                    "description": "Set the phone as already verified."
+                  }
+                },
+                "title": "is_verified",
+                "required": [
+                  "isVerified"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "returnCode": {
+                    "title": "return_code",
+                    "description": "Get the code back to provide it to the user in your preferred mechanism.",
+                    "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.ReturnPhoneVerificationCode"
+                  }
+                },
+                "title": "return_code",
+                "required": [
+                  "returnCode"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "sendCode": {
+                    "title": "send_code",
+                    "description": "Let Zitadel send the link to the user via SMS.",
+                    "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SendPhoneVerificationCode"
+                  }
+                },
+                "title": "send_code",
+                "required": [
+                  "sendCode"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "SetPhone",
+        "required": [
+          "number"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SetUsername": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "username",
+            "description": "Set the user's username. This will be used for identification during authentication."
+          },
+          "isOrganizationSpecific": {
+            "type": "boolean",
+            "title": "is_organization_specific",
+            "description": "By default username must be unique across all organizations in an instance.\n This option allow to restrict the uniqueness to the user's own organization.\n As a result, this username can only be used if the authentication is limited\n to the corresponding organization.\n\n This can be useful if you provide multiple usernames for a single user, where one\n if specific to your organization, e.g.:\n - gigi-giraffe@zitadel.com (unique across organizations)\n - gigi-giraffe (unique only inside the Zitadel organization)"
+          }
+        },
+        "title": "SetUsername",
+        "required": [
+          "username"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.State": {
+        "type": "string",
+        "title": "State",
+        "enum": [
+          "USER_STATE_UNSPECIFIED",
+          "USER_STATE_ACTIVE",
+          "USER_STATE_INACTIVE",
+          "USER_STATE_DELETED",
+          "USER_STATE_LOCKED"
+        ]
+      },
+      "zitadel.resources.user.v3alpha.TOTP": {
+        "type": "object",
+        "properties": {
+          "totpId": {
+            "type": "string",
+            "title": "totp_id",
+            "description": "unique identifier of the TOTP authenticator."
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "The name provided during registration. This is used for easier identification."
+          },
+          "isVerified": {
+            "type": "boolean",
+            "title": "is_verified",
+            "description": "State whether the TOTP registration has been completed."
+          }
+        },
+        "title": "TOTP",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.Username": {
+        "type": "object",
+        "properties": {
+          "usernameId": {
+            "type": "string",
+            "title": "username_id",
+            "description": "unique identifier of the username."
+          },
+          "username": {
+            "type": "string",
+            "title": "username",
+            "description": "The user's unique username. It is used for identification during authentication."
+          },
+          "isOrganizationSpecific": {
+            "type": "boolean",
+            "title": "is_organization_specific",
+            "description": "By default usernames must be unique across all organizations in an instance.\n This option allow to restrict the uniqueness to the user's own organization.\n As a result, this username can only be used if the authentication is limited\n to the corresponding organization.\n\n This can be useful if you provide multiple usernames for a single user, where one\n if specific to your organization, e.g.:\n - gigi-giraffe@zitadel.com (unique across organizations)\n - gigi-giraffe (unique only inside the Zitadel organization)"
+          }
+        },
+        "title": "Username",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.WebAuthN": {
+        "type": "object",
+        "properties": {
+          "webAuthNId": {
+            "type": "string",
+            "title": "web_auth_n_id",
+            "description": "unique identifier of the WebAuthN authenticator."
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Name of the WebAuthN authenticator. This is used for easier identification."
+          },
+          "isVerified": {
+            "type": "boolean",
+            "title": "is_verified",
+            "description": "State whether the WebAuthN registration has been completed."
+          },
+          "userVerified": {
+            "type": "boolean",
+            "title": "user_verified",
+            "description": "States if the user has been verified during the registration. Authentication with this device\n will be considered as multi-factor authentication (MFA) without the need to check a password\n (typically known as Passkeys).\n Without user verification it will be a second factor authentication (2FA), typically done\n after a password check.\n\n More on WebAuthN User Verification: https://www.w3.org/TR/webauthn/#user-verification"
+          }
+        },
+        "title": "WebAuthN",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

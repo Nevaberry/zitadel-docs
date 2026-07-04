@@ -1,0 +1,256 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.member.v1"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.member.v1.EmailQuery": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "email"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "EmailQuery",
+        "additionalProperties": false
+      },
+      "zitadel.member.v1.FirstNameQuery": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "title": "first_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "FirstNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.member.v1.LastNameQuery": {
+        "type": "object",
+        "properties": {
+          "lastName": {
+            "type": "string",
+            "title": "last_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "LastNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.member.v1.Member": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "roles"
+          },
+          "preferredLoginName": {
+            "type": "string",
+            "title": "preferred_login_name"
+          },
+          "email": {
+            "type": "string",
+            "title": "email"
+          },
+          "firstName": {
+            "type": "string",
+            "title": "first_name"
+          },
+          "lastName": {
+            "type": "string",
+            "title": "last_name"
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "title": "avatar_url"
+          },
+          "userType": {
+            "title": "user_type",
+            "$ref": "#/components/schemas/zitadel.user.v1.Type"
+          },
+          "userResourceOwner": {
+            "type": "string",
+            "title": "user_resource_owner",
+            "description": "The organization the user belong to."
+          }
+        },
+        "title": "Member",
+        "additionalProperties": false
+      },
+      "zitadel.member.v1.MemberFieldColumnName": {
+        "type": "string",
+        "title": "MemberFieldColumnName",
+        "enum": [
+          "MEMBER_FIELD_NAME_UNSPECIFIED",
+          "MEMBER_FIELD_NAME_USER_ID",
+          "MEMBER_FIELD_NAME_CREATION_DATE",
+          "MEMBER_FIELD_NAME_CHANGE_DATE",
+          "MEMBER_FIELD_NAME_USER_RESOURCE_OWNER"
+        ]
+      },
+      "zitadel.member.v1.SearchQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "emailQuery": {
+                "title": "email_query",
+                "$ref": "#/components/schemas/zitadel.member.v1.EmailQuery"
+              }
+            },
+            "title": "email_query",
+            "required": [
+              "emailQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "firstNameQuery": {
+                "title": "first_name_query",
+                "$ref": "#/components/schemas/zitadel.member.v1.FirstNameQuery"
+              }
+            },
+            "title": "first_name_query",
+            "required": [
+              "firstNameQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "lastNameQuery": {
+                "title": "last_name_query",
+                "$ref": "#/components/schemas/zitadel.member.v1.LastNameQuery"
+              }
+            },
+            "title": "last_name_query",
+            "required": [
+              "lastNameQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "userIdQuery": {
+                "title": "user_id_query",
+                "$ref": "#/components/schemas/zitadel.member.v1.UserIDQuery"
+              }
+            },
+            "title": "user_id_query",
+            "required": [
+              "userIdQuery"
+            ]
+          }
+        ],
+        "title": "SearchQuery",
+        "additionalProperties": false
+      },
+      "zitadel.member.v1.UserIDQuery": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          }
+        },
+        "title": "UserIDQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.Type": {
+        "type": "string",
+        "title": "Type",
+        "enum": [
+          "TYPE_UNSPECIFIED",
+          "TYPE_HUMAN",
+          "TYPE_MACHINE"
+        ]
+      },
+      "zitadel.v1.ObjectDetails": {
+        "type": "object",
+        "properties": {
+          "sequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "sequence",
+            "format": "int64",
+            "description": "sequence represents the order of events. It's always counting\n\n on read: the sequence of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "creation_date is the timestamp where the first operation on the object was made\n\n on read: the timestamp of the first event of the object\n\n on create: the timestamp of the event(s) added by the manipulation",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "change_date is the timestamp when the object was changed\n\n on read: the timestamp of the last event reduced by the projection\n\n on manipulation: the",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "resourceOwner": {
+            "type": "string",
+            "title": "resource_owner",
+            "description": "resource_owner is the organization an object belongs to"
+          }
+        },
+        "title": "ObjectDetails",
+        "additionalProperties": false
+      },
+      "zitadel.v1.TextQueryMethod": {
+        "type": "string",
+        "title": "TextQueryMethod",
+        "enum": [
+          "TEXT_QUERY_METHOD_EQUALS",
+          "TEXT_QUERY_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_STARTS_WITH",
+          "TEXT_QUERY_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_CONTAINS",
+          "TEXT_QUERY_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_ENDS_WITH",
+          "TEXT_QUERY_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      }
+    }
+  },
+  "security": []
+}

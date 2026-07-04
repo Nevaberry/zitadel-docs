@@ -1,0 +1,280 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.group.v2"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.authorization.v2beta.User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID represents the ID of the user who was granted the authorization."
+          },
+          "preferredLoginName": {
+            "type": "string",
+            "title": "preferred_login_name",
+            "description": "PreferredLoginName represents the preferred login name of the granted user."
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name",
+            "description": "DisplayName represents the public display name of the granted user."
+          },
+          "avatarUrl": {
+            "type": "string",
+            "title": "avatar_url",
+            "description": "AvatarURL is the URL to the user's public avatar image."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "The organization the user belong to.\n This does not have to correspond with the authorizations organization."
+          }
+        },
+        "title": "User",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.IDFilter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Only return resources that belong to this id."
+          }
+        },
+        "title": "IDFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.InIDsFilter": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ids",
+            "description": "Defines the ids to query for."
+          }
+        },
+        "title": "InIDsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.TextFilterMethod": {
+        "type": "string",
+        "title": "TextFilterMethod",
+        "enum": [
+          "TEXT_FILTER_METHOD_EQUALS",
+          "TEXT_FILTER_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_STARTS_WITH",
+          "TEXT_FILTER_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_CONTAINS",
+          "TEXT_FILTER_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_ENDS_WITH",
+          "TEXT_FILTER_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      },
+      "zitadel.group.v2.FieldName": {
+        "type": "string",
+        "title": "FieldName",
+        "enum": [
+          "FIELD_NAME_UNSPECIFIED",
+          "FIELD_NAME_ID",
+          "FIELD_NAME_NAME",
+          "FIELD_NAME_CREATION_DATE",
+          "FIELD_NAME_CHANGE_DATE"
+        ]
+      },
+      "zitadel.group.v2.Group": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Unique identifier of the user group."
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Unique name of the user group inside the corresponding organization."
+          },
+          "description": {
+            "type": "string",
+            "title": "description",
+            "description": "Description the user group."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "The ID of the organization to which the group belongs."
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "Timestamp when the group was last changed.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "Timestamp when the user group was created",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "Group",
+        "additionalProperties": false
+      },
+      "zitadel.group.v2.GroupNameFilter": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Name of the user group."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the name query.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.TextFilterMethod"
+          }
+        },
+        "title": "GroupNameFilter",
+        "additionalProperties": false
+      },
+      "zitadel.group.v2.GroupUser": {
+        "type": "object",
+        "properties": {
+          "groupId": {
+            "type": "string",
+            "title": "group_id",
+            "description": "GroupID is the unique identifier of the user group."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "OrganizationID is the unique identifier of the organization to which the group belongs."
+          },
+          "user": {
+            "title": "user",
+            "description": "User represents the user in the user group.",
+            "$ref": "#/components/schemas/zitadel.authorization.v2beta.User"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "CreationDate is the timestamp when the user was added to the group.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "GroupUser",
+        "additionalProperties": false
+      },
+      "zitadel.group.v2.GroupUserFieldName": {
+        "type": "string",
+        "title": "GroupUserFieldName",
+        "enum": [
+          "GROUP_USER_FIELD_NAME_UNSPECIFIED",
+          "GROUP_USER_FIELD_NAME_USER_ID",
+          "GROUP_USER_FIELD_NAME_GROUP_ID",
+          "GROUP_USER_FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.group.v2.GroupUsersSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "groupIds": {
+                "title": "group_ids",
+                "description": "Search for users in groups by group IDs",
+                "$ref": "#/components/schemas/zitadel.filter.v2.InIDsFilter"
+              }
+            },
+            "title": "group_ids",
+            "required": [
+              "groupIds"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "userIds": {
+                "title": "user_ids",
+                "description": "Search for groups by user IDs",
+                "$ref": "#/components/schemas/zitadel.filter.v2.InIDsFilter"
+              }
+            },
+            "title": "user_ids",
+            "required": [
+              "userIds"
+            ]
+          }
+        ],
+        "title": "GroupUsersSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.group.v2.GroupsSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "groupIds": {
+                "title": "group_ids",
+                "description": "Search for groups by their IDs.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.InIDsFilter"
+              }
+            },
+            "title": "group_ids",
+            "required": [
+              "groupIds"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "nameFilter": {
+                "title": "name_filter",
+                "description": "Search for groups by their names.",
+                "$ref": "#/components/schemas/zitadel.group.v2.GroupNameFilter"
+              }
+            },
+            "title": "name_filter",
+            "required": [
+              "nameFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "organizationId": {
+                "title": "organization_id",
+                "description": "Search for groups by their organization ID.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.IDFilter"
+              }
+            },
+            "title": "organization_id",
+            "required": [
+              "organizationId"
+            ]
+          }
+        ],
+        "title": "GroupsSearchFilter",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

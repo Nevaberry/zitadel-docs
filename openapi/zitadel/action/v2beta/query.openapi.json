@@ -1,0 +1,434 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.action.v2beta"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.action.v2beta.Condition": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "event": {
+                "title": "event",
+                "description": "Condition-type to execute if an event is created in the system.",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.EventExecution"
+              }
+            },
+            "title": "event",
+            "required": [
+              "event"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "function": {
+                "title": "function",
+                "description": "Condition-type to execute if function is used, replaces actions v1.",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.FunctionExecution"
+              }
+            },
+            "title": "function",
+            "required": [
+              "function"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "request": {
+                "title": "request",
+                "description": "Condition-type to execute if a request on the defined API point happens.",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.RequestExecution"
+              }
+            },
+            "title": "request",
+            "required": [
+              "request"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "response": {
+                "title": "response",
+                "description": "Condition-type to execute on response if a request on the defined API point happens.",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.ResponseExecution"
+              }
+            },
+            "title": "response",
+            "required": [
+              "response"
+            ]
+          }
+        ],
+        "title": "Condition",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.EventExecution": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "all": {
+                "type": "boolean",
+                "title": "all",
+                "description": "all events as condition."
+              }
+            },
+            "title": "all",
+            "required": [
+              "all"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "event": {
+                "type": "string",
+                "title": "event",
+                "description": "Event name as condition."
+              }
+            },
+            "title": "event",
+            "required": [
+              "event"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "group": {
+                "type": "string",
+                "title": "group",
+                "description": "Event group as condition, all events under this group."
+              }
+            },
+            "title": "group",
+            "required": [
+              "group"
+            ]
+          }
+        ],
+        "title": "EventExecution",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ExecutionFieldName": {
+        "type": "string",
+        "title": "ExecutionFieldName",
+        "enum": [
+          "EXECUTION_FIELD_NAME_UNSPECIFIED",
+          "EXECUTION_FIELD_NAME_ID",
+          "EXECUTION_FIELD_NAME_CREATED_DATE",
+          "EXECUTION_FIELD_NAME_CHANGED_DATE"
+        ]
+      },
+      "zitadel.action.v2beta.ExecutionSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "executionTypeFilter": {
+                "title": "execution_type_filter",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.ExecutionTypeFilter"
+              }
+            },
+            "title": "execution_type_filter",
+            "required": [
+              "executionTypeFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "inConditionsFilter": {
+                "title": "in_conditions_filter",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.InConditionsFilter"
+              }
+            },
+            "title": "in_conditions_filter",
+            "required": [
+              "inConditionsFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "targetFilter": {
+                "title": "target_filter",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.TargetFilter"
+              }
+            },
+            "title": "target_filter",
+            "required": [
+              "targetFilter"
+            ]
+          }
+        ],
+        "title": "ExecutionSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ExecutionType": {
+        "type": "string",
+        "title": "ExecutionType",
+        "enum": [
+          "EXECUTION_TYPE_UNSPECIFIED",
+          "EXECUTION_TYPE_REQUEST",
+          "EXECUTION_TYPE_RESPONSE",
+          "EXECUTION_TYPE_EVENT",
+          "EXECUTION_TYPE_FUNCTION"
+        ]
+      },
+      "zitadel.action.v2beta.ExecutionTypeFilter": {
+        "type": "object",
+        "properties": {
+          "executionType": {
+            "title": "execution_type",
+            "description": "Defines the type to query for.",
+            "$ref": "#/components/schemas/zitadel.action.v2beta.ExecutionType"
+          }
+        },
+        "title": "ExecutionTypeFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.FunctionExecution": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          }
+        },
+        "title": "FunctionExecution",
+        "additionalProperties": false,
+        "description": "Executed on the specified function"
+      },
+      "zitadel.action.v2beta.InConditionsFilter": {
+        "type": "object",
+        "properties": {
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.action.v2beta.Condition"
+            },
+            "title": "conditions",
+            "description": "Defines the conditions to query for."
+          }
+        },
+        "title": "InConditionsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.InTargetIDsFilter": {
+        "type": "object",
+        "properties": {
+          "targetIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "target_ids",
+            "description": "Defines the ids to query for."
+          }
+        },
+        "title": "InTargetIDsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.RequestExecution": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "all": {
+                "type": "boolean",
+                "title": "all",
+                "description": "All calls to any available services and methods as condition."
+              }
+            },
+            "title": "all",
+            "required": [
+              "all"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "title": "method",
+                "description": "GRPC-method as condition."
+              }
+            },
+            "title": "method",
+            "required": [
+              "method"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "service": {
+                "type": "string",
+                "title": "service",
+                "description": "GRPC-service as condition."
+              }
+            },
+            "title": "service",
+            "required": [
+              "service"
+            ]
+          }
+        ],
+        "title": "RequestExecution",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.ResponseExecution": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "all": {
+                "type": "boolean",
+                "title": "all",
+                "description": "All calls to any available services and methods as condition."
+              }
+            },
+            "title": "all",
+            "required": [
+              "all"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "title": "method",
+                "description": "GRPC-method as condition."
+              }
+            },
+            "title": "method",
+            "required": [
+              "method"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "service": {
+                "type": "string",
+                "title": "service",
+                "description": "GRPC-service as condition."
+              }
+            },
+            "title": "service",
+            "required": [
+              "service"
+            ]
+          }
+        ],
+        "title": "ResponseExecution",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.TargetFieldName": {
+        "type": "string",
+        "title": "TargetFieldName",
+        "enum": [
+          "TARGET_FIELD_NAME_UNSPECIFIED",
+          "TARGET_FIELD_NAME_ID",
+          "TARGET_FIELD_NAME_CREATED_DATE",
+          "TARGET_FIELD_NAME_CHANGED_DATE",
+          "TARGET_FIELD_NAME_NAME",
+          "TARGET_FIELD_NAME_TARGET_TYPE",
+          "TARGET_FIELD_NAME_URL",
+          "TARGET_FIELD_NAME_TIMEOUT",
+          "TARGET_FIELD_NAME_INTERRUPT_ON_ERROR"
+        ]
+      },
+      "zitadel.action.v2beta.TargetFilter": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "title": "target_id",
+            "description": "Defines the id to query for."
+          }
+        },
+        "title": "TargetFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.TargetNameFilter": {
+        "type": "object",
+        "properties": {
+          "targetName": {
+            "type": "string",
+            "title": "target_name",
+            "description": "Defines the name of the target to query for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the name query.",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.TextFilterMethod"
+          }
+        },
+        "title": "TargetNameFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2beta.TargetSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "inTargetIdsFilter": {
+                "title": "in_target_ids_filter",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.InTargetIDsFilter"
+              }
+            },
+            "title": "in_target_ids_filter",
+            "required": [
+              "inTargetIdsFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "targetNameFilter": {
+                "title": "target_name_filter",
+                "$ref": "#/components/schemas/zitadel.action.v2beta.TargetNameFilter"
+              }
+            },
+            "title": "target_name_filter",
+            "required": [
+              "targetNameFilter"
+            ]
+          }
+        ],
+        "title": "TargetSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2beta.TextFilterMethod": {
+        "type": "string",
+        "title": "TextFilterMethod",
+        "enum": [
+          "TEXT_FILTER_METHOD_EQUALS",
+          "TEXT_FILTER_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_STARTS_WITH",
+          "TEXT_FILTER_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_CONTAINS",
+          "TEXT_FILTER_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_ENDS_WITH",
+          "TEXT_FILTER_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      }
+    }
+  },
+  "security": []
+}

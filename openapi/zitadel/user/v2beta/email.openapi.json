@@ -1,0 +1,107 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.user.v2beta"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.user.v2beta.HumanEmail": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "email"
+          },
+          "isVerified": {
+            "type": "boolean",
+            "title": "is_verified"
+          }
+        },
+        "title": "HumanEmail",
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.ReturnEmailVerificationCode": {
+        "type": "object",
+        "title": "ReturnEmailVerificationCode",
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.SendEmailVerificationCode": {
+        "type": "object",
+        "properties": {
+          "urlTemplate": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "url_template"
+          }
+        },
+        "title": "SendEmailVerificationCode",
+        "additionalProperties": false
+      },
+      "zitadel.user.v2beta.SetHumanEmail": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "email": {
+                "type": "string",
+                "title": "email"
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "isVerified": {
+                    "type": "boolean",
+                    "title": "is_verified"
+                  }
+                },
+                "title": "is_verified",
+                "required": [
+                  "isVerified"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "returnCode": {
+                    "title": "return_code",
+                    "$ref": "#/components/schemas/zitadel.user.v2beta.ReturnEmailVerificationCode"
+                  }
+                },
+                "title": "return_code",
+                "required": [
+                  "returnCode"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "sendCode": {
+                    "title": "send_code",
+                    "$ref": "#/components/schemas/zitadel.user.v2beta.SendEmailVerificationCode"
+                  }
+                },
+                "title": "send_code",
+                "required": [
+                  "sendCode"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "SetHumanEmail",
+        "required": [
+          "email"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

@@ -1,0 +1,2432 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.project.v2"
+  },
+  "paths": {
+    "/zitadel.project.v2.ProjectService/ActivateProject": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "Activate Project",
+        "description": "Set the state of a project to active. Request returns no error if the project is already activated.\n\n Required permission:\n   - `project.write`",
+        "operationId": "zitadel.project.v2.ProjectService.ActivateProject",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.ActivateProjectRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.ActivateProjectResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/ActivateProjectGrant": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "Activate Project Grant",
+        "description": "Set the state of the project grant to activated.\n\n Required permission:\n   - `project.grant.write`",
+        "operationId": "zitadel.project.v2.ProjectService.ActivateProjectGrant",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.ActivateProjectGrantRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.ActivateProjectGrantResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/AddProjectRole": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "Add Project Role",
+        "description": "Add a new project role to a project. The key must be unique within the project.\n\n Required permission:\n   - `project.role.write`",
+        "operationId": "zitadel.project.v2.ProjectService.AddProjectRole",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.AddProjectRoleRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.AddProjectRoleResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/CreateProject": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "Create Project",
+        "description": "Create a new project. A project is a vessel to group applications, roles and\n authorizations. Every project belongs to exactly one organization, but\n can be granted to other organizations for self-management of their authorizations.\n\n Required permission:\n   - `project.create`",
+        "operationId": "zitadel.project.v2.ProjectService.CreateProject",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.CreateProjectRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.CreateProjectResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/CreateProjectGrant": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "Create Project Grant",
+        "description": "Grant a project to another organization.\n The project grant will allow the granted organization to access the project and manage\n the authorizations for its users.\n\n Required permission:\n   - `project.grant.create`",
+        "operationId": "zitadel.project.v2.ProjectService.CreateProjectGrant",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.CreateProjectGrantRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.CreateProjectGrantResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/DeactivateProject": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "Deactivate Project",
+        "description": "Set the state of a project to deactivated. Request returns no error if the project is already deactivated.\n Applications under deactivated projects are not able to login anymore.\n\n Required permission:\n   - `project.write`",
+        "operationId": "zitadel.project.v2.ProjectService.DeactivateProject",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.DeactivateProjectRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.DeactivateProjectResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/DeactivateProjectGrant": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "Deactivate Project Grant",
+        "description": "Set the state of the project grant to deactivated.\n Applications under deactivated projects grants are not able to login anymore.\n\n Required permission:\n   - `project.grant.write`",
+        "operationId": "zitadel.project.v2.ProjectService.DeactivateProjectGrant",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.DeactivateProjectGrantRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.DeactivateProjectGrantResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/DeleteProject": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "Delete Project",
+        "description": "Delete an existing project.\n In case the project is not found, the request will return a successful response as\n the desired state is already achieved.\n\n Required permission:\n   - `project.delete`",
+        "operationId": "zitadel.project.v2.ProjectService.DeleteProject",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.DeleteProjectRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.DeleteProjectResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/DeleteProjectGrant": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "Delete Project Grant",
+        "description": "Delete a project grant. All user grants (role assignments) for this project grant will also be removed.\n A user will not have access to the project afterward (if permissions are checked).\n In case the project grant is not found, the request will return a successful response as\n the desired state is already achieved.\n\n Required permission:\n   - `project.grant.delete`",
+        "operationId": "zitadel.project.v2.ProjectService.DeleteProjectGrant",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.DeleteProjectGrantRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.DeleteProjectGrantResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/GetProject": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "Get Project",
+        "description": "Returns the project identified by the requested ID.\n\n Required permission:\n   - `project.read`",
+        "operationId": "zitadel.project.v2.ProjectService.GetProject",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.GetProjectRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.GetProjectResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/ListProjectGrants": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "List Project Grants",
+        "description": "Returns a list of project grants. A project grant is when the organization grants its project\n to another organization.\n\n Required permission:\n   - `project.grant.read`",
+        "operationId": "zitadel.project.v2.ProjectService.ListProjectGrants",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.ListProjectGrantsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.ListProjectGrantsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/ListProjectRoles": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "List Project Roles",
+        "description": "Returns all roles of a project matching the search query.\n\n Required permission:\n   - `project.role.read`",
+        "operationId": "zitadel.project.v2.ProjectService.ListProjectRoles",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.ListProjectRolesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.ListProjectRolesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/ListProjects": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "List Projects",
+        "description": "List all matching projects. By default all projects of the instance that the caller\n has permission to read are returned.\n Make sure to include a limit and sorting for pagination.\n\n Required permission:\n   - `project.read`",
+        "operationId": "zitadel.project.v2.ProjectService.ListProjects",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.ListProjectsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.ListProjectsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/RemoveProjectRole": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "Remove Project Role",
+        "description": "Removes the role from the project and on every resource it has a dependency.\n This includes project grants and user grants (role assignments).\n\n Required permission:\n   - `project.role.write`",
+        "operationId": "zitadel.project.v2.ProjectService.RemoveProjectRole",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.RemoveProjectRoleRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.RemoveProjectRoleResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/UpdateProject": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "Update Project",
+        "description": "Update an existing project.\n\n Required permission:\n   - `project.write`",
+        "operationId": "zitadel.project.v2.ProjectService.UpdateProject",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.UpdateProjectRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.UpdateProjectResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/UpdateProjectGrant": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "Update Project Grant",
+        "description": "Change the roles of the project that is granted to another organization.\n The project grant will allow the granted organization to access the project and manage\n the authorizations for its users.\n\n Required permission:\n   - `project.grant.write`",
+        "operationId": "zitadel.project.v2.ProjectService.UpdateProjectGrant",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.UpdateProjectGrantRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.UpdateProjectGrantResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.project.v2.ProjectService/UpdateProjectRole": {
+      "post": {
+        "tags": [
+          "zitadel.project.v2.ProjectService"
+        ],
+        "summary": "Update Project Role",
+        "description": "Change a project role. The key is not editable. If a key should change, remove the role and create a new one.\n\n Required permission:\n   - `project.role.write`",
+        "operationId": "zitadel.project.v2.ProjectService.UpdateProjectRole",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.project.v2.UpdateProjectRoleRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.project.v2.UpdateProjectRoleResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "connect-protocol-version": {
+        "type": "number",
+        "title": "Connect-Protocol-Version",
+        "enum": [
+          1
+        ],
+        "description": "Define the version of the Connect protocol",
+        "const": 1
+      },
+      "connect-timeout-header": {
+        "type": "number",
+        "title": "Connect-Timeout-Ms",
+        "description": "Define the timeout, in ms"
+      },
+      "connect.error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "examples": [
+              "not_found"
+            ],
+            "enum": [
+              "canceled",
+              "unknown",
+              "invalid_argument",
+              "deadline_exceeded",
+              "not_found",
+              "already_exists",
+              "permission_denied",
+              "resource_exhausted",
+              "failed_precondition",
+              "aborted",
+              "out_of_range",
+              "unimplemented",
+              "internal",
+              "unavailable",
+              "data_loss",
+              "unauthenticated"
+            ],
+            "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+          },
+          "message": {
+            "type": "string",
+            "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/connect.error_details.Any"
+            },
+            "description": "A list of messages that carry the error details. There is no limit on the number of messages."
+          }
+        },
+        "title": "Connect Error",
+        "additionalProperties": true,
+        "description": "Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation"
+      },
+      "connect.error_details.Any": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "A URL that acts as a globally unique identifier for the type of the serialized message. For example: `type.googleapis.com/google.rpc.ErrorInfo`. This is used to determine the schema of the data in the `value` field and is the discriminator for the `debug` field."
+          },
+          "value": {
+            "type": "string",
+            "format": "binary",
+            "description": "The Protobuf message, serialized as bytes and base64-encoded. The specific message type is identified by the `type` field."
+          },
+          "debug": {
+            "oneOf": [
+              {
+                "type": "object",
+                "title": "Any",
+                "additionalProperties": true,
+                "description": "Detailed error information."
+              }
+            ],
+            "discriminator": {
+              "propertyName": "type"
+            },
+            "title": "Debug",
+            "description": "Deserialized error detail payload. The 'type' field indicates the schema. This field is for easier debugging and should not be relied upon for application logic."
+          }
+        },
+        "additionalProperties": true,
+        "description": "Contains an arbitrary serialized message along with a @type that describes the type of the serialized message, with an additional debug field for ConnectRPC error details."
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.filter.v2.IDFilter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Only return resources that belong to this id."
+          }
+        },
+        "title": "IDFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.InIDsFilter": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ids",
+            "description": "Defines the ids to query for."
+          }
+        },
+        "title": "InIDsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.PaginationRequest": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "offset",
+            "format": "int64",
+            "description": "Starting point for retrieval, in combination of offset used to query a set list of objects."
+          },
+          "limit": {
+            "type": "integer",
+            "title": "limit",
+            "description": "limit is the maximum amount of objects returned. The default is set to 100\n with a maximum of 1000 in the runtime configuration.\n If the limit exceeds the maximum configured Zitadel will throw an error.\n If no limit is present the default is taken."
+          },
+          "asc": {
+            "type": "boolean",
+            "title": "asc",
+            "description": "Asc is the sorting order. If true the list is sorted ascending, if false\n the list is sorted descending. The default is descending."
+          }
+        },
+        "title": "PaginationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.PaginationResponse": {
+        "type": "object",
+        "properties": {
+          "totalResult": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "total_result",
+            "format": "int64",
+            "description": "Absolute number of objects matching the query, regardless of applied limit."
+          },
+          "appliedLimit": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "applied_limit",
+            "format": "int64",
+            "description": "Applied limit from query, defines maximum amount of objects per request, to compare if all objects are returned."
+          }
+        },
+        "title": "PaginationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.TextFilterMethod": {
+        "type": "string",
+        "title": "TextFilterMethod",
+        "enum": [
+          "TEXT_FILTER_METHOD_EQUALS",
+          "TEXT_FILTER_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_STARTS_WITH",
+          "TEXT_FILTER_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_CONTAINS",
+          "TEXT_FILTER_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_ENDS_WITH",
+          "TEXT_FILTER_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      },
+      "zitadel.project.v2.ActivateProjectGrantRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project."
+          },
+          "grantedOrganizationId": {
+            "type": "string",
+            "title": "granted_organization_id",
+            "description": "GrantedOrganizationID is the unique identifier of the organization the project was granted to."
+          }
+        },
+        "title": "ActivateProjectGrantRequest",
+        "required": [
+          "projectId",
+          "grantedOrganizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ActivateProjectGrantResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp of the change of the project grant.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "ActivateProjectGrantResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ActivateProjectRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project."
+          }
+        },
+        "title": "ActivateProjectRequest",
+        "required": [
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ActivateProjectResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp of the change of the project.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "ActivateProjectResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.AddProjectRoleRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project."
+          },
+          "roleKey": {
+            "type": "string",
+            "title": "role_key",
+            "description": "RoleKey identifies the role. It's the only relevant attribute for Zitadel and\n will be used for authorization checks and as claim in tokens and user info responses."
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name",
+            "description": "DisplayName is a human readable name for the role, which might be displayed to users."
+          },
+          "group": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "group",
+            "description": "Group allows grouping roles for display purposes. Zitadel will not handle it in any way.\n It can be used to group roles in a UI to allow easier management for administrators.\n This attribute is not to be confused with groups as a collection of users."
+          }
+        },
+        "title": "AddProjectRoleRequest",
+        "required": [
+          "projectId",
+          "roleKey",
+          "displayName"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.AddProjectRoleResponse": {
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "title": "creation_date",
+            "description": "CreationDate is the timestamp of the project role creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "AddProjectRoleResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.CreateProjectGrantRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project."
+          },
+          "grantedOrganizationId": {
+            "type": "string",
+            "title": "granted_organization_id",
+            "description": "GrantedOrganizationID is the unique identifier of the organization the project will be granted to."
+          },
+          "roleKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "role_keys",
+            "description": "RoleKeys is a list of roles to be granted to the organization for self management.\n The roles are identified by their keys."
+          }
+        },
+        "title": "CreateProjectGrantRequest",
+        "required": [
+          "projectId",
+          "grantedOrganizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.CreateProjectGrantResponse": {
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "title": "creation_date",
+            "description": "CreationDate is the timestamp of the project grant creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "CreateProjectGrantResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.CreateProjectRequest": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "OrganizationID is the unique identifier of the organization the project belongs to."
+          },
+          "projectId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the new project. This field is optional.\n If omitted, the system will generate a unique ID for you. This is the\n recommended way. The generated ID will be returned in the response."
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Name of the project. This might be presented to users, e.g. in sign-in flows."
+          },
+          "projectRoleAssertion": {
+            "type": "boolean",
+            "title": "project_role_assertion",
+            "description": "ProjectRoleAssertion is a  setting that can be enabled to have role information\n included in the user info endpoint.\n It is also dependent on your application settings to include it in tokens and other types."
+          },
+          "authorizationRequired": {
+            "type": "boolean",
+            "title": "authorization_required",
+            "description": "AuthorizationRequired is a boolean flag that can be enabled to check if a user has\n an authorization to use this project assigned when login into an application of this project."
+          },
+          "projectAccessRequired": {
+            "type": "boolean",
+            "title": "project_access_required",
+            "description": "ProjectAccessRequired is a boolean flag that can be enabled to check if the organization\n of the user, that is trying to log in,\n has access to this project (either owns the project or is granted)."
+          },
+          "privateLabelingSetting": {
+            "title": "private_labeling_setting",
+            "description": "PrivateLabelingSetting is a setting that defines which private labeling/branding should\n trigger when getting to a login of this project.",
+            "$ref": "#/components/schemas/zitadel.project.v2.PrivateLabelingSetting"
+          }
+        },
+        "title": "CreateProjectRequest",
+        "required": [
+          "organizationId",
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.CreateProjectResponse": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the newly created project."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "CreationDate is the timestamp of the project creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "CreateProjectResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.DeactivateProjectGrantRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project."
+          },
+          "grantedOrganizationId": {
+            "type": "string",
+            "title": "granted_organization_id",
+            "description": "GrantedOrganizationID is the unique identifier of the organization the project was granted to."
+          }
+        },
+        "title": "DeactivateProjectGrantRequest",
+        "required": [
+          "projectId",
+          "grantedOrganizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.DeactivateProjectGrantResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp of the change of the project grant.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeactivateProjectGrantResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.DeactivateProjectRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project."
+          }
+        },
+        "title": "DeactivateProjectRequest",
+        "required": [
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.DeactivateProjectResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp of the change of the project.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeactivateProjectResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.DeleteProjectGrantRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project."
+          },
+          "grantedOrganizationId": {
+            "type": "string",
+            "title": "granted_organization_id",
+            "description": "GrantedOrganizationID is the unique identifier of the organization the project was granted to."
+          }
+        },
+        "title": "DeleteProjectGrantRequest",
+        "required": [
+          "projectId",
+          "grantedOrganizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.DeleteProjectGrantResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "description": "DeletionDate is the timestamp of the deletion of the project grant.\n Note that the deletion date is only guaranteed to be set if the deletion was successful during the request.\n In case the deletion occurred in a previous request, the deletion date might be empty.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeleteProjectGrantResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.DeleteProjectRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project to be deleted."
+          }
+        },
+        "title": "DeleteProjectRequest",
+        "required": [
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.DeleteProjectResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "description": "DeletionDate is the timestamp of the deletion of the project.\n Note that the deletion date is only guaranteed to be set if the deletion was successful during the request.\n In case the deletion occurred in a previous request, the deletion date might be empty.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeleteProjectResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.GetProjectRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project to be retrieved."
+          }
+        },
+        "title": "GetProjectRequest",
+        "required": [
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.GetProjectResponse": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "title": "project",
+            "description": "Project is the project that matches the project ID used in the request.",
+            "$ref": "#/components/schemas/zitadel.project.v2.Project"
+          }
+        },
+        "title": "GetProjectResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.GrantedProjectState": {
+        "type": "string",
+        "title": "GrantedProjectState",
+        "enum": [
+          "GRANTED_PROJECT_STATE_UNSPECIFIED",
+          "GRANTED_PROJECT_STATE_ACTIVE",
+          "GRANTED_PROJECT_STATE_INACTIVE"
+        ]
+      },
+      "zitadel.project.v2.ListProjectGrantsRequest": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.filter.v2.PaginationRequest"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "pagination",
+            "description": "Pagination can be used to list limitations and ordering."
+          },
+          "sortingColumn": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.project.v2.ProjectGrantFieldName"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "sorting_column",
+            "description": "SortingColumn is the field the result is sorted by. The default is the creation date.\n Beware that if you change this, your result pagination might be inconsistent."
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.project.v2.ProjectGrantSearchFilter"
+            },
+            "title": "filters",
+            "description": "Filters define the criteria to query for."
+          }
+        },
+        "title": "ListProjectGrantsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ListProjectGrantsResponse": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "description": "Pagination contains the total number of project grants matching the query and the applied limit.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationResponse"
+          },
+          "projectGrants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.project.v2.ProjectGrant"
+            },
+            "title": "project_grants",
+            "description": "ProjectGrants is a list of project grants matching the query."
+          }
+        },
+        "title": "ListProjectGrantsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ListProjectRolesRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project."
+          },
+          "pagination": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.filter.v2.PaginationRequest"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "pagination",
+            "description": "Pagination can be used to list limitations and ordering."
+          },
+          "sortingColumn": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.project.v2.ProjectRoleFieldName"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "sorting_column",
+            "description": "SortingColumn is the field the result is sorted by. The default is the creation date.\n Beware that if you change this, your result pagination might be inconsistent."
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.project.v2.ProjectRoleSearchFilter"
+            },
+            "title": "filters",
+            "description": "Filters define the criteria to query for."
+          }
+        },
+        "title": "ListProjectRolesRequest",
+        "required": [
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ListProjectRolesResponse": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "description": "Pagination contains the total number of project roles matching the query and the applied limit.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationResponse"
+          },
+          "projectRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.project.v2.ProjectRole"
+            },
+            "title": "project_roles",
+            "description": "ProjectRoles is a list of roles matching the query."
+          }
+        },
+        "title": "ListProjectRolesResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ListProjectsRequest": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.filter.v2.PaginationRequest"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "pagination",
+            "description": "Pagination can be used to list limitations and ordering."
+          },
+          "sortingColumn": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.project.v2.ProjectFieldName"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "sorting_column",
+            "description": "SortingColumn is the field the result is sorted by. The default is the creation date.\n Beware that if you change this, your result pagination might be inconsistent."
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.project.v2.ProjectSearchFilter"
+            },
+            "title": "filters",
+            "description": "Filters define the criteria to query for."
+          }
+        },
+        "title": "ListProjectsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ListProjectsResponse": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "description": "Pagination contains the total number of projects matching the query and the applied limit.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationResponse"
+          },
+          "projects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.project.v2.Project"
+            },
+            "title": "projects",
+            "description": "Projects is a list of projects matching the query."
+          }
+        },
+        "title": "ListProjectsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.PrivateLabelingSetting": {
+        "type": "string",
+        "title": "PrivateLabelingSetting",
+        "enum": [
+          "PRIVATE_LABELING_SETTING_UNSPECIFIED",
+          "PRIVATE_LABELING_SETTING_ENFORCE_PROJECT_RESOURCE_OWNER_POLICY",
+          "PRIVATE_LABELING_SETTING_ALLOW_LOGIN_USER_RESOURCE_OWNER_POLICY"
+        ]
+      },
+      "zitadel.project.v2.Project": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "OrganizationID is the unique identifier of the organization the project belongs to."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "CreationDate is the timestamp of the project creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp of the last change to the project (e.g. creation, activation, deactivation).",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Name is the name of the project. This might be presented to users, e.g. in sign-in flows."
+          },
+          "state": {
+            "title": "state",
+            "description": "State describes the current state of the project.",
+            "$ref": "#/components/schemas/zitadel.project.v2.ProjectState"
+          },
+          "projectRoleAssertion": {
+            "type": "boolean",
+            "title": "project_role_assertion",
+            "description": "ProjectRoleAssertion is a boolean flag that describes if the roles of the user should be added to the token."
+          },
+          "authorizationRequired": {
+            "type": "boolean",
+            "title": "authorization_required",
+            "description": "AuthorizationRequired is a boolean flag that can be enabled to check if a user has\n an authorization to use this project assigned when login into an application of this project."
+          },
+          "projectAccessRequired": {
+            "type": "boolean",
+            "title": "project_access_required",
+            "description": "ProjectAccessRequired is a boolean flag that can be enabled to check if the organization of the user,\n that is trying to log in, has access to this project (either owns the project or is granted)."
+          },
+          "privateLabelingSetting": {
+            "title": "private_labeling_setting",
+            "description": "PrivateLabelingSetting defines from where the private labeling should be triggered.",
+            "$ref": "#/components/schemas/zitadel.project.v2.PrivateLabelingSetting"
+          },
+          "grantedOrganizationId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "granted_organization_id",
+            "description": "GrantedOrganizationID is the ID of the organization the project is granted to.\n In case the project is not granted, this field is unset."
+          },
+          "grantedOrganizationName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "granted_organization_name",
+            "description": "GrantedOrganizationName is the name of the organization the project is granted to.\n In case the project is not granted, this field is unset."
+          },
+          "grantedState": {
+            "title": "granted_state",
+            "description": "GrantedProjectState describes the current state of the granted project.\n In case the project is not granted, this field is set to GrantedProjectState.GRANTED_PROJECT_STATE_UNSPECIFIED.",
+            "$ref": "#/components/schemas/zitadel.project.v2.GrantedProjectState"
+          }
+        },
+        "title": "Project",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ProjectFieldName": {
+        "type": "string",
+        "title": "ProjectFieldName",
+        "enum": [
+          "PROJECT_FIELD_NAME_UNSPECIFIED",
+          "PROJECT_FIELD_NAME_ID",
+          "PROJECT_FIELD_NAME_CREATION_DATE",
+          "PROJECT_FIELD_NAME_CHANGE_DATE",
+          "PROJECT_FIELD_NAME_NAME"
+        ]
+      },
+      "zitadel.project.v2.ProjectGrant": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "The unique identifier of the organization which granted the project to the granted_organization_id."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the granted project creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the last change to the granted project (e.g. creation, activation, deactivation).",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "grantedOrganizationId": {
+            "type": "string",
+            "title": "granted_organization_id",
+            "description": "The ID of the organization the project is granted to."
+          },
+          "grantedOrganizationName": {
+            "type": "string",
+            "title": "granted_organization_name",
+            "description": "The name of the organization the project is granted to."
+          },
+          "grantedRoleKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "granted_role_keys",
+            "description": "The roles granted to the organization for self-management of the project."
+          },
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "The ID of the granted project."
+          },
+          "projectName": {
+            "type": "string",
+            "title": "project_name",
+            "description": "The name of the granted project."
+          },
+          "state": {
+            "title": "state",
+            "description": "Describes the current state of the granted project.",
+            "$ref": "#/components/schemas/zitadel.project.v2.ProjectGrantState"
+          }
+        },
+        "title": "ProjectGrant",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ProjectGrantFieldName": {
+        "type": "string",
+        "title": "ProjectGrantFieldName",
+        "enum": [
+          "PROJECT_GRANT_FIELD_NAME_UNSPECIFIED",
+          "PROJECT_GRANT_FIELD_NAME_PROJECT_ID",
+          "PROJECT_GRANT_FIELD_NAME_CREATION_DATE",
+          "PROJECT_GRANT_FIELD_NAME_CHANGE_DATE"
+        ]
+      },
+      "zitadel.project.v2.ProjectGrantSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "grantedOrganizationIdFilter": {
+                "title": "granted_organization_id_filter",
+                "description": "Filter for project grants that were granted to a specific organization.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.IDFilter"
+              }
+            },
+            "title": "granted_organization_id_filter",
+            "required": [
+              "grantedOrganizationIdFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "inProjectIdsFilter": {
+                "title": "in_project_ids_filter",
+                "description": "Filter for project grants of a specific project ID.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.InIDsFilter"
+              }
+            },
+            "title": "in_project_ids_filter",
+            "required": [
+              "inProjectIdsFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "organizationIdFilter": {
+                "title": "organization_id_filter",
+                "description": "Filter for project grants that were granted from a specific organization.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.IDFilter"
+              }
+            },
+            "title": "organization_id_filter",
+            "required": [
+              "organizationIdFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "projectNameFilter": {
+                "title": "project_name_filter",
+                "description": "Filter for project grants with a specific project name.",
+                "$ref": "#/components/schemas/zitadel.project.v2.ProjectNameFilter"
+              }
+            },
+            "title": "project_name_filter",
+            "required": [
+              "projectNameFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "roleKeyFilter": {
+                "title": "role_key_filter",
+                "description": "Filter for project grants where a specific role is granted.",
+                "$ref": "#/components/schemas/zitadel.project.v2.ProjectRoleKeyFilter"
+              }
+            },
+            "title": "role_key_filter",
+            "required": [
+              "roleKeyFilter"
+            ]
+          }
+        ],
+        "title": "ProjectGrantSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ProjectGrantState": {
+        "type": "string",
+        "title": "ProjectGrantState",
+        "enum": [
+          "PROJECT_GRANT_STATE_UNSPECIFIED",
+          "PROJECT_GRANT_STATE_ACTIVE",
+          "PROJECT_GRANT_STATE_INACTIVE"
+        ]
+      },
+      "zitadel.project.v2.ProjectNameFilter": {
+        "type": "object",
+        "properties": {
+          "projectName": {
+            "type": "string",
+            "title": "project_name",
+            "description": "Defines the name of the project to query for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the name query.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.TextFilterMethod"
+          }
+        },
+        "title": "ProjectNameFilter",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ProjectOrganizationIDFilter": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "OrganizationID Is the ID of the organization to query for."
+          },
+          "type": {
+            "title": "type",
+            "description": "Defines whether to filter for owned, granted or both types of projects.\n If not specified, defaults to OWNED_OR_GRANTED and will return both owned and granted projects.",
+            "$ref": "#/components/schemas/zitadel.project.v2.ProjectOrganizationIDFilter.Type"
+          }
+        },
+        "title": "ProjectOrganizationIDFilter",
+        "required": [
+          "organizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ProjectOrganizationIDFilter.Type": {
+        "type": "string",
+        "title": "Type",
+        "enum": [
+          "TYPE_UNSPECIFIED",
+          "OWNED",
+          "GRANTED",
+          "OWNED_OR_GRANTED"
+        ]
+      },
+      "zitadel.project.v2.ProjectRole": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the ID of the project the role belongs to."
+          },
+          "key": {
+            "type": "string",
+            "title": "key",
+            "description": "Key of the project role. The key identifies the role. It's the only relevant attribute for Zitadel and\n will be used for authorization checks and as claim in tokens and user info responses."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "CreationDate is the timestamp of the project role creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp of the last change to the project role.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name",
+            "description": "DisplayName is a human readable name for the role, which might be displayed to users."
+          },
+          "group": {
+            "type": "string",
+            "title": "group",
+            "description": "Group allows grouping roles for display purposes. Zitadel will not handle it in any way.\n It can be used to group roles in a UI to allow easier management for administrators.\n This attribute is not to be confused with groups as a collection of users."
+          }
+        },
+        "title": "ProjectRole",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ProjectRoleDisplayNameFilter": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "title": "display_name",
+            "description": "The display name of the project role to query for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the name query.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.TextFilterMethod"
+          }
+        },
+        "title": "ProjectRoleDisplayNameFilter",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ProjectRoleFieldName": {
+        "type": "string",
+        "title": "ProjectRoleFieldName",
+        "enum": [
+          "PROJECT_ROLE_FIELD_NAME_UNSPECIFIED",
+          "PROJECT_ROLE_FIELD_NAME_KEY",
+          "PROJECT_ROLE_FIELD_NAME_CREATION_DATE",
+          "PROJECT_ROLE_FIELD_NAME_CHANGE_DATE"
+        ]
+      },
+      "zitadel.project.v2.ProjectRoleKeyFilter": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key",
+            "description": "The key of the project role to query for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the key query.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.TextFilterMethod"
+          }
+        },
+        "title": "ProjectRoleKeyFilter",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ProjectRoleSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "displayNameFilter": {
+                "title": "display_name_filter",
+                "description": "Filter for project roles with a specific display name.",
+                "$ref": "#/components/schemas/zitadel.project.v2.ProjectRoleDisplayNameFilter"
+              }
+            },
+            "title": "display_name_filter",
+            "required": [
+              "displayNameFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "roleKeyFilter": {
+                "title": "role_key_filter",
+                "description": "Filter for project roles with a specific key.",
+                "$ref": "#/components/schemas/zitadel.project.v2.ProjectRoleKeyFilter"
+              }
+            },
+            "title": "role_key_filter",
+            "required": [
+              "roleKeyFilter"
+            ]
+          }
+        ],
+        "title": "ProjectRoleSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ProjectSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "inProjectIdsFilter": {
+                "title": "in_project_ids_filter",
+                "description": "Filter for projects with a specific ID.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.InIDsFilter"
+              }
+            },
+            "title": "in_project_ids_filter",
+            "required": [
+              "inProjectIdsFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "organizationIdFilter": {
+                "title": "organization_id_filter",
+                "description": "Filter for projects that are owned by or granted to a specific organization.\n You can specify whether to search for owned, granted or both types of projects.",
+                "$ref": "#/components/schemas/zitadel.project.v2.ProjectOrganizationIDFilter"
+              }
+            },
+            "title": "organization_id_filter",
+            "required": [
+              "organizationIdFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "projectNameFilter": {
+                "title": "project_name_filter",
+                "description": "Filter for projects with a specific name.",
+                "$ref": "#/components/schemas/zitadel.project.v2.ProjectNameFilter"
+              }
+            },
+            "title": "project_name_filter",
+            "required": [
+              "projectNameFilter"
+            ]
+          }
+        ],
+        "title": "ProjectSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.ProjectState": {
+        "type": "string",
+        "title": "ProjectState",
+        "enum": [
+          "PROJECT_STATE_UNSPECIFIED",
+          "PROJECT_STATE_ACTIVE",
+          "PROJECT_STATE_INACTIVE"
+        ]
+      },
+      "zitadel.project.v2.RemoveProjectRoleRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project."
+          },
+          "roleKey": {
+            "type": "string",
+            "title": "role_key",
+            "description": "RoleKey is the key of the role to be removed.\n All dependencies of this role will be removed as well, including project grants and user grants (role assignments).\n If the role is not found, the request will return a successful response as the desired state is already achieved."
+          }
+        },
+        "title": "RemoveProjectRoleRequest",
+        "required": [
+          "projectId",
+          "roleKey"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.RemoveProjectRoleResponse": {
+        "type": "object",
+        "properties": {
+          "removalDate": {
+            "title": "removal_date",
+            "description": "RemovalDate is the timestamp of the removal of the project role.\n Note that the removal date is only guaranteed to be set if the removal was successful during the request.\n In case the removal occurred in a previous request, the removal date might be empty.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "RemoveProjectRoleResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.UpdateProjectGrantRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project."
+          },
+          "grantedOrganizationId": {
+            "type": "string",
+            "title": "granted_organization_id",
+            "description": "GrantedOrganizationID is the unique identifier of the organization the project was granted to."
+          },
+          "roleKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "role_keys",
+            "description": "RoleKeys is a list of roles to be granted to the organization for self management.\n The roles are identified by their keys.\n Any roles not included in this list will be removed from the project grant.\n If you want to add a role, make sure to include all other existing roles as well.\n If any previous role is removed, all user grants (role assignments) for this project grant with this role will be removed as well."
+          }
+        },
+        "title": "UpdateProjectGrantRequest",
+        "required": [
+          "projectId",
+          "grantedOrganizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.UpdateProjectGrantResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp of the change of the project grant.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "UpdateProjectGrantResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.UpdateProjectRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project to be updated."
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "name",
+            "description": "Name is used to update the name of the project. This field is optional.\n If omitted, the name will remain unchanged."
+          },
+          "projectRoleAssertion": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "title": "project_role_assertion",
+            "description": "ProjectRoleAssertion is a setting that can be enabled to have role information\n included in the user info endpoint.\n It is also dependent on your application settings to include it in tokens and other types.\n If omitted, the setting will remain unchanged."
+          },
+          "authorizationRequired": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "title": "authorization_required",
+            "description": "AuthorizationRequired is a boolean flag that can be enabled to check if a user has\n a role of this project assigned when logging into an application of this project.\n If omitted, the setting will remain unchanged."
+          },
+          "projectAccessRequired": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "title": "project_access_required",
+            "description": "ProjectAccessRequired is a boolean flag that can be enabled to check if the organization\n of the user has a grant to this project.\n If omitted, the setting will remain unchanged."
+          },
+          "privateLabelingSetting": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.project.v2.PrivateLabelingSetting"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "private_labeling_setting",
+            "description": "PrivateLabelingSetting is a setting that defines which private labeling/branding should\n trigger when getting to a login of this project.\n If omitted, the setting will remain unchanged."
+          }
+        },
+        "title": "UpdateProjectRequest",
+        "required": [
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.UpdateProjectResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp of the change of the project.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "UpdateProjectResponse",
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.UpdateProjectRoleRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project."
+          },
+          "roleKey": {
+            "type": "string",
+            "title": "role_key",
+            "description": "RoleKey identifies the role. It's the only relevant attribute for Zitadel and\n will be used for authorization checks and as claim in tokens and user info responses.\n It cannot be changed. If you need a different key, remove the role and create a new one."
+          },
+          "displayName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "display_name",
+            "description": "DisplayName is the human readable name for the role, which might be displayed to users.\n If omitted, the name will remain unchanged."
+          },
+          "group": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "group",
+            "description": "Group allows grouping roles for display purposes. Zitadel will not handle it in any way.\n It can be used to group roles in a UI to allow easier management for administrators.\n If omitted, the group will remain unchanged.\n This attribute is not to be confused with groups as a collection of users."
+          }
+        },
+        "title": "UpdateProjectRoleRequest",
+        "required": [
+          "projectId",
+          "roleKey",
+          "displayName"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.project.v2.UpdateProjectRoleResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp of the change of the project role.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "UpdateProjectRoleResponse",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "zitadel.project.v2.ProjectService",
+      "description": "Service to manage projects."
+    }
+  ]
+}

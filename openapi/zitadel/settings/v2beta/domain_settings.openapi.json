@@ -1,0 +1,45 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.settings.v2beta"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.settings.v2beta.DomainSettings": {
+        "type": "object",
+        "properties": {
+          "loginNameIncludesDomain": {
+            "type": "boolean",
+            "title": "login_name_includes_domain"
+          },
+          "requireOrgDomainVerification": {
+            "type": "boolean",
+            "title": "require_org_domain_verification"
+          },
+          "smtpSenderAddressMatchesInstanceDomain": {
+            "type": "boolean",
+            "title": "smtp_sender_address_matches_instance_domain"
+          },
+          "resourceOwnerType": {
+            "title": "resource_owner_type",
+            "description": "resource_owner_type returns if the setting is managed on the organization or on the instance",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.ResourceOwnerType"
+          }
+        },
+        "title": "DomainSettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.ResourceOwnerType": {
+        "type": "string",
+        "title": "ResourceOwnerType",
+        "enum": [
+          "RESOURCE_OWNER_TYPE_UNSPECIFIED",
+          "RESOURCE_OWNER_TYPE_INSTANCE",
+          "RESOURCE_OWNER_TYPE_ORG"
+        ]
+      }
+    }
+  },
+  "security": []
+}

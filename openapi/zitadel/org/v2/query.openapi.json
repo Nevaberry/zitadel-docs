@@ -1,0 +1,224 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.org.v2"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.object.v2.TextQueryMethod": {
+        "type": "string",
+        "title": "TextQueryMethod",
+        "enum": [
+          "TEXT_QUERY_METHOD_EQUALS",
+          "TEXT_QUERY_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_STARTS_WITH",
+          "TEXT_QUERY_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_CONTAINS",
+          "TEXT_QUERY_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_ENDS_WITH",
+          "TEXT_QUERY_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      },
+      "zitadel.org.v2.DefaultOrganizationQuery": {
+        "type": "object",
+        "title": "DefaultOrganizationQuery",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2.DomainFieldName": {
+        "type": "string",
+        "title": "DomainFieldName",
+        "enum": [
+          "DOMAIN_FIELD_NAME_UNSPECIFIED",
+          "DOMAIN_FIELD_NAME_NAME",
+          "DOMAIN_FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.org.v2.DomainSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "domainFilter": {
+                "title": "domain_filter",
+                "description": "Filter Organization Domains by their domain name.",
+                "$ref": "#/components/schemas/zitadel.org.v2.OrganizationDomainQuery"
+              }
+            },
+            "title": "domain_filter",
+            "required": [
+              "domainFilter"
+            ]
+          }
+        ],
+        "title": "DomainSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2.OrganizationDomainQuery": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "title": "domain",
+            "description": "Domain used in organization, not necessary primary domain."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text equality method is used.",
+            "$ref": "#/components/schemas/zitadel.object.v2.TextQueryMethod"
+          }
+        },
+        "title": "OrganizationDomainQuery",
+        "required": [
+          "domain"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2.OrganizationFieldName": {
+        "type": "string",
+        "title": "OrganizationFieldName",
+        "enum": [
+          "ORGANIZATION_FIELD_NAME_UNSPECIFIED",
+          "ORGANIZATION_FIELD_NAME_NAME",
+          "ORGANIZATION_FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.org.v2.OrganizationIDQuery": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Unique identifier of the organization."
+          }
+        },
+        "title": "OrganizationIDQuery",
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2.OrganizationNameQuery": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Name of the organization."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text equality method is used.",
+            "$ref": "#/components/schemas/zitadel.object.v2.TextQueryMethod"
+          }
+        },
+        "title": "OrganizationNameQuery",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.org.v2.OrganizationState": {
+        "type": "string",
+        "title": "OrganizationState",
+        "enum": [
+          "ORGANIZATION_STATE_UNSPECIFIED",
+          "ORGANIZATION_STATE_ACTIVE",
+          "ORGANIZATION_STATE_INACTIVE",
+          "ORGANIZATION_STATE_REMOVED"
+        ]
+      },
+      "zitadel.org.v2.OrganizationStateQuery": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "title": "state",
+            "description": "Current state of the organization.",
+            "$ref": "#/components/schemas/zitadel.org.v2.OrganizationState"
+          }
+        },
+        "title": "OrganizationStateQuery",
+        "additionalProperties": false
+      },
+      "zitadel.org.v2.SearchQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "defaultQuery": {
+                "title": "default_query",
+                "description": "Filter for the default organization.",
+                "$ref": "#/components/schemas/zitadel.org.v2.DefaultOrganizationQuery"
+              }
+            },
+            "title": "default_query",
+            "required": [
+              "defaultQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "domainQuery": {
+                "title": "domain_query",
+                "description": "Filter organizations by their domain.",
+                "$ref": "#/components/schemas/zitadel.org.v2.OrganizationDomainQuery"
+              }
+            },
+            "title": "domain_query",
+            "required": [
+              "domainQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "idQuery": {
+                "title": "id_query",
+                "description": "Filter organizations by their id.",
+                "$ref": "#/components/schemas/zitadel.org.v2.OrganizationIDQuery"
+              }
+            },
+            "title": "id_query",
+            "required": [
+              "idQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "nameQuery": {
+                "title": "name_query",
+                "description": "Filter organizations by their name.",
+                "$ref": "#/components/schemas/zitadel.org.v2.OrganizationNameQuery"
+              }
+            },
+            "title": "name_query",
+            "required": [
+              "nameQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "stateQuery": {
+                "title": "state_query",
+                "description": "Filter organizations by their state.",
+                "$ref": "#/components/schemas/zitadel.org.v2.OrganizationStateQuery"
+              }
+            },
+            "title": "state_query",
+            "required": [
+              "stateQuery"
+            ]
+          }
+        ],
+        "title": "SearchQuery",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

@@ -1,0 +1,45 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.settings.v2beta"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.settings.v2beta.EmbeddedIframeSettings": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "title": "enabled"
+          },
+          "allowedOrigins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "allowed_origins"
+          }
+        },
+        "title": "EmbeddedIframeSettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.SecuritySettings": {
+        "type": "object",
+        "properties": {
+          "embeddedIframe": {
+            "title": "embedded_iframe",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.EmbeddedIframeSettings"
+          },
+          "enableImpersonation": {
+            "type": "boolean",
+            "title": "enable_impersonation"
+          }
+        },
+        "title": "SecuritySettings",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

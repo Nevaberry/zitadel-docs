@@ -1,0 +1,1264 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.internal_permission.v2"
+  },
+  "paths": {
+    "/zitadel.internal_permission.v2.InternalPermissionService/CreateAdministrator": {
+      "post": {
+        "tags": [
+          "zitadel.internal_permission.v2.InternalPermissionService"
+        ],
+        "summary": "Create Administrator",
+        "description": "CreateAdministrator grants an administrator role to a user for a specific resource.\n\n Note that the roles are specific to the resource type.\n This means that if you want to grant a user the administrator role for an organization and a project,\n you need to create two administrator roles.\n\n Required permissions depend on the resource type:\n   - \"iam.member.write\" for instance administrators\n   - \"org.member.write\" for organization administrators\n   - \"project.member.write\" for project administrators\n   - \"project.grant.member.write\" for project grant administrators",
+        "operationId": "zitadel.internal_permission.v2.InternalPermissionService.CreateAdministrator",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.internal_permission.v2.CreateAdministratorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.internal_permission.v2.CreateAdministratorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.internal_permission.v2.InternalPermissionService/DeleteAdministrator": {
+      "post": {
+        "tags": [
+          "zitadel.internal_permission.v2.InternalPermissionService"
+        ],
+        "summary": "Delete Administrator",
+        "description": "DeleteAdministrator revokes an administrator role from a user.\n\n In case the administrator role is not found, the request will return a successful response as\n the desired state is already achieved.\n You can check the deletion date in the response to verify if the administrator role was deleted during the request.\n\n Required permissions depend on the resource type:\n   - \"iam.member.delete\" for instance administrators\n   - \"org.member.delete\" for organization administrators\n   - \"project.member.delete\" for project administrators\n   - \"project.grant.member.delete\" for project grant administrators",
+        "operationId": "zitadel.internal_permission.v2.InternalPermissionService.DeleteAdministrator",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.internal_permission.v2.DeleteAdministratorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.internal_permission.v2.DeleteAdministratorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.internal_permission.v2.InternalPermissionService/ListAdministrators": {
+      "post": {
+        "tags": [
+          "zitadel.internal_permission.v2.InternalPermissionService"
+        ],
+        "summary": "List Administrators",
+        "description": "ListAdministrators returns all administrators and their roles matching the request and the caller's permissions to retrieve.\n\n Required permissions depend on the resource type:\n   - \"iam.member.read\" for instance administrators\n   - \"org.member.read\" for organization administrators\n   - \"project.member.read\" for project administrators\n   - \"project.grant.member.read\" for project grant administrators\n   - no permissions required for listing own administrator roles",
+        "operationId": "zitadel.internal_permission.v2.InternalPermissionService.ListAdministrators",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.internal_permission.v2.ListAdministratorsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.internal_permission.v2.ListAdministratorsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zitadel.internal_permission.v2.InternalPermissionService/UpdateAdministrator": {
+      "post": {
+        "tags": [
+          "zitadel.internal_permission.v2.InternalPermissionService"
+        ],
+        "summary": "Update Administrator",
+        "description": "UpdateAdministrator updates the specific administrator role.\n\n Note that any role previously granted to the user and not present in the request will be revoked.\n\n Required permissions depend on the resource type:\n   - \"iam.member.write\" for instance administrators\n   - \"org.member.write\" for organization administrators\n   - \"project.member.write\" for project administrators\n   - \"project.grant.member.write\" for project grant administrators",
+        "operationId": "zitadel.internal_permission.v2.InternalPermissionService.UpdateAdministrator",
+        "parameters": [
+          {
+            "name": "Connect-Protocol-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/connect-protocol-version"
+            }
+          },
+          {
+            "name": "Connect-Timeout-Ms",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/connect-timeout-header"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.internal_permission.v2.UpdateAdministratorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/connect.error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.internal_permission.v2.UpdateAdministratorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "connect-protocol-version": {
+        "type": "number",
+        "title": "Connect-Protocol-Version",
+        "enum": [
+          1
+        ],
+        "description": "Define the version of the Connect protocol",
+        "const": 1
+      },
+      "connect-timeout-header": {
+        "type": "number",
+        "title": "Connect-Timeout-Ms",
+        "description": "Define the timeout, in ms"
+      },
+      "connect.error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "examples": [
+              "not_found"
+            ],
+            "enum": [
+              "canceled",
+              "unknown",
+              "invalid_argument",
+              "deadline_exceeded",
+              "not_found",
+              "already_exists",
+              "permission_denied",
+              "resource_exhausted",
+              "failed_precondition",
+              "aborted",
+              "out_of_range",
+              "unimplemented",
+              "internal",
+              "unavailable",
+              "data_loss",
+              "unauthenticated"
+            ],
+            "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+          },
+          "message": {
+            "type": "string",
+            "description": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/connect.error_details.Any"
+            },
+            "description": "A list of messages that carry the error details. There is no limit on the number of messages."
+          }
+        },
+        "title": "Connect Error",
+        "additionalProperties": true,
+        "description": "Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation"
+      },
+      "connect.error_details.Any": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "A URL that acts as a globally unique identifier for the type of the serialized message. For example: `type.googleapis.com/google.rpc.ErrorInfo`. This is used to determine the schema of the data in the `value` field and is the discriminator for the `debug` field."
+          },
+          "value": {
+            "type": "string",
+            "format": "binary",
+            "description": "The Protobuf message, serialized as bytes and base64-encoded. The specific message type is identified by the `type` field."
+          },
+          "debug": {
+            "oneOf": [
+              {
+                "type": "object",
+                "title": "Any",
+                "additionalProperties": true,
+                "description": "Detailed error information."
+              }
+            ],
+            "discriminator": {
+              "propertyName": "type"
+            },
+            "title": "Debug",
+            "description": "Deserialized error detail payload. The 'type' field indicates the schema. This field is for easier debugging and should not be relied upon for application logic."
+          }
+        },
+        "additionalProperties": true,
+        "description": "Contains an arbitrary serialized message along with a @type that describes the type of the serialized message, with an additional debug field for ConnectRPC error details."
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.filter.v2.IDFilter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Only return resources that belong to this id."
+          }
+        },
+        "title": "IDFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.InIDsFilter": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ids",
+            "description": "Defines the ids to query for."
+          }
+        },
+        "title": "InIDsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.PaginationRequest": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "offset",
+            "format": "int64",
+            "description": "Starting point for retrieval, in combination of offset used to query a set list of objects."
+          },
+          "limit": {
+            "type": "integer",
+            "title": "limit",
+            "description": "limit is the maximum amount of objects returned. The default is set to 100\n with a maximum of 1000 in the runtime configuration.\n If the limit exceeds the maximum configured Zitadel will throw an error.\n If no limit is present the default is taken."
+          },
+          "asc": {
+            "type": "boolean",
+            "title": "asc",
+            "description": "Asc is the sorting order. If true the list is sorted ascending, if false\n the list is sorted descending. The default is descending."
+          }
+        },
+        "title": "PaginationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.PaginationResponse": {
+        "type": "object",
+        "properties": {
+          "totalResult": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "total_result",
+            "format": "int64",
+            "description": "Absolute number of objects matching the query, regardless of applied limit."
+          },
+          "appliedLimit": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "applied_limit",
+            "format": "int64",
+            "description": "Applied limit from query, defines maximum amount of objects per request, to compare if all objects are returned."
+          }
+        },
+        "title": "PaginationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.TextFilterMethod": {
+        "type": "string",
+        "title": "TextFilterMethod",
+        "enum": [
+          "TEXT_FILTER_METHOD_EQUALS",
+          "TEXT_FILTER_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_STARTS_WITH",
+          "TEXT_FILTER_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_CONTAINS",
+          "TEXT_FILTER_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_ENDS_WITH",
+          "TEXT_FILTER_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      },
+      "zitadel.filter.v2.TimestampFilter": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "title": "timestamp",
+            "description": "Filter resources by timestamp.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines the condition (e.g., equals, before, after) that the timestamp of the retrieved resources should match.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.TimestampFilterMethod"
+          }
+        },
+        "title": "TimestampFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.TimestampFilterMethod": {
+        "type": "string",
+        "title": "TimestampFilterMethod",
+        "enum": [
+          "TIMESTAMP_FILTER_METHOD_EQUALS",
+          "TIMESTAMP_FILTER_METHOD_AFTER",
+          "TIMESTAMP_FILTER_METHOD_AFTER_OR_EQUALS",
+          "TIMESTAMP_FILTER_METHOD_BEFORE",
+          "TIMESTAMP_FILTER_METHOD_BEFORE_OR_EQUALS"
+        ]
+      },
+      "zitadel.internal_permission.v2.Administrator": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "creationDate": {
+                "title": "creation_date",
+                "description": "CreationDate is the timestamp when the administrator role was granted.",
+                "$ref": "#/components/schemas/google.protobuf.Timestamp"
+              },
+              "changeDate": {
+                "title": "change_date",
+                "description": "ChangeDate is the timestamp when the administrator role was last updated.\n In case the administrator role was not updated, this field is equal to the creation date.",
+                "$ref": "#/components/schemas/google.protobuf.Timestamp"
+              },
+              "user": {
+                "title": "user",
+                "description": "User is the user who was granted the administrator role.",
+                "$ref": "#/components/schemas/zitadel.internal_permission.v2.User"
+              },
+              "roles": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "title": "roles",
+                "description": "Roles are the roles that were granted to the user for the specified resource."
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "instance": {
+                    "type": "boolean",
+                    "title": "instance",
+                    "description": "Instance is returned if the administrator roles were granted on the instance level."
+                  }
+                },
+                "title": "instance",
+                "required": [
+                  "instance"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "organization": {
+                    "title": "organization",
+                    "description": "Organization provides information about the organization the administrator roles were granted for.",
+                    "$ref": "#/components/schemas/zitadel.internal_permission.v2.Organization"
+                  }
+                },
+                "title": "organization",
+                "required": [
+                  "organization"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "project": {
+                    "title": "project",
+                    "description": "Project provides information about the project the administrator roles were granted for.",
+                    "$ref": "#/components/schemas/zitadel.internal_permission.v2.Project"
+                  }
+                },
+                "title": "project",
+                "required": [
+                  "project"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "projectGrant": {
+                    "title": "project_grant",
+                    "description": "ProjectGrant provides information about the project grant the administrator roles were granted for.",
+                    "$ref": "#/components/schemas/zitadel.internal_permission.v2.ProjectGrant"
+                  }
+                },
+                "title": "project_grant",
+                "required": [
+                  "projectGrant"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "Administrator",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.AdministratorFieldName": {
+        "type": "string",
+        "title": "AdministratorFieldName",
+        "enum": [
+          "ADMINISTRATOR_FIELD_NAME_UNSPECIFIED",
+          "ADMINISTRATOR_FIELD_NAME_USER_ID",
+          "ADMINISTRATOR_FIELD_NAME_CREATION_DATE",
+          "ADMINISTRATOR_FIELD_NAME_CHANGE_DATE"
+        ]
+      },
+      "zitadel.internal_permission.v2.AdministratorSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "and": {
+                "title": "and",
+                "description": "Combine multiple authorization queries with an AND operation.",
+                "$ref": "#/components/schemas/zitadel.internal_permission.v2.AndFilter"
+              }
+            },
+            "title": "and",
+            "required": [
+              "and"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "changeDate": {
+                "title": "change_date",
+                "description": "Search for administrator roles by their change date.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.TimestampFilter"
+              }
+            },
+            "title": "change_date",
+            "required": [
+              "changeDate"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "creationDate": {
+                "title": "creation_date",
+                "description": "Search for administrator roles by their creation date.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.TimestampFilter"
+              }
+            },
+            "title": "creation_date",
+            "required": [
+              "creationDate"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "inUserIdsFilter": {
+                "title": "in_user_ids_filter",
+                "description": "Search for administrators roles by the IDs of the users who was granted the administrator role.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.InIDsFilter"
+              }
+            },
+            "title": "in_user_ids_filter",
+            "required": [
+              "inUserIdsFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "not": {
+                "title": "not",
+                "description": "Negate an authorization query.",
+                "$ref": "#/components/schemas/zitadel.internal_permission.v2.NotFilter"
+              }
+            },
+            "title": "not",
+            "required": [
+              "not"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "or": {
+                "title": "or",
+                "description": "Combine multiple authorization queries with an OR operation.\n For example, to search for authorizations of multiple OrganizationIDs.",
+                "$ref": "#/components/schemas/zitadel.internal_permission.v2.OrFilter"
+              }
+            },
+            "title": "or",
+            "required": [
+              "or"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "resource": {
+                "title": "resource",
+                "description": "Search for administrators roles granted for a specific resource.",
+                "$ref": "#/components/schemas/zitadel.internal_permission.v2.ResourceFilter"
+              }
+            },
+            "title": "resource",
+            "required": [
+              "resource"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "role": {
+                "title": "role",
+                "description": "Search for administrators roles granted with a specific role.",
+                "$ref": "#/components/schemas/zitadel.internal_permission.v2.RoleFilter"
+              }
+            },
+            "title": "role",
+            "required": [
+              "role"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "userDisplayName": {
+                "title": "user_display_name",
+                "description": "Search for administrators roles by the display name of the user.",
+                "$ref": "#/components/schemas/zitadel.internal_permission.v2.UserDisplayNameFilter"
+              }
+            },
+            "title": "user_display_name",
+            "required": [
+              "userDisplayName"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "userOrganizationId": {
+                "title": "user_organization_id",
+                "description": "Search for administrators roles by the ID of the organization the user is part of.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.IDFilter"
+              }
+            },
+            "title": "user_organization_id",
+            "required": [
+              "userOrganizationId"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "userPreferredLoginName": {
+                "title": "user_preferred_login_name",
+                "description": "Search for administrators roles by the preferred login name of the user.",
+                "$ref": "#/components/schemas/zitadel.internal_permission.v2.UserPreferredLoginNameFilter"
+              }
+            },
+            "title": "user_preferred_login_name",
+            "required": [
+              "userPreferredLoginName"
+            ]
+          }
+        ],
+        "title": "AdministratorSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.AndFilter": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.internal_permission.v2.AdministratorSearchFilter"
+            },
+            "title": "queries"
+          }
+        },
+        "title": "AndFilter",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.CreateAdministratorRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id",
+            "description": "UserID is the ID of the user who should be granted the administrator role."
+          },
+          "resource": {
+            "title": "resource",
+            "description": "Resource is the type of the resource the administrator roles should be granted for.",
+            "$ref": "#/components/schemas/zitadel.internal_permission.v2.ResourceType"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "roles",
+            "description": "Roles are the roles that should be granted to the user for the specified resource.\n Note that roles are currently specific to the resource type.\n This means that if you want to grant a user the administrator role for an organization and a project,\n you need to create two administrator roles."
+          }
+        },
+        "title": "CreateAdministratorRequest",
+        "required": [
+          "userId",
+          "resource",
+          "roles"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.CreateAdministratorResponse": {
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "title": "creation_date",
+            "description": "CreationDate is the timestamp when the administrator role was created.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "CreateAdministratorResponse",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.DeleteAdministratorRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id",
+            "description": "UserID is the ID of the user whose administrator roles should be removed."
+          },
+          "resource": {
+            "title": "resource",
+            "description": "Resource is the type of the resource the administrator roles should be removed for.",
+            "$ref": "#/components/schemas/zitadel.internal_permission.v2.ResourceType"
+          }
+        },
+        "title": "DeleteAdministratorRequest",
+        "required": [
+          "resource"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.DeleteAdministratorResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "description": "DeletionDate is the timestamp when the administrator role was deleted.\n Note that the deletion date is only guaranteed to be set if the deletion was successful during the request.\n In case the deletion occurred in a previous request, the deletion date might not be set.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeleteAdministratorResponse",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.ListAdministratorsRequest": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.filter.v2.PaginationRequest"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "pagination",
+            "description": "Paginate through the results using a limit, offset and sorting."
+          },
+          "sortingColumn": {
+            "title": "sorting_column",
+            "description": "The field the result is sorted by. The default is the creation date.\n Beware that if you change this, your result pagination might be inconsistent.",
+            "$ref": "#/components/schemas/zitadel.internal_permission.v2.AdministratorFieldName"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.internal_permission.v2.AdministratorSearchFilter"
+            },
+            "title": "filters",
+            "description": "Filter the administrator roles to be returned."
+          }
+        },
+        "title": "ListAdministratorsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.ListAdministratorsResponse": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "description": "Pagination contains the current sequence and the total result count.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.PaginationResponse"
+          },
+          "administrators": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.internal_permission.v2.Administrator"
+            },
+            "title": "administrators",
+            "description": "Administrators contains the list of administrators matching the request."
+          }
+        },
+        "title": "ListAdministratorsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.NotFilter": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "title": "query",
+            "$ref": "#/components/schemas/zitadel.internal_permission.v2.AdministratorSearchFilter"
+          }
+        },
+        "title": "NotFilter",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.OrFilter": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.internal_permission.v2.AdministratorSearchFilter"
+            },
+            "title": "queries"
+          }
+        },
+        "title": "OrFilter",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.Organization": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID is the unique identifier of the organization the user was granted the administrator role for."
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Name is the name of the organization the user was granted the administrator role for."
+          }
+        },
+        "title": "Organization",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.Project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID is the unique identifier of the project the user was granted the administrator role for."
+          },
+          "name": {
+            "type": "string",
+            "title": "name",
+            "description": "Name is the name of the project the user was granted the administrator role for."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "OrganizationID is the ID of the organization the project belongs to."
+          }
+        },
+        "title": "Project",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.ProjectGrant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID is the unique identifier of the project grant the user was granted the administrator role for."
+          },
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the ID of the project the project grant belongs to."
+          },
+          "projectName": {
+            "type": "string",
+            "title": "project_name",
+            "description": "ProjectName is the name of the project the project grant belongs to."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "OrganizationID is the ID of the organization the project belongs to."
+          },
+          "grantedOrganizationId": {
+            "type": "string",
+            "title": "granted_organization_id",
+            "description": "GrantedOrganizationID is the ID of the organization the project grant belongs to."
+          }
+        },
+        "title": "ProjectGrant",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.ResourceFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "instance": {
+                "type": "boolean",
+                "title": "instance",
+                "description": "Search for administrators granted on the instance level."
+              }
+            },
+            "title": "instance",
+            "required": [
+              "instance"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "organizationId": {
+                "type": "string",
+                "title": "organization_id",
+                "description": "Search for administrators granted on a specific organization."
+              }
+            },
+            "title": "organization_id",
+            "required": [
+              "organizationId"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "projectGrant": {
+                "title": "project_grant",
+                "description": "Search for administrators granted on a specific project grant\n by providing both the project ID and the organization ID.",
+                "$ref": "#/components/schemas/zitadel.internal_permission.v2.ResourceFilter.ProjectGrant"
+              }
+            },
+            "title": "project_grant",
+            "required": [
+              "projectGrant"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "projectId": {
+                "type": "string",
+                "title": "project_id",
+                "description": "Search for administrators granted on a specific project."
+              }
+            },
+            "title": "project_id",
+            "required": [
+              "projectId"
+            ]
+          }
+        ],
+        "title": "ResourceFilter",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.ResourceFilter.ProjectGrant": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project the project grant belongs to."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "OrganizationID is the unique identifier of the organization the project was granted to\n and on which the administrator role was granted too."
+          }
+        },
+        "title": "ProjectGrant",
+        "required": [
+          "projectId",
+          "organizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.ResourceType": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "instance": {
+                "type": "boolean",
+                "title": "instance",
+                "description": "Instance is the resource type for granting administrator privileges on the instance level."
+              }
+            },
+            "title": "instance",
+            "required": [
+              "instance"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "organizationId": {
+                "type": "string",
+                "title": "organization_id",
+                "description": "OrganizationID is required to grant administrator privileges for a specific organization."
+              }
+            },
+            "title": "organization_id",
+            "required": [
+              "organizationId"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "projectGrant": {
+                "title": "project_grant",
+                "description": "ProjectGrantID is required to grant administrator privileges for a specific project grant.",
+                "$ref": "#/components/schemas/zitadel.internal_permission.v2.ResourceType.ProjectGrant"
+              }
+            },
+            "title": "project_grant",
+            "required": [
+              "projectGrant"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "projectId": {
+                "type": "string",
+                "title": "project_id",
+                "description": "ProjectID is required to grant administrator privileges for a specific project."
+              }
+            },
+            "title": "project_id",
+            "required": [
+              "projectId"
+            ]
+          }
+        ],
+        "title": "ResourceType",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.ResourceType.ProjectGrant": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id",
+            "description": "ProjectID is the unique identifier of the project the project grant belongs to."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "OrganizationID is the unique identifier of the organization the project was granted to\n and on which the administrator role should be granted."
+          }
+        },
+        "title": "ProjectGrant",
+        "required": [
+          "projectId",
+          "organizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.RoleFilter": {
+        "type": "object",
+        "properties": {
+          "roleKey": {
+            "type": "string",
+            "title": "role_key",
+            "description": "Search for administrators by the granted role."
+          }
+        },
+        "title": "RoleFilter",
+        "required": [
+          "roleKey"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.UpdateAdministratorRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id",
+            "description": "UserID is the ID of the user whose administrator roles should be updated."
+          },
+          "resource": {
+            "title": "resource",
+            "description": "Resource is the type of the resource the administrator roles should be granted for.",
+            "$ref": "#/components/schemas/zitadel.internal_permission.v2.ResourceType"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "roles",
+            "description": "Roles are the roles that the user should be granted.\n Note that any role previously granted to the user and not present in the list will be revoked."
+          }
+        },
+        "title": "UpdateAdministratorRequest",
+        "required": [
+          "resource"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.UpdateAdministratorResponse": {
+        "type": "object",
+        "properties": {
+          "changeDate": {
+            "title": "change_date",
+            "description": "ChangeDate is the timestamp when the administrator role was last updated.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "UpdateAdministratorResponse",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "ID is the unique identifier of the user."
+          },
+          "preferredLoginName": {
+            "type": "string",
+            "title": "preferred_login_name",
+            "description": "PreferredLoginName is the preferred login name of the user. This value is unique across the whole instance."
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name",
+            "description": "DisplayName is the public display name of the user.\n By default it's the user's first name and last name, their username or their email address."
+          },
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "The organization the user belong to."
+          }
+        },
+        "title": "User",
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.UserDisplayNameFilter": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "title": "display_name",
+            "description": "Search for administrators by the display name of the user."
+          },
+          "method": {
+            "title": "method",
+            "description": "Specify the method to search for the display name. Default is EQUAL.\n For example, to search for all administrator roles of a user with a display name\n containing a specific string, use CONTAINS or CONTAINS_IGNORE_CASE.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.TextFilterMethod"
+          }
+        },
+        "title": "UserDisplayNameFilter",
+        "required": [
+          "displayName"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.internal_permission.v2.UserPreferredLoginNameFilter": {
+        "type": "object",
+        "properties": {
+          "preferredLoginName": {
+            "type": "string",
+            "title": "preferred_login_name",
+            "description": "Search for administrators by the preferred login name of the user."
+          },
+          "method": {
+            "title": "method",
+            "description": "Specify the method to search for the preferred login name. Default is EQUAL.\n For example, to search for all administrator roles of a user with a preferred login name\n containing a specific string, use CONTAINS or CONTAINS_IGNORE_CASE.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.TextFilterMethod"
+          }
+        },
+        "title": "UserPreferredLoginNameFilter",
+        "required": [
+          "preferredLoginName"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "zitadel.internal_permission.v2.InternalPermissionService",
+      "description": "InternalPermissionService provides methods to manage permissions for resource\n and their management in Zitadel itself also known as \"administrators\".\n\n If you want to manage permissions and roles within your project or application,\n please use the AuthorizationsService."
+    }
+  ]
+}

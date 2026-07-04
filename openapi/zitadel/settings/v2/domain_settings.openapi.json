@@ -1,0 +1,48 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.settings.v2"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.settings.v2.DomainSettings": {
+        "type": "object",
+        "properties": {
+          "loginNameIncludesDomain": {
+            "type": "boolean",
+            "title": "login_name_includes_domain",
+            "description": "If enabled, the login name will automatically be suffixed with the domain of the organization.\n This ensures that the login name is unique across the instance."
+          },
+          "requireOrgDomainVerification": {
+            "type": "boolean",
+            "title": "require_org_domain_verification",
+            "description": "If enabled, Organization Domains must be verified (through an DNS or HTTP challenge) upon creation.\n If disabled, Organization Domains will be created as already verified automatically."
+          },
+          "smtpSenderAddressMatchesInstanceDomain": {
+            "type": "boolean",
+            "title": "smtp_sender_address_matches_instance_domain",
+            "description": "If enabled, the SMTP sender address domain must match Custom Domain on the instance."
+          },
+          "resourceOwnerType": {
+            "title": "resource_owner_type",
+            "description": "ResourceOwnerType returns if the setting is managed on the organization explicitly or\n fell back on the instance settings.",
+            "$ref": "#/components/schemas/zitadel.settings.v2.ResourceOwnerType"
+          }
+        },
+        "title": "DomainSettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2.ResourceOwnerType": {
+        "type": "string",
+        "title": "ResourceOwnerType",
+        "enum": [
+          "RESOURCE_OWNER_TYPE_UNSPECIFIED",
+          "RESOURCE_OWNER_TYPE_INSTANCE",
+          "RESOURCE_OWNER_TYPE_ORG"
+        ]
+      }
+    }
+  },
+  "security": []
+}

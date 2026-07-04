@@ -1,0 +1,70 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.feature.v2beta"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.feature.v2beta.FeatureFlag": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "title": "enabled"
+          },
+          "source": {
+            "title": "source",
+            "$ref": "#/components/schemas/zitadel.feature.v2beta.Source"
+          }
+        },
+        "title": "FeatureFlag",
+        "additionalProperties": false,
+        "description": "FeatureFlag is a simple boolean Feature setting, without further payload."
+      },
+      "zitadel.feature.v2beta.ImprovedPerformance": {
+        "type": "string",
+        "title": "ImprovedPerformance",
+        "enum": [
+          "IMPROVED_PERFORMANCE_UNSPECIFIED",
+          "IMPROVED_PERFORMANCE_PROJECT_GRANT",
+          "IMPROVED_PERFORMANCE_PROJECT",
+          "IMPROVED_PERFORMANCE_USER_GRANT",
+          "IMPROVED_PERFORMANCE_ORG_DOMAIN_VERIFIED"
+        ]
+      },
+      "zitadel.feature.v2beta.ImprovedPerformanceFeatureFlag": {
+        "type": "object",
+        "properties": {
+          "executionPaths": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.feature.v2beta.ImprovedPerformance"
+            },
+            "title": "execution_paths"
+          },
+          "source": {
+            "title": "source",
+            "$ref": "#/components/schemas/zitadel.feature.v2beta.Source"
+          }
+        },
+        "title": "ImprovedPerformanceFeatureFlag",
+        "additionalProperties": false
+      },
+      "zitadel.feature.v2beta.Source": {
+        "type": "string",
+        "title": "Source",
+        "enum": [
+          "SOURCE_UNSPECIFIED",
+          "SOURCE_SYSTEM",
+          "SOURCE_INSTANCE",
+          "SOURCE_ORGANIZATION",
+          "SOURCE_PROJECT",
+          "SOURCE_APP",
+          "SOURCE_USER"
+        ]
+      }
+    }
+  },
+  "security": []
+}

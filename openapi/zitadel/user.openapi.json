@@ -1,0 +1,1675 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.user.v1"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.user.v1.AccessTokenType": {
+        "type": "string",
+        "title": "AccessTokenType",
+        "enum": [
+          "ACCESS_TOKEN_TYPE_BEARER",
+          "ACCESS_TOKEN_TYPE_JWT"
+        ]
+      },
+      "zitadel.user.v1.AndQuery": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.user.v1.SearchQuery"
+            },
+            "title": "queries"
+          }
+        },
+        "title": "AndQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.AuthFactor": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "state": {
+                "title": "state",
+                "$ref": "#/components/schemas/zitadel.user.v1.AuthFactorState"
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "otp": {
+                    "title": "otp",
+                    "$ref": "#/components/schemas/zitadel.user.v1.AuthFactorOTP"
+                  }
+                },
+                "title": "otp",
+                "required": [
+                  "otp"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "otpEmail": {
+                    "title": "otp_email",
+                    "$ref": "#/components/schemas/zitadel.user.v1.AuthFactorOTPEmail"
+                  }
+                },
+                "title": "otp_email",
+                "required": [
+                  "otpEmail"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "otpSms": {
+                    "title": "otp_sms",
+                    "$ref": "#/components/schemas/zitadel.user.v1.AuthFactorOTPSMS"
+                  }
+                },
+                "title": "otp_sms",
+                "required": [
+                  "otpSms"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "u2f": {
+                    "title": "u2f",
+                    "$ref": "#/components/schemas/zitadel.user.v1.AuthFactorU2F"
+                  }
+                },
+                "title": "u2f",
+                "required": [
+                  "u2f"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "AuthFactor",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.AuthFactorOTP": {
+        "type": "object",
+        "title": "AuthFactorOTP",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.AuthFactorOTPEmail": {
+        "type": "object",
+        "title": "AuthFactorOTPEmail",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.AuthFactorOTPSMS": {
+        "type": "object",
+        "title": "AuthFactorOTPSMS",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.AuthFactorState": {
+        "type": "string",
+        "title": "AuthFactorState",
+        "enum": [
+          "AUTH_FACTOR_STATE_UNSPECIFIED",
+          "AUTH_FACTOR_STATE_NOT_READY",
+          "AUTH_FACTOR_STATE_READY",
+          "AUTH_FACTOR_STATE_REMOVED"
+        ]
+      },
+      "zitadel.user.v1.AuthFactorU2F": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          }
+        },
+        "title": "AuthFactorU2F",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.DisplayNameQuery": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "DisplayNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.Email": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "email"
+          },
+          "isEmailVerified": {
+            "type": "boolean",
+            "title": "is_email_verified"
+          }
+        },
+        "title": "Email",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.EmailQuery": {
+        "type": "object",
+        "properties": {
+          "emailAddress": {
+            "type": "string",
+            "title": "email_address"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "EmailQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.FirstNameQuery": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "title": "first_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "FirstNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.Gender": {
+        "type": "string",
+        "title": "Gender",
+        "enum": [
+          "GENDER_UNSPECIFIED",
+          "GENDER_FEMALE",
+          "GENDER_MALE",
+          "GENDER_DIVERSE"
+        ]
+      },
+      "zitadel.user.v1.Human": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "title": "profile",
+            "$ref": "#/components/schemas/zitadel.user.v1.Profile"
+          },
+          "email": {
+            "title": "email",
+            "$ref": "#/components/schemas/zitadel.user.v1.Email"
+          },
+          "phone": {
+            "title": "phone",
+            "$ref": "#/components/schemas/zitadel.user.v1.Phone"
+          },
+          "passwordChanged": {
+            "title": "password_changed",
+            "description": "The time the user last changed their password.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "Human",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.InUserEmailsQuery": {
+        "type": "object",
+        "properties": {
+          "userEmails": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "user_emails"
+          }
+        },
+        "title": "InUserEmailsQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.InUserIDQuery": {
+        "type": "object",
+        "properties": {
+          "userIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "user_ids"
+          }
+        },
+        "title": "InUserIDQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.LastNameQuery": {
+        "type": "object",
+        "properties": {
+          "lastName": {
+            "type": "string",
+            "title": "last_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "LastNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.LoginNameQuery": {
+        "type": "object",
+        "properties": {
+          "loginName": {
+            "type": "string",
+            "title": "login_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "LoginNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.Machine": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "hasSecret": {
+            "type": "boolean",
+            "title": "has_secret"
+          },
+          "accessTokenType": {
+            "title": "access_token_type",
+            "$ref": "#/components/schemas/zitadel.user.v1.AccessTokenType"
+          }
+        },
+        "title": "Machine",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.Membership": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "userId": {
+                "type": "string",
+                "title": "user_id"
+              },
+              "details": {
+                "title": "details",
+                "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+              },
+              "roles": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "title": "roles"
+              },
+              "displayName": {
+                "type": "string",
+                "title": "display_name"
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "iam": {
+                    "type": "boolean",
+                    "title": "iam"
+                  }
+                },
+                "title": "iam",
+                "required": [
+                  "iam"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "orgId": {
+                    "type": "string",
+                    "title": "org_id"
+                  }
+                },
+                "title": "org_id",
+                "required": [
+                  "orgId"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "projectGrantId": {
+                    "type": "string",
+                    "title": "project_grant_id"
+                  }
+                },
+                "title": "project_grant_id",
+                "required": [
+                  "projectGrantId"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "title": "project_id"
+                  }
+                },
+                "title": "project_id",
+                "required": [
+                  "projectId"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "Membership",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.MembershipIAMQuery": {
+        "type": "object",
+        "properties": {
+          "iam": {
+            "type": "boolean",
+            "title": "iam"
+          }
+        },
+        "title": "MembershipIAMQuery",
+        "additionalProperties": false,
+        "description": "this query always equals"
+      },
+      "zitadel.user.v1.MembershipOrgQuery": {
+        "type": "object",
+        "properties": {
+          "orgId": {
+            "type": "string",
+            "title": "org_id"
+          }
+        },
+        "title": "MembershipOrgQuery",
+        "additionalProperties": false,
+        "description": "this query always equals"
+      },
+      "zitadel.user.v1.MembershipProjectGrantQuery": {
+        "type": "object",
+        "properties": {
+          "projectGrantId": {
+            "type": "string",
+            "title": "project_grant_id"
+          }
+        },
+        "title": "MembershipProjectGrantQuery",
+        "additionalProperties": false,
+        "description": "this query always equals"
+      },
+      "zitadel.user.v1.MembershipProjectQuery": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          }
+        },
+        "title": "MembershipProjectQuery",
+        "additionalProperties": false,
+        "description": "this query always equals"
+      },
+      "zitadel.user.v1.MembershipQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "iamQuery": {
+                "title": "iam_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.MembershipIAMQuery"
+              }
+            },
+            "title": "iam_query",
+            "required": [
+              "iamQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "orgQuery": {
+                "title": "org_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.MembershipOrgQuery"
+              }
+            },
+            "title": "org_query",
+            "required": [
+              "orgQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "projectGrantQuery": {
+                "title": "project_grant_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.MembershipProjectGrantQuery"
+              }
+            },
+            "title": "project_grant_query",
+            "required": [
+              "projectGrantQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "projectQuery": {
+                "title": "project_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.MembershipProjectQuery"
+              }
+            },
+            "title": "project_query",
+            "required": [
+              "projectQuery"
+            ]
+          }
+        ],
+        "title": "MembershipQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.NickNameQuery": {
+        "type": "object",
+        "properties": {
+          "nickName": {
+            "type": "string",
+            "title": "nick_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "NickNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.NotQuery": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "title": "query",
+            "$ref": "#/components/schemas/zitadel.user.v1.SearchQuery"
+          }
+        },
+        "title": "NotQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.OrQuery": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.user.v1.SearchQuery"
+            },
+            "title": "queries"
+          }
+        },
+        "title": "OrQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.PersonalAccessToken": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "expirationDate": {
+            "title": "expiration_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "scopes"
+          }
+        },
+        "title": "PersonalAccessToken",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.Phone": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string",
+            "title": "phone"
+          },
+          "isPhoneVerified": {
+            "type": "boolean",
+            "title": "is_phone_verified"
+          }
+        },
+        "title": "Phone",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.Profile": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "title": "first_name"
+          },
+          "lastName": {
+            "type": "string",
+            "title": "last_name"
+          },
+          "nickName": {
+            "type": "string",
+            "title": "nick_name"
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          },
+          "preferredLanguage": {
+            "type": "string",
+            "title": "preferred_language"
+          },
+          "gender": {
+            "title": "gender",
+            "$ref": "#/components/schemas/zitadel.user.v1.Gender"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "title": "avatar_url"
+          }
+        },
+        "title": "Profile",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.RefreshToken": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "clientId": {
+            "type": "string",
+            "title": "client_id"
+          },
+          "authTime": {
+            "title": "auth_time",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "idleExpiration": {
+            "title": "idle_expiration",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "expiration": {
+            "title": "expiration",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "scopes"
+          },
+          "audience": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "audience"
+          }
+        },
+        "title": "RefreshToken",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.SearchQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "andQuery": {
+                "title": "and_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.AndQuery"
+              }
+            },
+            "title": "and_query",
+            "required": [
+              "andQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "displayNameQuery": {
+                "title": "display_name_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.DisplayNameQuery"
+              }
+            },
+            "title": "display_name_query",
+            "required": [
+              "displayNameQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "emailQuery": {
+                "title": "email_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.EmailQuery"
+              }
+            },
+            "title": "email_query",
+            "required": [
+              "emailQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "firstNameQuery": {
+                "title": "first_name_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.FirstNameQuery"
+              }
+            },
+            "title": "first_name_query",
+            "required": [
+              "firstNameQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "inUserEmailsQuery": {
+                "title": "in_user_emails_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.InUserEmailsQuery"
+              }
+            },
+            "title": "in_user_emails_query",
+            "required": [
+              "inUserEmailsQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "inUserIdsQuery": {
+                "title": "in_user_ids_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.InUserIDQuery"
+              }
+            },
+            "title": "in_user_ids_query",
+            "required": [
+              "inUserIdsQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "lastNameQuery": {
+                "title": "last_name_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.LastNameQuery"
+              }
+            },
+            "title": "last_name_query",
+            "required": [
+              "lastNameQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "loginNameQuery": {
+                "title": "login_name_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.LoginNameQuery"
+              }
+            },
+            "title": "login_name_query",
+            "required": [
+              "loginNameQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "nickNameQuery": {
+                "title": "nick_name_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.NickNameQuery"
+              }
+            },
+            "title": "nick_name_query",
+            "required": [
+              "nickNameQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "notQuery": {
+                "title": "not_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.NotQuery"
+              }
+            },
+            "title": "not_query",
+            "required": [
+              "notQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "orQuery": {
+                "title": "or_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.OrQuery"
+              }
+            },
+            "title": "or_query",
+            "required": [
+              "orQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "stateQuery": {
+                "title": "state_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.StateQuery"
+              }
+            },
+            "title": "state_query",
+            "required": [
+              "stateQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "typeQuery": {
+                "title": "type_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.TypeQuery"
+              }
+            },
+            "title": "type_query",
+            "required": [
+              "typeQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "userNameQuery": {
+                "title": "user_name_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserNameQuery"
+              }
+            },
+            "title": "user_name_query",
+            "required": [
+              "userNameQuery"
+            ]
+          }
+        ],
+        "title": "SearchQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.Session": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "title": "session_id"
+          },
+          "agentId": {
+            "type": "string",
+            "title": "agent_id"
+          },
+          "authState": {
+            "title": "auth_state",
+            "$ref": "#/components/schemas/zitadel.user.v1.SessionState"
+          },
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          },
+          "userName": {
+            "type": "string",
+            "title": "user_name"
+          },
+          "loginName": {
+            "type": "string",
+            "title": "login_name"
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "title": "avatar_url"
+          }
+        },
+        "title": "Session",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.SessionState": {
+        "type": "string",
+        "title": "SessionState",
+        "enum": [
+          "SESSION_STATE_UNSPECIFIED",
+          "SESSION_STATE_ACTIVE",
+          "SESSION_STATE_TERMINATED"
+        ]
+      },
+      "zitadel.user.v1.StateQuery": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "title": "state",
+            "$ref": "#/components/schemas/zitadel.user.v1.UserState"
+          }
+        },
+        "title": "StateQuery",
+        "additionalProperties": false,
+        "description": "UserStateQuery always equals"
+      },
+      "zitadel.user.v1.Type": {
+        "type": "string",
+        "title": "Type",
+        "enum": [
+          "TYPE_UNSPECIFIED",
+          "TYPE_HUMAN",
+          "TYPE_MACHINE"
+        ]
+      },
+      "zitadel.user.v1.TypeQuery": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "title": "type",
+            "$ref": "#/components/schemas/zitadel.user.v1.Type"
+          }
+        },
+        "title": "TypeQuery",
+        "additionalProperties": false,
+        "description": "UserTypeQuery always equals"
+      },
+      "zitadel.user.v1.User": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "id": {
+                "type": "string",
+                "title": "id"
+              },
+              "details": {
+                "title": "details",
+                "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+              },
+              "state": {
+                "title": "state",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserState"
+              },
+              "userName": {
+                "type": "string",
+                "title": "user_name"
+              },
+              "loginNames": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "title": "login_names"
+              },
+              "preferredLoginName": {
+                "type": "string",
+                "title": "preferred_login_name"
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "human": {
+                    "title": "human",
+                    "$ref": "#/components/schemas/zitadel.user.v1.Human"
+                  }
+                },
+                "title": "human",
+                "required": [
+                  "human"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "machine": {
+                    "title": "machine",
+                    "$ref": "#/components/schemas/zitadel.user.v1.Machine"
+                  }
+                },
+                "title": "machine",
+                "required": [
+                  "machine"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "User",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserFieldName": {
+        "type": "string",
+        "title": "UserFieldName",
+        "enum": [
+          "USER_FIELD_NAME_UNSPECIFIED",
+          "USER_FIELD_NAME_USER_NAME",
+          "USER_FIELD_NAME_FIRST_NAME",
+          "USER_FIELD_NAME_LAST_NAME",
+          "USER_FIELD_NAME_NICK_NAME",
+          "USER_FIELD_NAME_DISPLAY_NAME",
+          "USER_FIELD_NAME_EMAIL",
+          "USER_FIELD_NAME_STATE",
+          "USER_FIELD_NAME_TYPE",
+          "USER_FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.user.v1.UserGrant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "roleKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "role_keys"
+          },
+          "state": {
+            "title": "state",
+            "$ref": "#/components/schemas/zitadel.user.v1.UserGrantState"
+          },
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          },
+          "userName": {
+            "type": "string",
+            "title": "user_name"
+          },
+          "firstName": {
+            "type": "string",
+            "title": "first_name"
+          },
+          "lastName": {
+            "type": "string",
+            "title": "last_name"
+          },
+          "email": {
+            "type": "string",
+            "title": "email"
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          },
+          "orgId": {
+            "type": "string",
+            "title": "org_id"
+          },
+          "orgName": {
+            "type": "string",
+            "title": "org_name"
+          },
+          "orgDomain": {
+            "type": "string",
+            "title": "org_domain"
+          },
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "projectName": {
+            "type": "string",
+            "title": "project_name"
+          },
+          "projectGrantId": {
+            "type": "string",
+            "title": "project_grant_id"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "title": "avatar_url"
+          },
+          "preferredLoginName": {
+            "type": "string",
+            "title": "preferred_login_name"
+          },
+          "userType": {
+            "title": "user_type",
+            "$ref": "#/components/schemas/zitadel.user.v1.Type"
+          },
+          "grantedOrgId": {
+            "type": "string",
+            "title": "granted_org_id"
+          },
+          "grantedOrgName": {
+            "type": "string",
+            "title": "granted_org_name"
+          },
+          "grantedOrgDomain": {
+            "type": "string",
+            "title": "granted_org_domain"
+          }
+        },
+        "title": "UserGrant",
+        "additionalProperties": false,
+        "description": "User grant refers to role assignments, i.e., the roles users have for a specific project and organization."
+      },
+      "zitadel.user.v1.UserGrantDisplayNameQuery": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "UserGrantDisplayNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantEmailQuery": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "email"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "UserGrantEmailQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantFirstNameQuery": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "title": "first_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "UserGrantFirstNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantInUserIDsQuery": {
+        "type": "object",
+        "properties": {
+          "inUserIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "in_user_ids"
+          }
+        },
+        "title": "UserGrantInUserIDsQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantLastNameQuery": {
+        "type": "object",
+        "properties": {
+          "lastName": {
+            "type": "string",
+            "title": "last_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "UserGrantLastNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantOrgDomainQuery": {
+        "type": "object",
+        "properties": {
+          "orgDomain": {
+            "type": "string",
+            "title": "org_domain"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "UserGrantOrgDomainQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantOrgNameQuery": {
+        "type": "object",
+        "properties": {
+          "orgName": {
+            "type": "string",
+            "title": "org_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "UserGrantOrgNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantProjectGrantIDQuery": {
+        "type": "object",
+        "properties": {
+          "projectGrantId": {
+            "type": "string",
+            "title": "project_grant_id"
+          }
+        },
+        "title": "UserGrantProjectGrantIDQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantProjectIDQuery": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          }
+        },
+        "title": "UserGrantProjectIDQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantProjectNameQuery": {
+        "type": "object",
+        "properties": {
+          "projectName": {
+            "type": "string",
+            "title": "project_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "UserGrantProjectNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantQuery": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "displayNameQuery": {
+                "title": "display_name_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantDisplayNameQuery"
+              }
+            },
+            "title": "display_name_query",
+            "required": [
+              "displayNameQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "emailQuery": {
+                "title": "email_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantEmailQuery"
+              }
+            },
+            "title": "email_query",
+            "required": [
+              "emailQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "firstNameQuery": {
+                "title": "first_name_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantFirstNameQuery"
+              }
+            },
+            "title": "first_name_query",
+            "required": [
+              "firstNameQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "inUserIdsQuery": {
+                "title": "in_user_ids_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantInUserIDsQuery"
+              }
+            },
+            "title": "in_user_ids_query",
+            "required": [
+              "inUserIdsQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "lastNameQuery": {
+                "title": "last_name_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantLastNameQuery"
+              }
+            },
+            "title": "last_name_query",
+            "required": [
+              "lastNameQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "orgDomainQuery": {
+                "title": "org_domain_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantOrgDomainQuery"
+              }
+            },
+            "title": "org_domain_query",
+            "required": [
+              "orgDomainQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "orgNameQuery": {
+                "title": "org_name_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantOrgNameQuery"
+              }
+            },
+            "title": "org_name_query",
+            "required": [
+              "orgNameQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "projectGrantIdQuery": {
+                "title": "project_grant_id_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantProjectGrantIDQuery"
+              }
+            },
+            "title": "project_grant_id_query",
+            "required": [
+              "projectGrantIdQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "projectIdQuery": {
+                "title": "project_id_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantProjectIDQuery"
+              }
+            },
+            "title": "project_id_query",
+            "required": [
+              "projectIdQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "projectNameQuery": {
+                "title": "project_name_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantProjectNameQuery"
+              }
+            },
+            "title": "project_name_query",
+            "required": [
+              "projectNameQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "roleKeyQuery": {
+                "title": "role_key_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantRoleKeyQuery"
+              }
+            },
+            "title": "role_key_query",
+            "required": [
+              "roleKeyQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "userIdQuery": {
+                "title": "user_id_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantUserIDQuery"
+              }
+            },
+            "title": "user_id_query",
+            "required": [
+              "userIdQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "userNameQuery": {
+                "title": "user_name_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantUserNameQuery"
+              }
+            },
+            "title": "user_name_query",
+            "required": [
+              "userNameQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "userTypeQuery": {
+                "title": "user_type_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantUserTypeQuery"
+              }
+            },
+            "title": "user_type_query",
+            "required": [
+              "userTypeQuery"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "withGrantedQuery": {
+                "title": "with_granted_query",
+                "$ref": "#/components/schemas/zitadel.user.v1.UserGrantWithGrantedQuery"
+              }
+            },
+            "title": "with_granted_query",
+            "required": [
+              "withGrantedQuery"
+            ]
+          }
+        ],
+        "title": "UserGrantQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantRoleKeyQuery": {
+        "type": "object",
+        "properties": {
+          "roleKey": {
+            "type": "string",
+            "title": "role_key"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "UserGrantRoleKeyQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantState": {
+        "type": "string",
+        "title": "UserGrantState",
+        "enum": [
+          "USER_GRANT_STATE_UNSPECIFIED",
+          "USER_GRANT_STATE_ACTIVE",
+          "USER_GRANT_STATE_INACTIVE"
+        ]
+      },
+      "zitadel.user.v1.UserGrantUserIDQuery": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          }
+        },
+        "title": "UserGrantUserIDQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantUserNameQuery": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "title": "user_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "UserGrantUserNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantUserTypeQuery": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "title": "type",
+            "$ref": "#/components/schemas/zitadel.user.v1.Type"
+          }
+        },
+        "title": "UserGrantUserTypeQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserGrantWithGrantedQuery": {
+        "type": "object",
+        "properties": {
+          "withGranted": {
+            "type": "boolean",
+            "title": "with_granted"
+          }
+        },
+        "title": "UserGrantWithGrantedQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserNameQuery": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "title": "user_name"
+          },
+          "method": {
+            "title": "method",
+            "$ref": "#/components/schemas/zitadel.v1.TextQueryMethod"
+          }
+        },
+        "title": "UserNameQuery",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.UserState": {
+        "type": "string",
+        "title": "UserState",
+        "enum": [
+          "USER_STATE_UNSPECIFIED",
+          "USER_STATE_ACTIVE",
+          "USER_STATE_INACTIVE",
+          "USER_STATE_DELETED",
+          "USER_STATE_LOCKED",
+          "USER_STATE_SUSPEND",
+          "USER_STATE_INITIAL"
+        ]
+      },
+      "zitadel.user.v1.WebAuthNKey": {
+        "type": "object",
+        "properties": {
+          "publicKey": {
+            "type": "string",
+            "title": "public_key",
+            "format": "byte"
+          }
+        },
+        "title": "WebAuthNKey",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.WebAuthNToken": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "state": {
+            "title": "state",
+            "$ref": "#/components/schemas/zitadel.user.v1.AuthFactorState"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          }
+        },
+        "title": "WebAuthNToken",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.WebAuthNVerification": {
+        "type": "object",
+        "properties": {
+          "publicKeyCredential": {
+            "type": "string",
+            "title": "public_key_credential",
+            "format": "byte"
+          },
+          "tokenName": {
+            "type": "string",
+            "title": "token_name"
+          }
+        },
+        "title": "WebAuthNVerification",
+        "additionalProperties": false
+      },
+      "zitadel.v1.ObjectDetails": {
+        "type": "object",
+        "properties": {
+          "sequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "sequence",
+            "format": "int64",
+            "description": "sequence represents the order of events. It's always counting\n\n on read: the sequence of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "creation_date is the timestamp where the first operation on the object was made\n\n on read: the timestamp of the first event of the object\n\n on create: the timestamp of the event(s) added by the manipulation",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "change_date is the timestamp when the object was changed\n\n on read: the timestamp of the last event reduced by the projection\n\n on manipulation: the",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "resourceOwner": {
+            "type": "string",
+            "title": "resource_owner",
+            "description": "resource_owner is the organization an object belongs to"
+          }
+        },
+        "title": "ObjectDetails",
+        "additionalProperties": false
+      },
+      "zitadel.v1.TextQueryMethod": {
+        "type": "string",
+        "title": "TextQueryMethod",
+        "enum": [
+          "TEXT_QUERY_METHOD_EQUALS",
+          "TEXT_QUERY_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_STARTS_WITH",
+          "TEXT_QUERY_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_CONTAINS",
+          "TEXT_QUERY_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_QUERY_METHOD_ENDS_WITH",
+          "TEXT_QUERY_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      }
+    }
+  },
+  "security": []
+}

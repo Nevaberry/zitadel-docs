@@ -1,0 +1,252 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.resources.user.v3alpha"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.resources.user.v3alpha.Contact": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "title": "email",
+            "description": "Email contact information of the user.",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.Email"
+          },
+          "phone": {
+            "title": "phone",
+            "description": "Phone contact information of the user.",
+            "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.Phone"
+          }
+        },
+        "title": "Contact",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.Email": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "title": "address",
+            "description": "Email address of the user."
+          },
+          "isVerified": {
+            "type": "boolean",
+            "title": "is_verified",
+            "description": "IsVerified states if the email address has been verified to belong to the user."
+          }
+        },
+        "title": "Email",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.Phone": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "title": "number",
+            "description": "Phone number of the user."
+          },
+          "isVerified": {
+            "type": "boolean",
+            "title": "is_verified",
+            "description": "IsVerified states if the phone number has been verified to belong to the user."
+          }
+        },
+        "title": "Phone",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.ReturnEmailVerificationCode": {
+        "type": "object",
+        "title": "ReturnEmailVerificationCode",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.ReturnPhoneVerificationCode": {
+        "type": "object",
+        "title": "ReturnPhoneVerificationCode",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SendEmailVerificationCode": {
+        "type": "object",
+        "properties": {
+          "urlTemplate": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "url_template",
+            "description": "Optionally set a url_template, which will be used in the verification mail sent by Zitadel\n to guide the user to your verification page.\n If no template is set, the default Zitadel url will be used."
+          }
+        },
+        "title": "SendEmailVerificationCode",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SendPhoneVerificationCode": {
+        "type": "object",
+        "title": "SendPhoneVerificationCode",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SetContact": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SetEmail"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "email"
+          },
+          "phone": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SetPhone"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "phone"
+          }
+        },
+        "title": "SetContact",
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SetEmail": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "address": {
+                "type": "string",
+                "title": "address",
+                "description": "Set the email address."
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "isVerified": {
+                    "type": "boolean",
+                    "title": "is_verified",
+                    "description": "Set the email as already verified."
+                  }
+                },
+                "title": "is_verified",
+                "required": [
+                  "isVerified"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "returnCode": {
+                    "title": "return_code",
+                    "description": "Get the code back to provide it to the user in your preferred mechanism.",
+                    "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.ReturnEmailVerificationCode"
+                  }
+                },
+                "title": "return_code",
+                "required": [
+                  "returnCode"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "sendCode": {
+                    "title": "send_code",
+                    "description": "Let Zitadel send the link to the user via email.",
+                    "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SendEmailVerificationCode"
+                  }
+                },
+                "title": "send_code",
+                "required": [
+                  "sendCode"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "SetEmail",
+        "required": [
+          "address"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.user.v3alpha.SetPhone": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "number": {
+                "type": "string",
+                "title": "number",
+                "description": "Set the user's phone number."
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "isVerified": {
+                    "type": "boolean",
+                    "title": "is_verified",
+                    "description": "Set the phone as already verified."
+                  }
+                },
+                "title": "is_verified",
+                "required": [
+                  "isVerified"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "returnCode": {
+                    "title": "return_code",
+                    "description": "Get the code back to provide it to the user in your preferred mechanism.",
+                    "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.ReturnPhoneVerificationCode"
+                  }
+                },
+                "title": "return_code",
+                "required": [
+                  "returnCode"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "sendCode": {
+                    "title": "send_code",
+                    "description": "Let Zitadel send the link to the user via SMS.",
+                    "$ref": "#/components/schemas/zitadel.resources.user.v3alpha.SendPhoneVerificationCode"
+                  }
+                },
+                "title": "send_code",
+                "required": [
+                  "sendCode"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "SetPhone",
+        "required": [
+          "number"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

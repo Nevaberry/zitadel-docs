@@ -1,0 +1,65 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.app.v2beta"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.app.v2beta.LoginV1": {
+        "type": "object",
+        "title": "LoginV1",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.LoginV2": {
+        "type": "object",
+        "properties": {
+          "baseUri": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "base_uri",
+            "description": "Optionally specify a base uri of the login UI. If unspecified the default URI will be used."
+          }
+        },
+        "title": "LoginV2",
+        "additionalProperties": false
+      },
+      "zitadel.app.v2beta.LoginVersion": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "loginV1": {
+                "title": "login_v1",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.LoginV1"
+              }
+            },
+            "title": "login_v1",
+            "required": [
+              "loginV1"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "loginV2": {
+                "title": "login_v2",
+                "$ref": "#/components/schemas/zitadel.app.v2beta.LoginV2"
+              }
+            },
+            "title": "login_v2",
+            "required": [
+              "loginV2"
+            ]
+          }
+        ],
+        "title": "LoginVersion",
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

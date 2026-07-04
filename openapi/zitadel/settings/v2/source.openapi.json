@@ -1,0 +1,25 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.settings.v2"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.settings.v2.Source": {
+        "type": "string",
+        "title": "Source",
+        "enum": [
+          "SOURCE_UNSPECIFIED",
+          "SOURCE_SYSTEM",
+          "SOURCE_INSTANCE",
+          "SOURCE_ORGANIZATION",
+          "SOURCE_PROJECT",
+          "SOURCE_APPLICATION"
+        ],
+        "description": "Source defines the levels of hierarchy for which settings can be\n written/retrieved."
+      }
+    }
+  },
+  "security": []
+}

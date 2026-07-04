@@ -38,7 +38,11 @@ cp -r proto "$SCRIPT_DIR/proto"
 cp -f "$TMP_DIR/frameworks.json" "$SCRIPT_DIR/" 2>/dev/null || true
 cp -f "$TMP_DIR/redirects.json" "$SCRIPT_DIR/" 2>/dev/null || true
 
-# Generate OpenAPI specs if buf is available
+# Generate OpenAPI specs if buf is available. ZITADEL's current buf template
+# uses the local protoc-gen-connect-openapi plugin, so make a best effort to
+# provide it from a temporary GOBIN. The generated openapi/ directory is not
+# currently tracked in this mirror; failures here should not abort the docs/proto
+# sync.
 if command -v npx &>/dev/null; then
     echo "Generating OpenAPI specs from proto files ..."
     rm -rf "$SCRIPT_DIR/openapi"
@@ -46,12 +50,29 @@ if command -v npx &>/dev/null; then
 
     # Get the buf template
     git show HEAD:apps/docs/buf.gen.yaml > "$TMP_DIR/buf.gen.yaml" 2>/dev/null
-    npx @bufbuild/buf generate proto \
-        --template "$TMP_DIR/buf.gen.yaml" \
-        --output "$SCRIPT_DIR/openapi" 2>&1
 
-    SPEC_COUNT=$(find "$SCRIPT_DIR/openapi" -name "*.json" | wc -l)
-    echo "Generated $SPEC_COUNT OpenAPI spec files"
+    if ! command -v protoc-gen-connect-openapi &>/dev/null; then
+        if command -v go &>/dev/null; then
+            echo "Installing protoc-gen-connect-openapi into a temporary GOBIN ..."
+            mkdir -p "$TMP_DIR/bin"
+            GOBIN="$TMP_DIR/bin" go install github.com/sudorandom/protoc-gen-connect-openapi@latest
+            export PATH="$TMP_DIR/bin:$PATH"
+        else
+            echo "go not found — skipping OpenAPI generation"
+        fi
+    fi
+
+    if command -v protoc-gen-connect-openapi &>/dev/null; then
+        if npx @bufbuild/buf generate proto \
+            --template "$TMP_DIR/buf.gen.yaml" \
+            --output "$SCRIPT_DIR/openapi" 2>&1; then
+            SPEC_COUNT=$(find "$SCRIPT_DIR/openapi" -name "*.json" | wc -l)
+            echo "Generated $SPEC_COUNT OpenAPI spec files"
+        else
+            echo "OpenAPI generation failed — keeping docs/proto sync and continuing"
+            rm -rf "$SCRIPT_DIR/openapi"
+        fi
+    fi
 else
     echo "npx not found — skipping OpenAPI generation"
 fi

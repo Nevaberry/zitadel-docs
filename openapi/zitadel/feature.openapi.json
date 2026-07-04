@@ -1,0 +1,20 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.feature.v1"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.feature.v1.InstanceFeature": {
+        "type": "string",
+        "title": "InstanceFeature",
+        "enum": [
+          "INSTANCE_FEATURE_UNSPECIFIED",
+          "INSTANCE_FEATURE_LOGIN_DEFAULT_ORG"
+        ]
+      }
+    }
+  },
+  "security": []
+}

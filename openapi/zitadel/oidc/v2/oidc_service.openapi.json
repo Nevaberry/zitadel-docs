@@ -1,0 +1,667 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.oidc.v2"
+  },
+  "paths": {
+    "/v2/oidc/auth_requests/{auth_request_id}": {
+      "get": {
+        "tags": [
+          "zitadel.oidc.v2.OIDCService"
+        ],
+        "summary": "Get Auth Request",
+        "description": "Get OIDC Auth Request details by ID, obtained from the redirect URL.\n Returns details that are parsed from the application's Auth Request.\n\n Required permissions:\n   - `session.read`",
+        "operationId": "zitadel.oidc.v2.OIDCService.GetAuthRequest",
+        "parameters": [
+          {
+            "name": "auth_request_id",
+            "in": "path",
+            "description": "The ID of the Auth Request, as obtained from the redirect URL.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "auth_request_id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.oidc.v2.GetAuthRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "zitadel.oidc.v2.OIDCService"
+        ],
+        "summary": "Create Callback",
+        "description": "Finalize an Auth Request and get the callback URL for success or failure.\n The user must be redirected to the URL in order to inform the application about the success or failure.\n On success, the URL contains details for the application to obtain the tokens.\n This method can only be called once for an Auth request.\n\n Required permissions:\n   - `session.link`",
+        "operationId": "zitadel.oidc.v2.OIDCService.CreateCallback",
+        "parameters": [
+          {
+            "name": "auth_request_id",
+            "in": "path",
+            "description": "The ID of the Auth Request to finalize.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "auth_request_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "allOf": [
+                  {},
+                  {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "error": {
+                            "title": "error",
+                            "description": "The error that occurred during the authorization flow, to inform the application.\n This creates a callback URL with the error details set.\n See: https://openid.net/specs/openid-connect-core-1_0.html#AuthError",
+                            "$ref": "#/components/schemas/zitadel.oidc.v2.AuthorizationError"
+                          }
+                        },
+                        "title": "error",
+                        "required": [
+                          "error"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "session": {
+                            "title": "session",
+                            "description": "The session of the authenticated user, to finalize the authorization request.",
+                            "$ref": "#/components/schemas/zitadel.oidc.v2.Session"
+                          }
+                        },
+                        "title": "session",
+                        "required": [
+                          "session"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "title": "CreateCallbackRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.oidc.v2.CreateCallbackResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/oidc/device_authorization/{device_authorization_id}": {
+      "post": {
+        "tags": [
+          "zitadel.oidc.v2.OIDCService"
+        ],
+        "summary": "Authorize or Deny Device Authorization",
+        "description": "Authorize or deny the device authorization request based on the provided device authorization id.\n\n Required permissions:\n   - `session.link`",
+        "operationId": "zitadel.oidc.v2.OIDCService.AuthorizeOrDenyDeviceAuthorization",
+        "parameters": [
+          {
+            "name": "device_authorization_id",
+            "in": "path",
+            "description": "The device authorization id returned when submitting the user code.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "device_authorization_id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "allOf": [
+                  {},
+                  {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "deny": {
+                            "title": "deny",
+                            "description": "Deny the device authorization request.",
+                            "$ref": "#/components/schemas/zitadel.oidc.v2.Deny"
+                          }
+                        },
+                        "title": "deny",
+                        "required": [
+                          "deny"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "session": {
+                            "title": "session",
+                            "description": "To authorize the device authorization request, the user's session must be provided.",
+                            "$ref": "#/components/schemas/zitadel.oidc.v2.Session"
+                          }
+                        },
+                        "title": "session",
+                        "required": [
+                          "session"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "title": "AuthorizeOrDenyDeviceAuthorizationRequest",
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.oidc.v2.AuthorizeOrDenyDeviceAuthorizationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/oidc/device_authorization/{user_code}": {
+      "get": {
+        "tags": [
+          "zitadel.oidc.v2.OIDCService"
+        ],
+        "summary": "Get Device Authorization Request",
+        "description": "Get the device authorization based on the provided \"user code\".\n This will return the device authorization request, which contains the device authorization id\n that is required to authorize the request once the user signed in or to deny it.\n\n Required permissions:\n   - `session.read`",
+        "operationId": "zitadel.oidc.v2.OIDCService.GetDeviceAuthorizationRequest",
+        "parameters": [
+          {
+            "name": "user_code",
+            "in": "path",
+            "description": "The user_code returned by the device authorization request and provided to the user by the device.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "user_code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.oidc.v2.GetDeviceAuthorizationRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "google.protobuf.Duration": {
+        "type": "string",
+        "format": "duration",
+        "description": "A Duration represents a signed, fixed-length span of time represented\n as a count of seconds and fractions of seconds at nanosecond\n resolution. It is independent of any calendar and concepts like \"day\"\n or \"month\". It is related to Timestamp in that the difference between\n two Timestamp values is a Duration and it can be added or subtracted\n from a Timestamp. Range is approximately +-10,000 years.\n\n # Examples\n\n Example 1: Compute Duration from two Timestamps in pseudo code.\n\n     Timestamp start = ...;\n     Timestamp end = ...;\n     Duration duration = ...;\n\n     duration.seconds = end.seconds - start.seconds;\n     duration.nanos = end.nanos - start.nanos;\n\n     if (duration.seconds \u003c 0 \u0026\u0026 duration.nanos \u003e 0) {\n       duration.seconds += 1;\n       duration.nanos -= 1000000000;\n     } else if (duration.seconds \u003e 0 \u0026\u0026 duration.nanos \u003c 0) {\n       duration.seconds -= 1;\n       duration.nanos += 1000000000;\n     }\n\n Example 2: Compute Timestamp from Timestamp + Duration in pseudo code.\n\n     Timestamp start = ...;\n     Duration duration = ...;\n     Timestamp end = ...;\n\n     end.seconds = start.seconds + duration.seconds;\n     end.nanos = start.nanos + duration.nanos;\n\n     if (end.nanos \u003c 0) {\n       end.seconds -= 1;\n       end.nanos += 1000000000;\n     } else if (end.nanos \u003e= 1000000000) {\n       end.seconds += 1;\n       end.nanos -= 1000000000;\n     }\n\n Example 3: Compute Duration from datetime.timedelta in Python.\n\n     td = datetime.timedelta(days=3, minutes=10)\n     duration = Duration()\n     duration.FromTimedelta(td)\n\n # JSON Mapping\n\n In JSON format, the Duration type is encoded as a string rather than an\n object, where the string ends in the suffix \"s\" (indicating seconds) and\n is preceded by the number of seconds, with nanoseconds expressed as\n fractional seconds. For example, 3 seconds with 0 nanoseconds should be\n encoded in JSON format as \"3s\", while 3 seconds and 1 nanosecond should\n be expressed in JSON format as \"3.000000001s\", and 3 seconds and 1\n microsecond should be expressed in JSON format as \"3.000001s\"."
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.object.v2.Details": {
+        "type": "object",
+        "properties": {
+          "sequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "sequence",
+            "format": "int64",
+            "description": "sequence represents the order of events. It's always counting\n\n on read: the sequence of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "change_date is the timestamp when the object was changed\n\n on read: the timestamp of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "resourceOwner": {
+            "type": "string",
+            "title": "resource_owner",
+            "description": "resource_owner is the organization or instance_id an object belongs to"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "creation_date is the timestamp where the first operation on the object was made",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "Details",
+        "additionalProperties": false
+      },
+      "zitadel.oidc.v2.AuthRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "The unique identifier of the authorization request."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp when the authorization request was created.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "clientId": {
+            "type": "string",
+            "title": "client_id",
+            "description": "The OAuth2/OIDC client_id of the application that initiated the authorization request."
+          },
+          "scope": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "scope",
+            "description": "The scopes by the application that the user must consent to."
+          },
+          "redirectUri": {
+            "type": "string",
+            "title": "redirect_uri",
+            "description": "The redirect_uri used in the authorization request. This must exactly match one of the redirect URIs registered for the client.\n This uri is used to send the authorization code or tokens back to the application."
+          },
+          "prompt": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.oidc.v2.Prompt"
+            },
+            "title": "prompt",
+            "description": "Prompts that must be displayed to the user."
+          },
+          "uiLocales": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ui_locales",
+            "description": "End-User's preferred languages and scripts for the user interface, represented as a list of BCP47 [RFC5646]\n language tag values, ordered by preference.\n For instance, the value [fr-CA, fr, en] represents a preference for French as spoken in Canada,\n then French (without a region designation), followed by English (without a region designation).\n An error SHOULD NOT result if some or all of the requested locales are not supported."
+          },
+          "loginHint": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "login_hint",
+            "description": "Login hint can be set by the application with a user identifier such as an email or phone number."
+          },
+          "maxAge": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/google.protobuf.Duration"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "max_age",
+            "description": "Specifies the allowable elapsed time in seconds since the last time the End-User was actively authenticated.\n If the elapsed time is greater than this value, or the field is present with 0 duration, the user must be re-authenticated."
+          },
+          "hintUserId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "hint_user_id",
+            "description": "User ID taken from a ID Token Hint if it was present and valid."
+          }
+        },
+        "title": "AuthRequest",
+        "additionalProperties": false,
+        "description": "AuthRequest represents an OpenID Connect Authorization Request as defined in\n https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest"
+      },
+      "zitadel.oidc.v2.AuthorizationError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "title": "error",
+            "$ref": "#/components/schemas/zitadel.oidc.v2.ErrorReason"
+          },
+          "errorDescription": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "error_description"
+          },
+          "errorUri": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "error_uri"
+          }
+        },
+        "title": "AuthorizationError",
+        "additionalProperties": false
+      },
+      "zitadel.oidc.v2.AuthorizeOrDenyDeviceAuthorizationRequest": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "deviceAuthorizationId": {
+                "type": "string",
+                "title": "device_authorization_id",
+                "description": "The device authorization id returned when submitting the user code."
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "deny": {
+                    "title": "deny",
+                    "description": "Deny the device authorization request.",
+                    "$ref": "#/components/schemas/zitadel.oidc.v2.Deny"
+                  }
+                },
+                "title": "deny",
+                "required": [
+                  "deny"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "session": {
+                    "title": "session",
+                    "description": "To authorize the device authorization request, the user's session must be provided.",
+                    "$ref": "#/components/schemas/zitadel.oidc.v2.Session"
+                  }
+                },
+                "title": "session",
+                "required": [
+                  "session"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "AuthorizeOrDenyDeviceAuthorizationRequest",
+        "required": [
+          "deviceAuthorizationId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.oidc.v2.AuthorizeOrDenyDeviceAuthorizationResponse": {
+        "type": "object",
+        "title": "AuthorizeOrDenyDeviceAuthorizationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.oidc.v2.CreateCallbackRequest": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "authRequestId": {
+                "type": "string",
+                "title": "auth_request_id",
+                "description": "The ID of the Auth Request to finalize."
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "title": "error",
+                    "description": "The error that occurred during the authorization flow, to inform the application.\n This creates a callback URL with the error details set.\n See: https://openid.net/specs/openid-connect-core-1_0.html#AuthError",
+                    "$ref": "#/components/schemas/zitadel.oidc.v2.AuthorizationError"
+                  }
+                },
+                "title": "error",
+                "required": [
+                  "error"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "session": {
+                    "title": "session",
+                    "description": "The session of the authenticated user, to finalize the authorization request.",
+                    "$ref": "#/components/schemas/zitadel.oidc.v2.Session"
+                  }
+                },
+                "title": "session",
+                "required": [
+                  "session"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "CreateCallbackRequest",
+        "required": [
+          "authRequestId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.oidc.v2.CreateCallbackResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2.Details"
+          },
+          "callbackUrl": {
+            "type": "string",
+            "title": "callback_url",
+            "description": "The callback URL where the user should be redirected using an HTTP \"302 FOUND\" status.\n This contains details for the application to obtain the tokens on success, or error details on failure.\n Note that this field must be treated as credentials, as the contained code can be used to obtain tokens on behalf of the user.\""
+          }
+        },
+        "title": "CreateCallbackResponse",
+        "additionalProperties": false
+      },
+      "zitadel.oidc.v2.Deny": {
+        "type": "object",
+        "title": "Deny",
+        "additionalProperties": false
+      },
+      "zitadel.oidc.v2.DeviceAuthorizationRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "The unique identifier of the device authorization request to be used for authorizing or denying the request."
+          },
+          "clientId": {
+            "type": "string",
+            "title": "client_id",
+            "description": "The client_id of the application that initiated the device authorization request."
+          },
+          "scope": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "scope",
+            "description": "The scopes requested by the application."
+          },
+          "appName": {
+            "type": "string",
+            "title": "app_name",
+            "description": "Name of the client application."
+          },
+          "projectName": {
+            "type": "string",
+            "title": "project_name",
+            "description": "Name of the project the client application is part of."
+          }
+        },
+        "title": "DeviceAuthorizationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.oidc.v2.ErrorReason": {
+        "type": "string",
+        "title": "ErrorReason",
+        "enum": [
+          "ERROR_REASON_UNSPECIFIED",
+          "ERROR_REASON_INVALID_REQUEST",
+          "ERROR_REASON_UNAUTHORIZED_CLIENT",
+          "ERROR_REASON_ACCESS_DENIED",
+          "ERROR_REASON_UNSUPPORTED_RESPONSE_TYPE",
+          "ERROR_REASON_INVALID_SCOPE",
+          "ERROR_REASON_SERVER_ERROR",
+          "ERROR_REASON_TEMPORARY_UNAVAILABLE",
+          "ERROR_REASON_INTERACTION_REQUIRED",
+          "ERROR_REASON_LOGIN_REQUIRED",
+          "ERROR_REASON_ACCOUNT_SELECTION_REQUIRED",
+          "ERROR_REASON_CONSENT_REQUIRED",
+          "ERROR_REASON_INVALID_REQUEST_URI",
+          "ERROR_REASON_INVALID_REQUEST_OBJECT",
+          "ERROR_REASON_REQUEST_NOT_SUPPORTED",
+          "ERROR_REASON_REQUEST_URI_NOT_SUPPORTED",
+          "ERROR_REASON_REGISTRATION_NOT_SUPPORTED"
+        ]
+      },
+      "zitadel.oidc.v2.GetAuthRequestRequest": {
+        "type": "object",
+        "properties": {
+          "authRequestId": {
+            "type": "string",
+            "title": "auth_request_id",
+            "description": "The ID of the Auth Request, as obtained from the redirect URL."
+          }
+        },
+        "title": "GetAuthRequestRequest",
+        "required": [
+          "authRequestId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.oidc.v2.GetAuthRequestResponse": {
+        "type": "object",
+        "properties": {
+          "authRequest": {
+            "title": "auth_request",
+            "$ref": "#/components/schemas/zitadel.oidc.v2.AuthRequest"
+          }
+        },
+        "title": "GetAuthRequestResponse",
+        "additionalProperties": false
+      },
+      "zitadel.oidc.v2.GetDeviceAuthorizationRequestRequest": {
+        "type": "object",
+        "properties": {
+          "userCode": {
+            "type": "string",
+            "title": "user_code",
+            "description": "The user_code returned by the device authorization request and provided to the user by the device."
+          }
+        },
+        "title": "GetDeviceAuthorizationRequestRequest",
+        "required": [
+          "userCode"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.oidc.v2.GetDeviceAuthorizationRequestResponse": {
+        "type": "object",
+        "properties": {
+          "deviceAuthorizationRequest": {
+            "title": "device_authorization_request",
+            "$ref": "#/components/schemas/zitadel.oidc.v2.DeviceAuthorizationRequest"
+          }
+        },
+        "title": "GetDeviceAuthorizationRequestResponse",
+        "additionalProperties": false
+      },
+      "zitadel.oidc.v2.Prompt": {
+        "type": "string",
+        "title": "Prompt",
+        "enum": [
+          "PROMPT_UNSPECIFIED",
+          "PROMPT_NONE",
+          "PROMPT_LOGIN",
+          "PROMPT_CONSENT",
+          "PROMPT_SELECT_ACCOUNT",
+          "PROMPT_CREATE"
+        ]
+      },
+      "zitadel.oidc.v2.Session": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "title": "session_id",
+            "description": "ID of the session, used to login the user. Connects the session to the Auth Request."
+          },
+          "sessionToken": {
+            "type": "string",
+            "title": "session_token",
+            "description": "Token of the session used to login the user. This token verifies that the session is valid."
+          }
+        },
+        "title": "Session",
+        "required": [
+          "sessionId",
+          "sessionToken"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "zitadel.oidc.v2.OIDCService"
+    }
+  ]
+}

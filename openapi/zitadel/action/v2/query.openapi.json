@@ -1,0 +1,550 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.action.v2"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.action.v2.Condition": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "event": {
+                "title": "event",
+                "description": "Condition-type to execute if an event is created in the system.",
+                "$ref": "#/components/schemas/zitadel.action.v2.EventExecution"
+              }
+            },
+            "title": "event",
+            "required": [
+              "event"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "function": {
+                "title": "function",
+                "description": "Condition-type to execute if function is used, replaces actions v1.",
+                "$ref": "#/components/schemas/zitadel.action.v2.FunctionExecution"
+              }
+            },
+            "title": "function",
+            "required": [
+              "function"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "request": {
+                "title": "request",
+                "description": "Condition-type to execute if a request on the defined API point happens.",
+                "$ref": "#/components/schemas/zitadel.action.v2.RequestExecution"
+              }
+            },
+            "title": "request",
+            "required": [
+              "request"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "response": {
+                "title": "response",
+                "description": "Condition-type to execute on response if a request on the defined API point happens.",
+                "$ref": "#/components/schemas/zitadel.action.v2.ResponseExecution"
+              }
+            },
+            "title": "response",
+            "required": [
+              "response"
+            ]
+          }
+        ],
+        "title": "Condition",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.EventExecution": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "all": {
+                "type": "boolean",
+                "title": "all",
+                "description": "Define all events as condition.\n After any event is created, the execution is triggered."
+              }
+            },
+            "title": "all",
+            "required": [
+              "all"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "event": {
+                "type": "string",
+                "title": "event",
+                "description": "Define a specific event as condition.\n After this event is created, the execution is triggered."
+              }
+            },
+            "title": "event",
+            "required": [
+              "event"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "group": {
+                "type": "string",
+                "title": "group",
+                "description": "Define an event group as condition.\n After any event under this group is created, the execution is triggered."
+              }
+            },
+            "title": "group",
+            "required": [
+              "group"
+            ]
+          }
+        ],
+        "title": "EventExecution",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.ExecutionFieldName": {
+        "type": "string",
+        "title": "ExecutionFieldName",
+        "enum": [
+          "EXECUTION_FIELD_NAME_UNSPECIFIED",
+          "EXECUTION_FIELD_NAME_ID",
+          "EXECUTION_FIELD_NAME_CREATED_DATE",
+          "EXECUTION_FIELD_NAME_CHANGED_DATE"
+        ]
+      },
+      "zitadel.action.v2.ExecutionSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "executionTypeFilter": {
+                "title": "execution_type_filter",
+                "description": "Filter for executions of a certain type.",
+                "$ref": "#/components/schemas/zitadel.action.v2.ExecutionTypeFilter"
+              }
+            },
+            "title": "execution_type_filter",
+            "required": [
+              "executionTypeFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "inConditionsFilter": {
+                "title": "in_conditions_filter",
+                "description": "Filter for executions that are executed when certain conditions are met.",
+                "$ref": "#/components/schemas/zitadel.action.v2.InConditionsFilter"
+              }
+            },
+            "title": "in_conditions_filter",
+            "required": [
+              "inConditionsFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "targetFilter": {
+                "title": "target_filter",
+                "description": "Filter for executions that include a specific target.",
+                "$ref": "#/components/schemas/zitadel.action.v2.TargetFilter"
+              }
+            },
+            "title": "target_filter",
+            "required": [
+              "targetFilter"
+            ]
+          }
+        ],
+        "title": "ExecutionSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.ExecutionType": {
+        "type": "string",
+        "title": "ExecutionType",
+        "enum": [
+          "EXECUTION_TYPE_UNSPECIFIED",
+          "EXECUTION_TYPE_REQUEST",
+          "EXECUTION_TYPE_RESPONSE",
+          "EXECUTION_TYPE_EVENT",
+          "EXECUTION_TYPE_FUNCTION"
+        ]
+      },
+      "zitadel.action.v2.ExecutionTypeFilter": {
+        "type": "object",
+        "properties": {
+          "executionType": {
+            "title": "execution_type",
+            "description": "Defines the type to query for.",
+            "$ref": "#/components/schemas/zitadel.action.v2.ExecutionType"
+          }
+        },
+        "title": "ExecutionTypeFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.FunctionExecution": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          }
+        },
+        "title": "FunctionExecution",
+        "additionalProperties": false,
+        "description": "Executed on the specified function"
+      },
+      "zitadel.action.v2.InConditionsFilter": {
+        "type": "object",
+        "properties": {
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.action.v2.Condition"
+            },
+            "title": "conditions",
+            "description": "Defines the conditions to query for."
+          }
+        },
+        "title": "InConditionsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.InTargetIDsFilter": {
+        "type": "object",
+        "properties": {
+          "targetIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "target_ids",
+            "description": "Defines the ids to query for."
+          }
+        },
+        "title": "InTargetIDsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.PublicKeyFieldName": {
+        "type": "string",
+        "title": "PublicKeyFieldName",
+        "enum": [
+          "PUBLIC_KEY_FIELD_NAME_UNSPECIFIED",
+          "PUBLIC_KEY_FIELD_NAME_CREATION_DATE",
+          "PUBLIC_KEY_FIELD_NAME_CHANGE_DATE",
+          "PUBLIC_KEY_FIELD_NAME_EXPIRATION_DATE"
+        ]
+      },
+      "zitadel.action.v2.PublicKeySearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "activeFilter": {
+                "type": "boolean",
+                "title": "active_filter",
+                "description": "Filter the keys by their active status."
+              }
+            },
+            "title": "active_filter",
+            "required": [
+              "activeFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "expirationDateFilter": {
+                "title": "expiration_date_filter",
+                "description": "Filter the keys by their expiration status.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.TimestampFilter"
+              }
+            },
+            "title": "expiration_date_filter",
+            "required": [
+              "expirationDateFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "keyIdsFilter": {
+                "title": "key_ids_filter",
+                "description": "Filter the keys by one or multiple ids.",
+                "$ref": "#/components/schemas/zitadel.filter.v2.InIDsFilter"
+              }
+            },
+            "title": "key_ids_filter",
+            "required": [
+              "keyIdsFilter"
+            ]
+          }
+        ],
+        "title": "PublicKeySearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.RequestExecution": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "all": {
+                "type": "boolean",
+                "title": "all",
+                "description": "Define all calls as condition.\n When a call to any available service happens, the execution is triggered."
+              }
+            },
+            "title": "all",
+            "required": [
+              "all"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "title": "method",
+                "description": "Define a GRPC-method as condition.\n When a request to this method happens, the execution is triggered."
+              }
+            },
+            "title": "method",
+            "required": [
+              "method"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "service": {
+                "type": "string",
+                "title": "service",
+                "description": "Define a GRPC-service as condition.\n When a request to any method of this service happens, the execution is triggered."
+              }
+            },
+            "title": "service",
+            "required": [
+              "service"
+            ]
+          }
+        ],
+        "title": "RequestExecution",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.ResponseExecution": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "all": {
+                "type": "boolean",
+                "title": "all",
+                "description": "Define all calls as condition.\n Before a response is returned to the client from any available service,\n the execution is triggered."
+              }
+            },
+            "title": "all",
+            "required": [
+              "all"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "title": "method",
+                "description": "Define a GRPC-method as condition.\n Before a response is returned to the client from this method, the execution is triggered."
+              }
+            },
+            "title": "method",
+            "required": [
+              "method"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "service": {
+                "type": "string",
+                "title": "service",
+                "description": "Define a GRPC-service as condition.\n Before a response is returned to the client from any method of this service, the execution is triggered."
+              }
+            },
+            "title": "service",
+            "required": [
+              "service"
+            ]
+          }
+        ],
+        "title": "ResponseExecution",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.TargetFieldName": {
+        "type": "string",
+        "title": "TargetFieldName",
+        "enum": [
+          "TARGET_FIELD_NAME_UNSPECIFIED",
+          "TARGET_FIELD_NAME_ID",
+          "TARGET_FIELD_NAME_CREATED_DATE",
+          "TARGET_FIELD_NAME_CHANGED_DATE",
+          "TARGET_FIELD_NAME_NAME",
+          "TARGET_FIELD_NAME_TARGET_TYPE",
+          "TARGET_FIELD_NAME_URL",
+          "TARGET_FIELD_NAME_TIMEOUT",
+          "TARGET_FIELD_NAME_INTERRUPT_ON_ERROR"
+        ]
+      },
+      "zitadel.action.v2.TargetFilter": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "title": "target_id",
+            "description": "Defines the id of the target that needs to be part of the execution."
+          }
+        },
+        "title": "TargetFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.TargetNameFilter": {
+        "type": "object",
+        "properties": {
+          "targetName": {
+            "type": "string",
+            "title": "target_name",
+            "description": "Defines the name of the target to query for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the name query.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.TextFilterMethod"
+          }
+        },
+        "title": "TargetNameFilter",
+        "additionalProperties": false
+      },
+      "zitadel.action.v2.TargetSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "inTargetIdsFilter": {
+                "title": "in_target_ids_filter",
+                "description": "Filter for targets with specific ids.",
+                "$ref": "#/components/schemas/zitadel.action.v2.InTargetIDsFilter"
+              }
+            },
+            "title": "in_target_ids_filter",
+            "required": [
+              "inTargetIdsFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "targetNameFilter": {
+                "title": "target_name_filter",
+                "description": "Filter for targets with a specific name.",
+                "$ref": "#/components/schemas/zitadel.action.v2.TargetNameFilter"
+              }
+            },
+            "title": "target_name_filter",
+            "required": [
+              "targetNameFilter"
+            ]
+          }
+        ],
+        "title": "TargetSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.InIDsFilter": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ids",
+            "description": "Defines the ids to query for."
+          }
+        },
+        "title": "InIDsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.TextFilterMethod": {
+        "type": "string",
+        "title": "TextFilterMethod",
+        "enum": [
+          "TEXT_FILTER_METHOD_EQUALS",
+          "TEXT_FILTER_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_STARTS_WITH",
+          "TEXT_FILTER_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_CONTAINS",
+          "TEXT_FILTER_METHOD_CONTAINS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_ENDS_WITH",
+          "TEXT_FILTER_METHOD_ENDS_WITH_IGNORE_CASE"
+        ]
+      },
+      "zitadel.filter.v2.TimestampFilter": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "title": "timestamp",
+            "description": "Filter resources by timestamp.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines the condition (e.g., equals, before, after) that the timestamp of the retrieved resources should match.",
+            "$ref": "#/components/schemas/zitadel.filter.v2.TimestampFilterMethod"
+          }
+        },
+        "title": "TimestampFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2.TimestampFilterMethod": {
+        "type": "string",
+        "title": "TimestampFilterMethod",
+        "enum": [
+          "TIMESTAMP_FILTER_METHOD_EQUALS",
+          "TIMESTAMP_FILTER_METHOD_AFTER",
+          "TIMESTAMP_FILTER_METHOD_AFTER_OR_EQUALS",
+          "TIMESTAMP_FILTER_METHOD_BEFORE",
+          "TIMESTAMP_FILTER_METHOD_BEFORE_OR_EQUALS"
+        ]
+      }
+    }
+  },
+  "security": []
+}

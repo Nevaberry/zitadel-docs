@@ -1,0 +1,3560 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.v1.v1"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "google.protobuf.Duration": {
+        "type": "string",
+        "format": "duration",
+        "description": "A Duration represents a signed, fixed-length span of time represented\n as a count of seconds and fractions of seconds at nanosecond\n resolution. It is independent of any calendar and concepts like \"day\"\n or \"month\". It is related to Timestamp in that the difference between\n two Timestamp values is a Duration and it can be added or subtracted\n from a Timestamp. Range is approximately +-10,000 years.\n\n # Examples\n\n Example 1: Compute Duration from two Timestamps in pseudo code.\n\n     Timestamp start = ...;\n     Timestamp end = ...;\n     Duration duration = ...;\n\n     duration.seconds = end.seconds - start.seconds;\n     duration.nanos = end.nanos - start.nanos;\n\n     if (duration.seconds \u003c 0 \u0026\u0026 duration.nanos \u003e 0) {\n       duration.seconds += 1;\n       duration.nanos -= 1000000000;\n     } else if (duration.seconds \u003e 0 \u0026\u0026 duration.nanos \u003c 0) {\n       duration.seconds -= 1;\n       duration.nanos += 1000000000;\n     }\n\n Example 2: Compute Timestamp from Timestamp + Duration in pseudo code.\n\n     Timestamp start = ...;\n     Duration duration = ...;\n     Timestamp end = ...;\n\n     end.seconds = start.seconds + duration.seconds;\n     end.nanos = start.nanos + duration.nanos;\n\n     if (end.nanos \u003c 0) {\n       end.seconds -= 1;\n       end.nanos += 1000000000;\n     } else if (end.nanos \u003e= 1000000000) {\n       end.seconds += 1;\n       end.nanos -= 1000000000;\n     }\n\n Example 3: Compute Duration from datetime.timedelta in Python.\n\n     td = datetime.timedelta(days=3, minutes=10)\n     duration = Duration()\n     duration.FromTimedelta(td)\n\n # JSON Mapping\n\n In JSON format, the Duration type is encoded as a string rather than an\n object, where the string ends in the suffix \"s\" (indicating seconds) and\n is preceded by the number of seconds, with nanoseconds expressed as\n fractional seconds. For example, 3 seconds with 0 nanoseconds should be\n encoded in JSON format as \"3s\", while 3 seconds and 1 nanosecond should\n be expressed in JSON format as \"3.000000001s\", and 3 seconds and 1\n microsecond should be expressed in JSON format as \"3.000001s\"."
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.app.v1.APIAuthMethodType": {
+        "type": "string",
+        "title": "APIAuthMethodType",
+        "enum": [
+          "API_AUTH_METHOD_TYPE_BASIC",
+          "API_AUTH_METHOD_TYPE_PRIVATE_KEY_JWT"
+        ]
+      },
+      "zitadel.app.v1.LoginV1": {
+        "type": "object",
+        "title": "LoginV1",
+        "additionalProperties": false
+      },
+      "zitadel.app.v1.LoginV2": {
+        "type": "object",
+        "properties": {
+          "baseUri": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "base_uri",
+            "description": "Optionally specify a base uri of the login UI. If unspecified the default URI will be used."
+          }
+        },
+        "title": "LoginV2",
+        "additionalProperties": false
+      },
+      "zitadel.app.v1.LoginVersion": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "loginV1": {
+                "title": "login_v1",
+                "$ref": "#/components/schemas/zitadel.app.v1.LoginV1"
+              }
+            },
+            "title": "login_v1",
+            "required": [
+              "loginV1"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "loginV2": {
+                "title": "login_v2",
+                "$ref": "#/components/schemas/zitadel.app.v1.LoginV2"
+              }
+            },
+            "title": "login_v2",
+            "required": [
+              "loginV2"
+            ]
+          }
+        ],
+        "title": "LoginVersion",
+        "additionalProperties": false
+      },
+      "zitadel.app.v1.OIDCAppType": {
+        "type": "string",
+        "title": "OIDCAppType",
+        "enum": [
+          "OIDC_APP_TYPE_WEB",
+          "OIDC_APP_TYPE_USER_AGENT",
+          "OIDC_APP_TYPE_NATIVE"
+        ]
+      },
+      "zitadel.app.v1.OIDCAuthMethodType": {
+        "type": "string",
+        "title": "OIDCAuthMethodType",
+        "enum": [
+          "OIDC_AUTH_METHOD_TYPE_BASIC",
+          "OIDC_AUTH_METHOD_TYPE_POST",
+          "OIDC_AUTH_METHOD_TYPE_NONE",
+          "OIDC_AUTH_METHOD_TYPE_PRIVATE_KEY_JWT"
+        ]
+      },
+      "zitadel.app.v1.OIDCGrantType": {
+        "type": "string",
+        "title": "OIDCGrantType",
+        "enum": [
+          "OIDC_GRANT_TYPE_AUTHORIZATION_CODE",
+          "OIDC_GRANT_TYPE_IMPLICIT",
+          "OIDC_GRANT_TYPE_REFRESH_TOKEN",
+          "OIDC_GRANT_TYPE_DEVICE_CODE",
+          "OIDC_GRANT_TYPE_TOKEN_EXCHANGE"
+        ]
+      },
+      "zitadel.app.v1.OIDCResponseType": {
+        "type": "string",
+        "title": "OIDCResponseType",
+        "enum": [
+          "OIDC_RESPONSE_TYPE_CODE",
+          "OIDC_RESPONSE_TYPE_ID_TOKEN",
+          "OIDC_RESPONSE_TYPE_ID_TOKEN_TOKEN"
+        ]
+      },
+      "zitadel.app.v1.OIDCTokenType": {
+        "type": "string",
+        "title": "OIDCTokenType",
+        "enum": [
+          "OIDC_TOKEN_TYPE_BEARER",
+          "OIDC_TOKEN_TYPE_JWT"
+        ]
+      },
+      "zitadel.app.v1.OIDCVersion": {
+        "type": "string",
+        "title": "OIDCVersion",
+        "enum": [
+          "OIDC_VERSION_1_0"
+        ]
+      },
+      "zitadel.authn.v1.KeyType": {
+        "type": "string",
+        "title": "KeyType",
+        "enum": [
+          "KEY_TYPE_UNSPECIFIED",
+          "KEY_TYPE_JSON"
+        ]
+      },
+      "zitadel.idp.v1.IDPOwnerType": {
+        "type": "string",
+        "title": "IDPOwnerType",
+        "enum": [
+          "IDP_OWNER_TYPE_UNSPECIFIED",
+          "IDP_OWNER_TYPE_SYSTEM",
+          "IDP_OWNER_TYPE_ORG"
+        ],
+        "description": "the owner of the identity provider."
+      },
+      "zitadel.idp.v1.IDPStylingType": {
+        "type": "string",
+        "title": "IDPStylingType",
+        "enum": [
+          "STYLING_TYPE_UNSPECIFIED",
+          "STYLING_TYPE_GOOGLE"
+        ]
+      },
+      "zitadel.idp.v1.IDPType": {
+        "type": "string",
+        "title": "IDPType",
+        "enum": [
+          "IDP_TYPE_UNSPECIFIED",
+          "IDP_TYPE_OIDC",
+          "IDP_TYPE_JWT"
+        ],
+        "description": "authorization framework of the identity provider"
+      },
+      "zitadel.idp.v1.IDPUserLink": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          },
+          "idpId": {
+            "type": "string",
+            "title": "idp_id"
+          },
+          "idpName": {
+            "type": "string",
+            "title": "idp_name"
+          },
+          "providedUserId": {
+            "type": "string",
+            "title": "provided_user_id"
+          },
+          "providedUserName": {
+            "type": "string",
+            "title": "provided_user_name"
+          },
+          "idpType": {
+            "title": "idp_type",
+            "$ref": "#/components/schemas/zitadel.idp.v1.IDPType"
+          }
+        },
+        "title": "IDPUserLink",
+        "additionalProperties": false
+      },
+      "zitadel.idp.v1.OIDCMappingField": {
+        "type": "string",
+        "title": "OIDCMappingField",
+        "enum": [
+          "OIDC_MAPPING_FIELD_UNSPECIFIED",
+          "OIDC_MAPPING_FIELD_PREFERRED_USERNAME",
+          "OIDC_MAPPING_FIELD_EMAIL"
+        ]
+      },
+      "zitadel.management.v1.AddAPIAppRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "authMethodType": {
+            "title": "auth_method_type",
+            "$ref": "#/components/schemas/zitadel.app.v1.APIAuthMethodType"
+          }
+        },
+        "title": "AddAPIAppRequest",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddCustomLabelPolicyRequest": {
+        "type": "object",
+        "properties": {
+          "primaryColor": {
+            "type": "string",
+            "title": "primary_color"
+          },
+          "hideLoginNameSuffix": {
+            "type": "boolean",
+            "title": "hide_login_name_suffix",
+            "description": "hides the org suffix on the login form if the scope \\\"urn:zitadel:iam:org:domain:primary:{domainname}\\\" is set"
+          },
+          "warnColor": {
+            "type": "string",
+            "title": "warn_color"
+          },
+          "backgroundColor": {
+            "type": "string",
+            "title": "background_color"
+          },
+          "fontColor": {
+            "type": "string",
+            "title": "font_color"
+          },
+          "primaryColorDark": {
+            "type": "string",
+            "title": "primary_color_dark"
+          },
+          "backgroundColorDark": {
+            "type": "string",
+            "title": "background_color_dark"
+          },
+          "warnColorDark": {
+            "type": "string",
+            "title": "warn_color_dark"
+          },
+          "fontColorDark": {
+            "type": "string",
+            "title": "font_color_dark"
+          },
+          "disableWatermark": {
+            "type": "boolean",
+            "title": "disable_watermark"
+          },
+          "themeMode": {
+            "title": "theme_mode",
+            "$ref": "#/components/schemas/zitadel.policy.v1.ThemeMode"
+          }
+        },
+        "title": "AddCustomLabelPolicyRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddCustomLockoutPolicyRequest": {
+        "type": "object",
+        "properties": {
+          "maxPasswordAttempts": {
+            "type": "integer",
+            "title": "max_password_attempts"
+          },
+          "maxOtpAttempts": {
+            "type": "integer",
+            "title": "max_otp_attempts"
+          }
+        },
+        "title": "AddCustomLockoutPolicyRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddCustomLoginPolicyRequest": {
+        "type": "object",
+        "properties": {
+          "allowUsernamePassword": {
+            "type": "boolean",
+            "title": "allow_username_password"
+          },
+          "allowRegister": {
+            "type": "boolean",
+            "title": "allow_register"
+          },
+          "allowExternalIdp": {
+            "type": "boolean",
+            "title": "allow_external_idp"
+          },
+          "forceMfa": {
+            "type": "boolean",
+            "title": "force_mfa"
+          },
+          "passwordlessType": {
+            "title": "passwordless_type",
+            "$ref": "#/components/schemas/zitadel.policy.v1.PasswordlessType"
+          },
+          "hidePasswordReset": {
+            "type": "boolean",
+            "title": "hide_password_reset"
+          },
+          "ignoreUnknownUsernames": {
+            "type": "boolean",
+            "title": "ignore_unknown_usernames"
+          },
+          "defaultRedirectUri": {
+            "type": "string",
+            "title": "default_redirect_uri"
+          },
+          "passwordCheckLifetime": {
+            "title": "password_check_lifetime",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "externalLoginCheckLifetime": {
+            "title": "external_login_check_lifetime",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "mfaInitSkipLifetime": {
+            "title": "mfa_init_skip_lifetime",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "secondFactorCheckLifetime": {
+            "title": "second_factor_check_lifetime",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "multiFactorCheckLifetime": {
+            "title": "multi_factor_check_lifetime",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "secondFactors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.policy.v1.SecondFactorType"
+            },
+            "title": "second_factors"
+          },
+          "multiFactors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.policy.v1.MultiFactorType"
+            },
+            "title": "multi_factors"
+          },
+          "idps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.AddCustomLoginPolicyRequest.IDP"
+            },
+            "title": "idps"
+          },
+          "allowDomainDiscovery": {
+            "type": "boolean",
+            "title": "allow_domain_discovery",
+            "description": "If set to true, the suffix (@domain.com) of an unknown username input on the login screen will be matched against the org domains and will redirect to the registration of that organization on success."
+          },
+          "disableLoginWithEmail": {
+            "type": "boolean",
+            "title": "disable_login_with_email"
+          },
+          "disableLoginWithPhone": {
+            "type": "boolean",
+            "title": "disable_login_with_phone"
+          },
+          "forceMfaLocalOnly": {
+            "type": "boolean",
+            "title": "force_mfa_local_only"
+          }
+        },
+        "title": "AddCustomLoginPolicyRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddCustomLoginPolicyRequest.IDP": {
+        "type": "object",
+        "properties": {
+          "idpId": {
+            "type": "string",
+            "title": "idp_id"
+          },
+          "ownerType": {
+            "title": "ownerType",
+            "$ref": "#/components/schemas/zitadel.idp.v1.IDPOwnerType"
+          }
+        },
+        "title": "IDP",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddCustomPasswordComplexityPolicyRequest": {
+        "type": "object",
+        "properties": {
+          "minLength": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "min_length",
+            "format": "int64"
+          },
+          "hasUppercase": {
+            "type": "boolean",
+            "title": "has_uppercase"
+          },
+          "hasLowercase": {
+            "type": "boolean",
+            "title": "has_lowercase"
+          },
+          "hasNumber": {
+            "type": "boolean",
+            "title": "has_number"
+          },
+          "hasSymbol": {
+            "type": "boolean",
+            "title": "has_symbol"
+          }
+        },
+        "title": "AddCustomPasswordComplexityPolicyRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddCustomPrivacyPolicyRequest": {
+        "type": "object",
+        "properties": {
+          "tosLink": {
+            "type": "string",
+            "title": "tos_link"
+          },
+          "privacyLink": {
+            "type": "string",
+            "title": "privacy_link"
+          },
+          "helpLink": {
+            "type": "string",
+            "title": "help_link"
+          },
+          "supportEmail": {
+            "type": "string",
+            "title": "support_email"
+          },
+          "docsLink": {
+            "type": "string",
+            "title": "docs_link"
+          },
+          "customLink": {
+            "type": "string",
+            "title": "custom_link"
+          },
+          "customLinkText": {
+            "type": "string",
+            "title": "custom_link_text"
+          }
+        },
+        "title": "AddCustomPrivacyPolicyRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddIDPToLoginPolicyRequest": {
+        "type": "object",
+        "properties": {
+          "idpId": {
+            "type": "string",
+            "title": "idp_id"
+          },
+          "ownerType": {
+            "title": "ownerType",
+            "$ref": "#/components/schemas/zitadel.idp.v1.IDPOwnerType"
+          }
+        },
+        "title": "AddIDPToLoginPolicyRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddMachineUserRequest": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "title": "user_name"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "accessTokenType": {
+            "title": "access_token_type",
+            "$ref": "#/components/schemas/zitadel.user.v1.AccessTokenType"
+          },
+          "userId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "user_id",
+            "description": "optionally set your own id unique for the user."
+          }
+        },
+        "title": "AddMachineUserRequest",
+        "required": [
+          "userName",
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddMultiFactorToLoginPolicyRequest": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "title": "type",
+            "$ref": "#/components/schemas/zitadel.policy.v1.MultiFactorType"
+          }
+        },
+        "title": "AddMultiFactorToLoginPolicyRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddOIDCAppRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "redirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "redirect_uris"
+          },
+          "responseTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.app.v1.OIDCResponseType"
+            },
+            "title": "response_types"
+          },
+          "grantTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.app.v1.OIDCGrantType"
+            },
+            "title": "grant_types"
+          },
+          "appType": {
+            "title": "app_type",
+            "$ref": "#/components/schemas/zitadel.app.v1.OIDCAppType"
+          },
+          "authMethodType": {
+            "title": "auth_method_type",
+            "$ref": "#/components/schemas/zitadel.app.v1.OIDCAuthMethodType"
+          },
+          "postLogoutRedirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "post_logout_redirect_uris"
+          },
+          "version": {
+            "title": "version",
+            "$ref": "#/components/schemas/zitadel.app.v1.OIDCVersion"
+          },
+          "devMode": {
+            "type": "boolean",
+            "title": "dev_mode"
+          },
+          "accessTokenType": {
+            "title": "access_token_type",
+            "$ref": "#/components/schemas/zitadel.app.v1.OIDCTokenType"
+          },
+          "accessTokenRoleAssertion": {
+            "type": "boolean",
+            "title": "access_token_role_assertion"
+          },
+          "idTokenRoleAssertion": {
+            "type": "boolean",
+            "title": "id_token_role_assertion"
+          },
+          "idTokenUserinfoAssertion": {
+            "type": "boolean",
+            "title": "id_token_userinfo_assertion"
+          },
+          "clockSkew": {
+            "title": "clock_skew",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "additionalOrigins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "additional_origins"
+          },
+          "skipNativeAppSuccessPage": {
+            "type": "boolean",
+            "title": "skip_native_app_success_page"
+          },
+          "backChannelLogoutUri": {
+            "type": "string",
+            "title": "back_channel_logout_uri"
+          },
+          "loginVersion": {
+            "title": "login_version",
+            "$ref": "#/components/schemas/zitadel.app.v1.LoginVersion"
+          }
+        },
+        "title": "AddOIDCAppRequest",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddOrgJWTIDPRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "stylingType": {
+            "title": "styling_type",
+            "$ref": "#/components/schemas/zitadel.idp.v1.IDPStylingType"
+          },
+          "jwtEndpoint": {
+            "type": "string",
+            "title": "jwt_endpoint"
+          },
+          "issuer": {
+            "type": "string",
+            "title": "issuer"
+          },
+          "keysEndpoint": {
+            "type": "string",
+            "title": "keys_endpoint"
+          },
+          "headerName": {
+            "type": "string",
+            "title": "header_name"
+          },
+          "autoRegister": {
+            "type": "boolean",
+            "title": "auto_register"
+          }
+        },
+        "title": "AddOrgJWTIDPRequest",
+        "required": [
+          "name",
+          "jwtEndpoint",
+          "issuer",
+          "keysEndpoint",
+          "headerName"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddOrgMemberRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "roles"
+          }
+        },
+        "title": "AddOrgMemberRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddOrgOIDCIDPRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "stylingType": {
+            "title": "styling_type",
+            "$ref": "#/components/schemas/zitadel.idp.v1.IDPStylingType"
+          },
+          "clientId": {
+            "type": "string",
+            "title": "client_id"
+          },
+          "clientSecret": {
+            "type": "string",
+            "title": "client_secret"
+          },
+          "issuer": {
+            "type": "string",
+            "title": "issuer"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "scopes"
+          },
+          "displayNameMapping": {
+            "title": "display_name_mapping",
+            "$ref": "#/components/schemas/zitadel.idp.v1.OIDCMappingField"
+          },
+          "usernameMapping": {
+            "title": "username_mapping",
+            "$ref": "#/components/schemas/zitadel.idp.v1.OIDCMappingField"
+          },
+          "autoRegister": {
+            "type": "boolean",
+            "title": "auto_register"
+          }
+        },
+        "title": "AddOrgOIDCIDPRequest",
+        "required": [
+          "name",
+          "clientId",
+          "clientSecret",
+          "issuer"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddOrgRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          }
+        },
+        "title": "AddOrgRequest",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddProjectGrantMemberRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "grantId": {
+            "type": "string",
+            "title": "grant_id"
+          },
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "roles"
+          }
+        },
+        "title": "AddProjectGrantMemberRequest",
+        "required": [
+          "userId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddProjectGrantRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "grantedOrgId": {
+            "type": "string",
+            "title": "granted_org_id"
+          },
+          "roleKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "role_keys"
+          }
+        },
+        "title": "AddProjectGrantRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddProjectMemberRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "roles"
+          }
+        },
+        "title": "AddProjectMemberRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddProjectRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "projectRoleAssertion": {
+            "type": "boolean",
+            "title": "project_role_assertion"
+          },
+          "projectRoleCheck": {
+            "type": "boolean",
+            "title": "project_role_check"
+          },
+          "hasProjectCheck": {
+            "type": "boolean",
+            "title": "has_project_check"
+          },
+          "privateLabelingSetting": {
+            "title": "private_labeling_setting",
+            "$ref": "#/components/schemas/zitadel.project.v1.PrivateLabelingSetting"
+          }
+        },
+        "title": "AddProjectRequest",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddProjectRoleRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "roleKey": {
+            "type": "string",
+            "title": "role_key"
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          },
+          "group": {
+            "type": "string",
+            "title": "group"
+          }
+        },
+        "title": "AddProjectRoleRequest",
+        "required": [
+          "roleKey",
+          "displayName"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddSecondFactorToLoginPolicyRequest": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "title": "type",
+            "$ref": "#/components/schemas/zitadel.policy.v1.SecondFactorType"
+          }
+        },
+        "title": "AddSecondFactorToLoginPolicyRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.AddUserGrantRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          },
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "projectGrantId": {
+            "type": "string",
+            "title": "project_grant_id"
+          },
+          "roleKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "role_keys"
+          }
+        },
+        "title": "AddUserGrantRequest",
+        "required": [
+          "userId",
+          "projectId"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.CreateActionRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "script": {
+            "type": "string",
+            "title": "script"
+          },
+          "timeout": {
+            "title": "timeout",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "allowedToFail": {
+            "type": "boolean",
+            "title": "allowed_to_fail"
+          }
+        },
+        "title": "CreateActionRequest",
+        "required": [
+          "name",
+          "script"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.ImportHumanUserRequest": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "title": "user_name"
+          },
+          "profile": {
+            "title": "profile",
+            "$ref": "#/components/schemas/zitadel.management.v1.ImportHumanUserRequest.Profile"
+          },
+          "email": {
+            "title": "email",
+            "$ref": "#/components/schemas/zitadel.management.v1.ImportHumanUserRequest.Email"
+          },
+          "phone": {
+            "title": "phone",
+            "$ref": "#/components/schemas/zitadel.management.v1.ImportHumanUserRequest.Phone"
+          },
+          "password": {
+            "type": "string",
+            "title": "password"
+          },
+          "hashedPassword": {
+            "title": "hashed_password",
+            "$ref": "#/components/schemas/zitadel.management.v1.ImportHumanUserRequest.HashedPassword"
+          },
+          "passwordChangeRequired": {
+            "type": "boolean",
+            "title": "password_change_required"
+          },
+          "requestPasswordlessRegistration": {
+            "type": "boolean",
+            "title": "request_passwordless_registration"
+          },
+          "otpCode": {
+            "type": "string",
+            "title": "otp_code"
+          },
+          "idps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.ImportHumanUserRequest.IDP"
+            },
+            "title": "idps"
+          },
+          "recoveryCodes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.ImportHumanUserRequest.RecoveryCode"
+            },
+            "title": "recovery_codes"
+          }
+        },
+        "title": "ImportHumanUserRequest",
+        "required": [
+          "userName",
+          "profile",
+          "email"
+        ],
+        "additionalProperties": false,
+        "description": "Describe my Import Human User Request"
+      },
+      "zitadel.management.v1.ImportHumanUserRequest.Email": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "email"
+          },
+          "isEmailVerified": {
+            "type": "boolean",
+            "title": "is_email_verified"
+          }
+        },
+        "title": "Email",
+        "required": [
+          "email"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.ImportHumanUserRequest.HashedPassword": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "value"
+          }
+        },
+        "title": "HashedPassword",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.ImportHumanUserRequest.IDP": {
+        "type": "object",
+        "properties": {
+          "configId": {
+            "type": "string",
+            "title": "config_id"
+          },
+          "externalUserId": {
+            "type": "string",
+            "title": "external_user_id"
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          }
+        },
+        "title": "IDP",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.ImportHumanUserRequest.Phone": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string",
+            "title": "phone"
+          },
+          "isPhoneVerified": {
+            "type": "boolean",
+            "title": "is_phone_verified"
+          }
+        },
+        "title": "Phone",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.ImportHumanUserRequest.Profile": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "title": "first_name"
+          },
+          "lastName": {
+            "type": "string",
+            "title": "last_name"
+          },
+          "nickName": {
+            "type": "string",
+            "title": "nick_name"
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          },
+          "preferredLanguage": {
+            "type": "string",
+            "title": "preferred_language"
+          },
+          "gender": {
+            "title": "gender",
+            "$ref": "#/components/schemas/zitadel.user.v1.Gender"
+          }
+        },
+        "title": "Profile",
+        "required": [
+          "firstName",
+          "lastName"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.ImportHumanUserRequest.RecoveryCode": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "hash": {
+                "type": "string",
+                "title": "hash"
+              }
+            },
+            "title": "hash",
+            "required": [
+              "hash"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "raw": {
+                "type": "string",
+                "title": "raw"
+              }
+            },
+            "title": "raw",
+            "required": [
+              "raw"
+            ]
+          }
+        ],
+        "title": "RecoveryCode",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.SetCustomDomainClaimedMessageTextRequest": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "title": "language"
+          },
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "preHeader": {
+            "type": "string",
+            "title": "pre_header"
+          },
+          "subject": {
+            "type": "string",
+            "title": "subject"
+          },
+          "greeting": {
+            "type": "string",
+            "title": "greeting"
+          },
+          "text": {
+            "type": "string",
+            "title": "text"
+          },
+          "buttonText": {
+            "type": "string",
+            "title": "button_text"
+          },
+          "footerText": {
+            "type": "string",
+            "title": "footer_text"
+          }
+        },
+        "title": "SetCustomDomainClaimedMessageTextRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.SetCustomInitMessageTextRequest": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "title": "language"
+          },
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "preHeader": {
+            "type": "string",
+            "title": "pre_header"
+          },
+          "subject": {
+            "type": "string",
+            "title": "subject"
+          },
+          "greeting": {
+            "type": "string",
+            "title": "greeting"
+          },
+          "text": {
+            "type": "string",
+            "title": "text"
+          },
+          "buttonText": {
+            "type": "string",
+            "title": "button_text"
+          },
+          "footerText": {
+            "type": "string",
+            "title": "footer_text"
+          }
+        },
+        "title": "SetCustomInitMessageTextRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.SetCustomInviteUserMessageTextRequest": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "title": "language"
+          },
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "preHeader": {
+            "type": "string",
+            "title": "pre_header"
+          },
+          "subject": {
+            "type": "string",
+            "title": "subject"
+          },
+          "greeting": {
+            "type": "string",
+            "title": "greeting"
+          },
+          "text": {
+            "type": "string",
+            "title": "text"
+          },
+          "buttonText": {
+            "type": "string",
+            "title": "button_text"
+          },
+          "footerText": {
+            "type": "string",
+            "title": "footer_text"
+          }
+        },
+        "title": "SetCustomInviteUserMessageTextRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.SetCustomLoginTextsRequest": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "title": "language"
+          },
+          "selectAccountText": {
+            "title": "select_account_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.SelectAccountScreenText"
+          },
+          "loginText": {
+            "title": "login_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.LoginScreenText"
+          },
+          "passwordText": {
+            "title": "password_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.PasswordScreenText"
+          },
+          "usernameChangeText": {
+            "title": "username_change_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.UsernameChangeScreenText"
+          },
+          "usernameChangeDoneText": {
+            "title": "username_change_done_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.UsernameChangeDoneScreenText"
+          },
+          "initPasswordText": {
+            "title": "init_password_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.InitPasswordScreenText"
+          },
+          "initPasswordDoneText": {
+            "title": "init_password_done_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.InitPasswordDoneScreenText"
+          },
+          "emailVerificationText": {
+            "title": "email_verification_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.EmailVerificationScreenText"
+          },
+          "emailVerificationDoneText": {
+            "title": "email_verification_done_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.EmailVerificationDoneScreenText"
+          },
+          "initializeUserText": {
+            "title": "initialize_user_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.InitializeUserScreenText"
+          },
+          "initializeDoneText": {
+            "title": "initialize_done_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.InitializeUserDoneScreenText"
+          },
+          "initMfaPromptText": {
+            "title": "init_mfa_prompt_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.InitMFAPromptScreenText"
+          },
+          "initMfaOtpText": {
+            "title": "init_mfa_otp_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.InitMFAOTPScreenText"
+          },
+          "initMfaU2fText": {
+            "title": "init_mfa_u2f_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.InitMFAU2FScreenText"
+          },
+          "initMfaDoneText": {
+            "title": "init_mfa_done_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.InitMFADoneScreenText"
+          },
+          "mfaProvidersText": {
+            "title": "mfa_providers_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.MFAProvidersText"
+          },
+          "verifyMfaOtpText": {
+            "title": "verify_mfa_otp_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.VerifyMFAOTPScreenText"
+          },
+          "verifyMfaU2fText": {
+            "title": "verify_mfa_u2f_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.VerifyMFAU2FScreenText"
+          },
+          "passwordlessText": {
+            "title": "passwordless_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.PasswordlessScreenText"
+          },
+          "passwordChangeText": {
+            "title": "password_change_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.PasswordChangeScreenText"
+          },
+          "passwordChangeDoneText": {
+            "title": "password_change_done_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.PasswordChangeDoneScreenText"
+          },
+          "passwordResetDoneText": {
+            "title": "password_reset_done_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.PasswordResetDoneScreenText"
+          },
+          "registrationOptionText": {
+            "title": "registration_option_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.RegistrationOptionScreenText"
+          },
+          "registrationUserText": {
+            "title": "registration_user_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.RegistrationUserScreenText"
+          },
+          "registrationOrgText": {
+            "title": "registration_org_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.RegistrationOrgScreenText"
+          },
+          "linkingUserDoneText": {
+            "title": "linking_user_done_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.LinkingUserDoneScreenText"
+          },
+          "externalUserNotFoundText": {
+            "title": "external_user_not_found_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.ExternalUserNotFoundScreenText"
+          },
+          "successLoginText": {
+            "title": "success_login_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.SuccessLoginScreenText"
+          },
+          "logoutText": {
+            "title": "logout_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.LogoutDoneScreenText"
+          },
+          "footerText": {
+            "title": "footer_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.FooterText"
+          },
+          "passwordlessPromptText": {
+            "title": "passwordless_prompt_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.PasswordlessPromptScreenText"
+          },
+          "passwordlessRegistrationText": {
+            "title": "passwordless_registration_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.PasswordlessRegistrationScreenText"
+          },
+          "passwordlessRegistrationDoneText": {
+            "title": "passwordless_registration_done_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.PasswordlessRegistrationDoneScreenText"
+          },
+          "externalRegistrationUserOverviewText": {
+            "title": "external_registration_user_overview_text",
+            "$ref": "#/components/schemas/zitadel.text.v1.ExternalRegistrationUserOverviewScreenText"
+          },
+          "linkingUserPromptText": {
+            "title": "linking_user_prompt_text",
+            "description": "Deprecated: the linking user prompt screen no longer exists",
+            "deprecated": true,
+            "$ref": "#/components/schemas/zitadel.text.v1.LinkingUserPromptScreenText"
+          }
+        },
+        "title": "SetCustomLoginTextsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.SetCustomPasswordResetMessageTextRequest": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "title": "language"
+          },
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "preHeader": {
+            "type": "string",
+            "title": "pre_header"
+          },
+          "subject": {
+            "type": "string",
+            "title": "subject"
+          },
+          "greeting": {
+            "type": "string",
+            "title": "greeting"
+          },
+          "text": {
+            "type": "string",
+            "title": "text"
+          },
+          "buttonText": {
+            "type": "string",
+            "title": "button_text"
+          },
+          "footerText": {
+            "type": "string",
+            "title": "footer_text"
+          }
+        },
+        "title": "SetCustomPasswordResetMessageTextRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.SetCustomPasswordlessRegistrationMessageTextRequest": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "title": "language"
+          },
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "preHeader": {
+            "type": "string",
+            "title": "pre_header"
+          },
+          "subject": {
+            "type": "string",
+            "title": "subject"
+          },
+          "greeting": {
+            "type": "string",
+            "title": "greeting"
+          },
+          "text": {
+            "type": "string",
+            "title": "text"
+          },
+          "buttonText": {
+            "type": "string",
+            "title": "button_text"
+          },
+          "footerText": {
+            "type": "string",
+            "title": "footer_text"
+          }
+        },
+        "title": "SetCustomPasswordlessRegistrationMessageTextRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.SetCustomVerifyEmailMessageTextRequest": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "title": "language"
+          },
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "preHeader": {
+            "type": "string",
+            "title": "pre_header"
+          },
+          "subject": {
+            "type": "string",
+            "title": "subject"
+          },
+          "greeting": {
+            "type": "string",
+            "title": "greeting"
+          },
+          "text": {
+            "type": "string",
+            "title": "text"
+          },
+          "buttonText": {
+            "type": "string",
+            "title": "button_text"
+          },
+          "footerText": {
+            "type": "string",
+            "title": "footer_text"
+          }
+        },
+        "title": "SetCustomVerifyEmailMessageTextRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.SetCustomVerifyPhoneMessageTextRequest": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "title": "language"
+          },
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "preHeader": {
+            "type": "string",
+            "title": "pre_header"
+          },
+          "subject": {
+            "type": "string",
+            "title": "subject"
+          },
+          "greeting": {
+            "type": "string",
+            "title": "greeting"
+          },
+          "text": {
+            "type": "string",
+            "title": "text"
+          },
+          "buttonText": {
+            "type": "string",
+            "title": "button_text"
+          },
+          "footerText": {
+            "type": "string",
+            "title": "footer_text"
+          }
+        },
+        "title": "SetCustomVerifyPhoneMessageTextRequest",
+        "additionalProperties": false
+      },
+      "zitadel.management.v1.SetUserMetadataRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "type": "string",
+            "title": "value",
+            "format": "byte"
+          }
+        },
+        "title": "SetUserMetadataRequest",
+        "additionalProperties": false
+      },
+      "zitadel.org.v1.Domain": {
+        "type": "object",
+        "properties": {
+          "orgId": {
+            "type": "string",
+            "title": "org_id"
+          },
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.v1.ObjectDetails"
+          },
+          "domainName": {
+            "type": "string",
+            "title": "domain_name"
+          },
+          "isVerified": {
+            "type": "boolean",
+            "title": "is_verified"
+          },
+          "isPrimary": {
+            "type": "boolean",
+            "title": "is_primary"
+          },
+          "validationType": {
+            "title": "validation_type",
+            "$ref": "#/components/schemas/zitadel.org.v1.DomainValidationType"
+          }
+        },
+        "title": "Domain",
+        "additionalProperties": false
+      },
+      "zitadel.org.v1.DomainValidationType": {
+        "type": "string",
+        "title": "DomainValidationType",
+        "enum": [
+          "DOMAIN_VALIDATION_TYPE_UNSPECIFIED",
+          "DOMAIN_VALIDATION_TYPE_HTTP",
+          "DOMAIN_VALIDATION_TYPE_DNS"
+        ]
+      },
+      "zitadel.policy.v1.MultiFactorType": {
+        "type": "string",
+        "title": "MultiFactorType",
+        "enum": [
+          "MULTI_FACTOR_TYPE_UNSPECIFIED",
+          "MULTI_FACTOR_TYPE_U2F_WITH_VERIFICATION"
+        ]
+      },
+      "zitadel.policy.v1.PasswordlessType": {
+        "type": "string",
+        "title": "PasswordlessType",
+        "enum": [
+          "PASSWORDLESS_TYPE_NOT_ALLOWED",
+          "PASSWORDLESS_TYPE_ALLOWED"
+        ]
+      },
+      "zitadel.policy.v1.SecondFactorType": {
+        "type": "string",
+        "title": "SecondFactorType",
+        "enum": [
+          "SECOND_FACTOR_TYPE_UNSPECIFIED",
+          "SECOND_FACTOR_TYPE_OTP",
+          "SECOND_FACTOR_TYPE_U2F",
+          "SECOND_FACTOR_TYPE_OTP_EMAIL",
+          "SECOND_FACTOR_TYPE_OTP_SMS",
+          "SECOND_FACTOR_TYPE_RECOVERY_CODES"
+        ]
+      },
+      "zitadel.policy.v1.ThemeMode": {
+        "type": "string",
+        "title": "ThemeMode",
+        "enum": [
+          "THEME_MODE_UNSPECIFIED",
+          "THEME_MODE_AUTO",
+          "THEME_MODE_DARK",
+          "THEME_MODE_LIGHT"
+        ]
+      },
+      "zitadel.project.v1.PrivateLabelingSetting": {
+        "type": "string",
+        "title": "PrivateLabelingSetting",
+        "enum": [
+          "PRIVATE_LABELING_SETTING_UNSPECIFIED",
+          "PRIVATE_LABELING_SETTING_ENFORCE_PROJECT_RESOURCE_OWNER_POLICY",
+          "PRIVATE_LABELING_SETTING_ALLOW_LOGIN_USER_RESOURCE_OWNER_POLICY"
+        ]
+      },
+      "zitadel.text.v1.EmailVerificationDoneScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          },
+          "cancelButtonText": {
+            "type": "string",
+            "title": "cancel_button_text"
+          },
+          "loginButtonText": {
+            "type": "string",
+            "title": "login_button_text"
+          }
+        },
+        "title": "EmailVerificationDoneScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.EmailVerificationScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "codeLabel": {
+            "type": "string",
+            "title": "code_label"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          },
+          "resendButtonText": {
+            "type": "string",
+            "title": "resend_button_text"
+          }
+        },
+        "title": "EmailVerificationScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.ExternalRegistrationUserOverviewScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "emailLabel": {
+            "type": "string",
+            "title": "email_label"
+          },
+          "usernameLabel": {
+            "type": "string",
+            "title": "username_label"
+          },
+          "firstnameLabel": {
+            "type": "string",
+            "title": "firstname_label"
+          },
+          "lastnameLabel": {
+            "type": "string",
+            "title": "lastname_label"
+          },
+          "nicknameLabel": {
+            "type": "string",
+            "title": "nickname_label"
+          },
+          "languageLabel": {
+            "type": "string",
+            "title": "language_label"
+          },
+          "phoneLabel": {
+            "type": "string",
+            "title": "phone_label"
+          },
+          "tosAndPrivacyLabel": {
+            "type": "string",
+            "title": "tos_and_privacy_label"
+          },
+          "tosConfirm": {
+            "type": "string",
+            "title": "tos_confirm"
+          },
+          "tosLinkText": {
+            "type": "string",
+            "title": "tos_link_text"
+          },
+          "privacyLinkText": {
+            "type": "string",
+            "title": "privacy_link_text"
+          },
+          "backButtonText": {
+            "type": "string",
+            "title": "back_button_text"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          },
+          "privacyConfirm": {
+            "type": "string",
+            "title": "privacy_confirm"
+          }
+        },
+        "title": "ExternalRegistrationUserOverviewScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.ExternalUserNotFoundScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "linkButtonText": {
+            "type": "string",
+            "title": "link_button_text"
+          },
+          "autoRegisterButtonText": {
+            "type": "string",
+            "title": "auto_register_button_text"
+          },
+          "tosAndPrivacyLabel": {
+            "type": "string",
+            "title": "tos_and_privacy_label"
+          },
+          "tosConfirm": {
+            "type": "string",
+            "title": "tos_confirm"
+          },
+          "tosLinkText": {
+            "type": "string",
+            "title": "tos_link_text"
+          },
+          "privacyLinkText": {
+            "type": "string",
+            "title": "privacy_link_text"
+          },
+          "privacyConfirm": {
+            "type": "string",
+            "title": "privacy_confirm"
+          }
+        },
+        "title": "ExternalUserNotFoundScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.FooterText": {
+        "type": "object",
+        "properties": {
+          "tos": {
+            "type": "string",
+            "title": "tos"
+          },
+          "privacyPolicy": {
+            "type": "string",
+            "title": "privacy_policy"
+          },
+          "help": {
+            "type": "string",
+            "title": "help"
+          },
+          "supportEmail": {
+            "type": "string",
+            "title": "support_email"
+          }
+        },
+        "title": "FooterText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.InitMFADoneScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "cancelButtonText": {
+            "type": "string",
+            "title": "cancel_button_text"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          }
+        },
+        "title": "InitMFADoneScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.InitMFAOTPScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "descriptionOtp": {
+            "type": "string",
+            "title": "description_otp"
+          },
+          "secretLabel": {
+            "type": "string",
+            "title": "secret_label"
+          },
+          "codeLabel": {
+            "type": "string",
+            "title": "code_label"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          },
+          "cancelButtonText": {
+            "type": "string",
+            "title": "cancel_button_text"
+          }
+        },
+        "title": "InitMFAOTPScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.InitMFAPromptScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "otpOption": {
+            "type": "string",
+            "title": "otp_option"
+          },
+          "u2fOption": {
+            "type": "string",
+            "title": "u2f_option"
+          },
+          "skipButtonText": {
+            "type": "string",
+            "title": "skip_button_text"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          }
+        },
+        "title": "InitMFAPromptScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.InitMFAU2FScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "tokenNameLabel": {
+            "type": "string",
+            "title": "token_name_label"
+          },
+          "notSupported": {
+            "type": "string",
+            "title": "not_supported"
+          },
+          "registerTokenButtonText": {
+            "type": "string",
+            "title": "register_token_button_text"
+          },
+          "errorRetry": {
+            "type": "string",
+            "title": "error_retry"
+          }
+        },
+        "title": "InitMFAU2FScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.InitPasswordDoneScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          },
+          "cancelButtonText": {
+            "type": "string",
+            "title": "cancel_button_text"
+          }
+        },
+        "title": "InitPasswordDoneScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.InitPasswordScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "codeLabel": {
+            "type": "string",
+            "title": "code_label"
+          },
+          "newPasswordLabel": {
+            "type": "string",
+            "title": "new_password_label"
+          },
+          "newPasswordConfirmLabel": {
+            "type": "string",
+            "title": "new_password_confirm_label"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          },
+          "resendButtonText": {
+            "type": "string",
+            "title": "resend_button_text"
+          }
+        },
+        "title": "InitPasswordScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.InitializeUserDoneScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "cancelButtonText": {
+            "type": "string",
+            "title": "cancel_button_text"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          }
+        },
+        "title": "InitializeUserDoneScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.InitializeUserScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "codeLabel": {
+            "type": "string",
+            "title": "code_label"
+          },
+          "newPasswordLabel": {
+            "type": "string",
+            "title": "new_password_label"
+          },
+          "newPasswordConfirmLabel": {
+            "type": "string",
+            "title": "new_password_confirm_label"
+          },
+          "resendButtonText": {
+            "type": "string",
+            "title": "resend_button_text"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          }
+        },
+        "title": "InitializeUserScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.LinkingUserDoneScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "cancelButtonText": {
+            "type": "string",
+            "title": "cancel_button_text"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          }
+        },
+        "title": "LinkingUserDoneScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.LinkingUserPromptScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "linkButtonText": {
+            "type": "string",
+            "title": "link_button_text"
+          },
+          "otherButtonText": {
+            "type": "string",
+            "title": "other_button_text"
+          }
+        },
+        "title": "LinkingUserPromptScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.LoginScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "titleLinkingProcess": {
+            "type": "string",
+            "title": "title_linking_process"
+          },
+          "descriptionLinkingProcess": {
+            "type": "string",
+            "title": "description_linking_process"
+          },
+          "userMustBeMemberOfOrg": {
+            "type": "string",
+            "title": "user_must_be_member_of_org"
+          },
+          "loginNameLabel": {
+            "type": "string",
+            "title": "login_name_label"
+          },
+          "registerButtonText": {
+            "type": "string",
+            "title": "register_button_text"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          },
+          "externalUserDescription": {
+            "type": "string",
+            "title": "external_user_description"
+          },
+          "userNamePlaceholder": {
+            "type": "string",
+            "title": "user_name_placeholder"
+          },
+          "loginNamePlaceholder": {
+            "type": "string",
+            "title": "login_name_placeholder"
+          }
+        },
+        "title": "LoginScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.LogoutDoneScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "loginButtonText": {
+            "type": "string",
+            "title": "login_button_text"
+          }
+        },
+        "title": "LogoutDoneScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.MFAProvidersText": {
+        "type": "object",
+        "properties": {
+          "chooseOther": {
+            "type": "string",
+            "title": "choose_other"
+          },
+          "otp": {
+            "type": "string",
+            "title": "otp"
+          },
+          "u2f": {
+            "type": "string",
+            "title": "u2f"
+          }
+        },
+        "title": "MFAProvidersText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.PasswordChangeDoneScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          }
+        },
+        "title": "PasswordChangeDoneScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.PasswordChangeScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "oldPasswordLabel": {
+            "type": "string",
+            "title": "old_password_label"
+          },
+          "newPasswordLabel": {
+            "type": "string",
+            "title": "new_password_label"
+          },
+          "newPasswordConfirmLabel": {
+            "type": "string",
+            "title": "new_password_confirm_label"
+          },
+          "cancelButtonText": {
+            "type": "string",
+            "title": "cancel_button_text"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          },
+          "expiredDescription": {
+            "type": "string",
+            "title": "expired_description"
+          }
+        },
+        "title": "PasswordChangeScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.PasswordResetDoneScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          }
+        },
+        "title": "PasswordResetDoneScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.PasswordScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "passwordLabel": {
+            "type": "string",
+            "title": "password_label"
+          },
+          "resetLinkText": {
+            "type": "string",
+            "title": "reset_link_text"
+          },
+          "backButtonText": {
+            "type": "string",
+            "title": "back_button_text"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          },
+          "minLength": {
+            "type": "string",
+            "title": "min_length"
+          },
+          "hasUppercase": {
+            "type": "string",
+            "title": "has_uppercase"
+          },
+          "hasLowercase": {
+            "type": "string",
+            "title": "has_lowercase"
+          },
+          "hasNumber": {
+            "type": "string",
+            "title": "has_number"
+          },
+          "hasSymbol": {
+            "type": "string",
+            "title": "has_symbol"
+          },
+          "confirmation": {
+            "type": "string",
+            "title": "confirmation"
+          }
+        },
+        "title": "PasswordScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.PasswordlessPromptScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "descriptionInit": {
+            "type": "string",
+            "title": "description_init"
+          },
+          "passwordlessButtonText": {
+            "type": "string",
+            "title": "passwordless_button_text"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          },
+          "skipButtonText": {
+            "type": "string",
+            "title": "skip_button_text"
+          }
+        },
+        "title": "PasswordlessPromptScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.PasswordlessRegistrationDoneScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          },
+          "cancelButtonText": {
+            "type": "string",
+            "title": "cancel_button_text"
+          },
+          "descriptionClose": {
+            "type": "string",
+            "title": "description_close"
+          }
+        },
+        "title": "PasswordlessRegistrationDoneScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.PasswordlessRegistrationScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "tokenNameLabel": {
+            "type": "string",
+            "title": "token_name_label"
+          },
+          "notSupported": {
+            "type": "string",
+            "title": "not_supported"
+          },
+          "registerTokenButtonText": {
+            "type": "string",
+            "title": "register_token_button_text"
+          },
+          "errorRetry": {
+            "type": "string",
+            "title": "error_retry"
+          }
+        },
+        "title": "PasswordlessRegistrationScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.PasswordlessScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "loginWithPwButtonText": {
+            "type": "string",
+            "title": "login_with_pw_button_text"
+          },
+          "validateTokenButtonText": {
+            "type": "string",
+            "title": "validate_token_button_text"
+          },
+          "notSupported": {
+            "type": "string",
+            "title": "not_supported"
+          },
+          "errorRetry": {
+            "type": "string",
+            "title": "error_retry"
+          }
+        },
+        "title": "PasswordlessScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.RegistrationOptionScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "userNameButtonText": {
+            "type": "string",
+            "title": "user_name_button_text"
+          },
+          "externalLoginDescription": {
+            "type": "string",
+            "title": "external_login_description"
+          },
+          "loginButtonText": {
+            "type": "string",
+            "title": "login_button_text"
+          }
+        },
+        "title": "RegistrationOptionScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.RegistrationOrgScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "orgnameLabel": {
+            "type": "string",
+            "title": "orgname_label"
+          },
+          "firstnameLabel": {
+            "type": "string",
+            "title": "firstname_label"
+          },
+          "lastnameLabel": {
+            "type": "string",
+            "title": "lastname_label"
+          },
+          "usernameLabel": {
+            "type": "string",
+            "title": "username_label"
+          },
+          "emailLabel": {
+            "type": "string",
+            "title": "email_label"
+          },
+          "passwordLabel": {
+            "type": "string",
+            "title": "password_label"
+          },
+          "passwordConfirmLabel": {
+            "type": "string",
+            "title": "password_confirm_label"
+          },
+          "tosAndPrivacyLabel": {
+            "type": "string",
+            "title": "tos_and_privacy_label"
+          },
+          "tosConfirm": {
+            "type": "string",
+            "title": "tos_confirm"
+          },
+          "tosLinkText": {
+            "type": "string",
+            "title": "tos_link_text"
+          },
+          "privacyConfirm": {
+            "type": "string",
+            "title": "privacy_confirm"
+          },
+          "privacyLinkText": {
+            "type": "string",
+            "title": "privacy_link_text"
+          },
+          "saveButtonText": {
+            "type": "string",
+            "title": "save_button_text"
+          }
+        },
+        "title": "RegistrationOrgScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.RegistrationUserScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "descriptionOrgRegister": {
+            "type": "string",
+            "title": "description_org_register"
+          },
+          "firstnameLabel": {
+            "type": "string",
+            "title": "firstname_label"
+          },
+          "lastnameLabel": {
+            "type": "string",
+            "title": "lastname_label"
+          },
+          "emailLabel": {
+            "type": "string",
+            "title": "email_label"
+          },
+          "usernameLabel": {
+            "type": "string",
+            "title": "username_label"
+          },
+          "languageLabel": {
+            "type": "string",
+            "title": "language_label"
+          },
+          "genderLabel": {
+            "type": "string",
+            "title": "gender_label"
+          },
+          "passwordLabel": {
+            "type": "string",
+            "title": "password_label"
+          },
+          "passwordConfirmLabel": {
+            "type": "string",
+            "title": "password_confirm_label"
+          },
+          "tosAndPrivacyLabel": {
+            "type": "string",
+            "title": "tos_and_privacy_label"
+          },
+          "tosConfirm": {
+            "type": "string",
+            "title": "tos_confirm"
+          },
+          "tosLinkText": {
+            "type": "string",
+            "title": "tos_link_text"
+          },
+          "privacyConfirm": {
+            "type": "string",
+            "title": "privacy_confirm"
+          },
+          "privacyLinkText": {
+            "type": "string",
+            "title": "privacy_link_text"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          },
+          "backButtonText": {
+            "type": "string",
+            "title": "back_button_text"
+          }
+        },
+        "title": "RegistrationUserScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.SelectAccountScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "titleLinkingProcess": {
+            "type": "string",
+            "title": "title_linking_process"
+          },
+          "descriptionLinkingProcess": {
+            "type": "string",
+            "title": "description_linking_process"
+          },
+          "otherUser": {
+            "type": "string",
+            "title": "other_user"
+          },
+          "sessionStateActive": {
+            "type": "string",
+            "title": "session_state_active"
+          },
+          "sessionStateInactive": {
+            "type": "string",
+            "title": "session_state_inactive"
+          },
+          "userMustBeMemberOfOrg": {
+            "type": "string",
+            "title": "user_must_be_member_of_org"
+          }
+        },
+        "title": "SelectAccountScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.SuccessLoginScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "autoRedirectDescription": {
+            "type": "string",
+            "title": "auto_redirect_description",
+            "description": "Text to describe that auto-redirect should happen after successful login"
+          },
+          "redirectedDescription": {
+            "type": "string",
+            "title": "redirected_description",
+            "description": "Text to describe that the window can be closed after redirect"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          }
+        },
+        "title": "SuccessLoginScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.UsernameChangeDoneScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          }
+        },
+        "title": "UsernameChangeDoneScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.UsernameChangeScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "usernameLabel": {
+            "type": "string",
+            "title": "username_label"
+          },
+          "cancelButtonText": {
+            "type": "string",
+            "title": "cancel_button_text"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          }
+        },
+        "title": "UsernameChangeScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.VerifyMFAOTPScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "codeLabel": {
+            "type": "string",
+            "title": "code_label"
+          },
+          "nextButtonText": {
+            "type": "string",
+            "title": "next_button_text"
+          }
+        },
+        "title": "VerifyMFAOTPScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.text.v1.VerifyMFAU2FScreenText": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "title"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "validateTokenText": {
+            "type": "string",
+            "title": "validate_token_text"
+          },
+          "notSupported": {
+            "type": "string",
+            "title": "not_supported"
+          },
+          "errorRetry": {
+            "type": "string",
+            "title": "error_retry"
+          }
+        },
+        "title": "VerifyMFAU2FScreenText",
+        "additionalProperties": false
+      },
+      "zitadel.user.v1.AccessTokenType": {
+        "type": "string",
+        "title": "AccessTokenType",
+        "enum": [
+          "ACCESS_TOKEN_TYPE_BEARER",
+          "ACCESS_TOKEN_TYPE_JWT"
+        ]
+      },
+      "zitadel.user.v1.Gender": {
+        "type": "string",
+        "title": "Gender",
+        "enum": [
+          "GENDER_UNSPECIFIED",
+          "GENDER_FEMALE",
+          "GENDER_MALE",
+          "GENDER_DIVERSE"
+        ]
+      },
+      "zitadel.user.v1.UserState": {
+        "type": "string",
+        "title": "UserState",
+        "enum": [
+          "USER_STATE_UNSPECIFIED",
+          "USER_STATE_ACTIVE",
+          "USER_STATE_INACTIVE",
+          "USER_STATE_DELETED",
+          "USER_STATE_LOCKED",
+          "USER_STATE_SUSPEND",
+          "USER_STATE_INITIAL"
+        ]
+      },
+      "zitadel.v1.ObjectDetails": {
+        "type": "object",
+        "properties": {
+          "sequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "sequence",
+            "format": "int64",
+            "description": "sequence represents the order of events. It's always counting\n\n on read: the sequence of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "creation_date is the timestamp where the first operation on the object was made\n\n on read: the timestamp of the first event of the object\n\n on create: the timestamp of the event(s) added by the manipulation",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "change_date is the timestamp when the object was changed\n\n on read: the timestamp of the last event reduced by the projection\n\n on manipulation: the",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "resourceOwner": {
+            "type": "string",
+            "title": "resource_owner",
+            "description": "resource_owner is the organization an object belongs to"
+          }
+        },
+        "title": "ObjectDetails",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.AddCustomOrgIAMPolicyRequest": {
+        "type": "object",
+        "properties": {
+          "orgId": {
+            "type": "string",
+            "title": "org_id"
+          },
+          "userLoginMustBeDomain": {
+            "type": "boolean",
+            "title": "user_login_must_be_domain",
+            "description": "the username has to end with the domain of its organization (uniqueness is organization based)"
+          }
+        },
+        "title": "AddCustomOrgIAMPolicyRequest",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.DataAPIApplication": {
+        "type": "object",
+        "properties": {
+          "appId": {
+            "type": "string",
+            "title": "app_id"
+          },
+          "app": {
+            "title": "app",
+            "$ref": "#/components/schemas/zitadel.management.v1.AddAPIAppRequest"
+          }
+        },
+        "title": "DataAPIApplication",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.DataAction": {
+        "type": "object",
+        "properties": {
+          "actionId": {
+            "type": "string",
+            "title": "action_id"
+          },
+          "action": {
+            "title": "action",
+            "$ref": "#/components/schemas/zitadel.management.v1.CreateActionRequest"
+          }
+        },
+        "title": "DataAction",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.DataAppKey": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "appId": {
+            "type": "string",
+            "title": "app_id"
+          },
+          "clientId": {
+            "type": "string",
+            "title": "client_id"
+          },
+          "type": {
+            "title": "type",
+            "$ref": "#/components/schemas/zitadel.authn.v1.KeyType"
+          },
+          "expirationDate": {
+            "title": "expiration_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "publicKey": {
+            "type": "string",
+            "title": "public_key",
+            "format": "byte"
+          }
+        },
+        "title": "DataAppKey",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.DataHumanUser": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          },
+          "user": {
+            "title": "user",
+            "$ref": "#/components/schemas/zitadel.management.v1.ImportHumanUserRequest"
+          },
+          "state": {
+            "title": "state",
+            "$ref": "#/components/schemas/zitadel.user.v1.UserState"
+          }
+        },
+        "title": "DataHumanUser",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.DataJWTIDP": {
+        "type": "object",
+        "properties": {
+          "idpId": {
+            "type": "string",
+            "title": "idp_id"
+          },
+          "idp": {
+            "title": "idp",
+            "$ref": "#/components/schemas/zitadel.management.v1.AddOrgJWTIDPRequest"
+          }
+        },
+        "title": "DataJWTIDP",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.DataMachineKey": {
+        "type": "object",
+        "properties": {
+          "keyId": {
+            "type": "string",
+            "title": "key_id"
+          },
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          },
+          "type": {
+            "title": "type",
+            "$ref": "#/components/schemas/zitadel.authn.v1.KeyType"
+          },
+          "expirationDate": {
+            "title": "expiration_date",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "publicKey": {
+            "type": "string",
+            "title": "public_key",
+            "format": "byte"
+          }
+        },
+        "title": "DataMachineKey",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.DataMachineUser": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "user_id"
+          },
+          "user": {
+            "title": "user",
+            "$ref": "#/components/schemas/zitadel.management.v1.AddMachineUserRequest"
+          },
+          "state": {
+            "title": "state",
+            "$ref": "#/components/schemas/zitadel.user.v1.UserState"
+          }
+        },
+        "title": "DataMachineUser",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.DataOIDCApplication": {
+        "type": "object",
+        "properties": {
+          "appId": {
+            "type": "string",
+            "title": "app_id"
+          },
+          "app": {
+            "title": "app",
+            "$ref": "#/components/schemas/zitadel.management.v1.AddOIDCAppRequest"
+          }
+        },
+        "title": "DataOIDCApplication",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.DataOIDCIDP": {
+        "type": "object",
+        "properties": {
+          "idpId": {
+            "type": "string",
+            "title": "idp_id"
+          },
+          "idp": {
+            "title": "idp",
+            "$ref": "#/components/schemas/zitadel.management.v1.AddOrgOIDCIDPRequest"
+          }
+        },
+        "title": "DataOIDCIDP",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.DataOrg": {
+        "type": "object",
+        "properties": {
+          "orgId": {
+            "type": "string",
+            "title": "org_id"
+          },
+          "org": {
+            "title": "org",
+            "$ref": "#/components/schemas/zitadel.management.v1.AddOrgRequest"
+          },
+          "iamPolicy": {
+            "title": "iam_policy",
+            "$ref": "#/components/schemas/zitadel.v1.v1.AddCustomOrgIAMPolicyRequest"
+          },
+          "labelPolicy": {
+            "title": "label_policy",
+            "$ref": "#/components/schemas/zitadel.management.v1.AddCustomLabelPolicyRequest"
+          },
+          "lockoutPolicy": {
+            "title": "lockout_policy",
+            "$ref": "#/components/schemas/zitadel.management.v1.AddCustomLockoutPolicyRequest"
+          },
+          "loginPolicy": {
+            "title": "login_policy",
+            "$ref": "#/components/schemas/zitadel.management.v1.AddCustomLoginPolicyRequest"
+          },
+          "passwordComplexityPolicy": {
+            "title": "password_complexity_policy",
+            "$ref": "#/components/schemas/zitadel.management.v1.AddCustomPasswordComplexityPolicyRequest"
+          },
+          "privacyPolicy": {
+            "title": "privacy_policy",
+            "$ref": "#/components/schemas/zitadel.management.v1.AddCustomPrivacyPolicyRequest"
+          },
+          "projects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.v1.v1.DataProject"
+            },
+            "title": "projects"
+          },
+          "projectRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.AddProjectRoleRequest"
+            },
+            "title": "project_roles"
+          },
+          "apiApps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.v1.v1.DataAPIApplication"
+            },
+            "title": "api_apps"
+          },
+          "oidcApps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.v1.v1.DataOIDCApplication"
+            },
+            "title": "oidc_apps"
+          },
+          "humanUsers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.v1.v1.DataHumanUser"
+            },
+            "title": "human_users"
+          },
+          "machineUsers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.v1.v1.DataMachineUser"
+            },
+            "title": "machine_users"
+          },
+          "triggerActions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.v1.v1.SetTriggerActionsRequest"
+            },
+            "title": "trigger_actions"
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.v1.v1.DataAction"
+            },
+            "title": "actions"
+          },
+          "projectGrants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.v1.v1.DataProjectGrant"
+            },
+            "title": "project_grants"
+          },
+          "userGrants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.AddUserGrantRequest"
+            },
+            "title": "user_grants"
+          },
+          "orgMembers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.AddOrgMemberRequest"
+            },
+            "title": "org_members"
+          },
+          "projectMembers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.AddProjectMemberRequest"
+            },
+            "title": "project_members"
+          },
+          "projectGrantMembers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.AddProjectGrantMemberRequest"
+            },
+            "title": "project_grant_members"
+          },
+          "userMetadata": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.SetUserMetadataRequest"
+            },
+            "title": "user_metadata"
+          },
+          "loginTexts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.SetCustomLoginTextsRequest"
+            },
+            "title": "login_texts"
+          },
+          "initMessages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.SetCustomInitMessageTextRequest"
+            },
+            "title": "init_messages"
+          },
+          "passwordResetMessages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.SetCustomPasswordResetMessageTextRequest"
+            },
+            "title": "password_reset_messages"
+          },
+          "verifyEmailMessages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.SetCustomVerifyEmailMessageTextRequest"
+            },
+            "title": "verify_email_messages"
+          },
+          "verifyPhoneMessages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.SetCustomVerifyPhoneMessageTextRequest"
+            },
+            "title": "verify_phone_messages"
+          },
+          "domainClaimedMessages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.SetCustomDomainClaimedMessageTextRequest"
+            },
+            "title": "domain_claimed_messages"
+          },
+          "passwordlessRegistrationMessages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.SetCustomPasswordlessRegistrationMessageTextRequest"
+            },
+            "title": "passwordless_registration_messages"
+          },
+          "oidcIdps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.v1.v1.DataOIDCIDP"
+            },
+            "title": "oidc_idps"
+          },
+          "jwtIdps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.v1.v1.DataJWTIDP"
+            },
+            "title": "jwt_idps"
+          },
+          "secondFactors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.AddSecondFactorToLoginPolicyRequest"
+            },
+            "title": "second_factors"
+          },
+          "multiFactors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.AddMultiFactorToLoginPolicyRequest"
+            },
+            "title": "multi_factors"
+          },
+          "idps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.AddIDPToLoginPolicyRequest"
+            },
+            "title": "idps"
+          },
+          "userLinks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.idp.v1.IDPUserLink"
+            },
+            "title": "user_links"
+          },
+          "domains": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.org.v1.Domain"
+            },
+            "title": "domains"
+          },
+          "appKeys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.v1.v1.DataAppKey"
+            },
+            "title": "app_keys"
+          },
+          "machineKeys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.v1.v1.DataMachineKey"
+            },
+            "title": "machine_keys"
+          },
+          "inviteUserMessages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.management.v1.SetCustomInviteUserMessageTextRequest"
+            },
+            "title": "invite_user_messages"
+          }
+        },
+        "title": "DataOrg",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.DataProject": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "title": "project_id"
+          },
+          "project": {
+            "title": "project",
+            "$ref": "#/components/schemas/zitadel.management.v1.AddProjectRequest"
+          }
+        },
+        "title": "DataProject",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.DataProjectGrant": {
+        "type": "object",
+        "properties": {
+          "grantId": {
+            "type": "string",
+            "title": "grant_id"
+          },
+          "projectGrant": {
+            "title": "project_grant",
+            "$ref": "#/components/schemas/zitadel.management.v1.AddProjectGrantRequest"
+          }
+        },
+        "title": "DataProjectGrant",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.ExportHumanUser": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "title": "user_name"
+          },
+          "profile": {
+            "title": "profile",
+            "$ref": "#/components/schemas/zitadel.v1.v1.ExportHumanUser.Profile"
+          },
+          "email": {
+            "title": "email",
+            "$ref": "#/components/schemas/zitadel.v1.v1.ExportHumanUser.Email"
+          },
+          "phone": {
+            "title": "phone",
+            "$ref": "#/components/schemas/zitadel.v1.v1.ExportHumanUser.Phone"
+          },
+          "password": {
+            "type": "string",
+            "title": "password"
+          },
+          "hashedPassword": {
+            "title": "hashed_password",
+            "$ref": "#/components/schemas/zitadel.v1.v1.ExportHumanUser.HashedPassword"
+          },
+          "passwordChangeRequired": {
+            "type": "boolean",
+            "title": "password_change_required"
+          },
+          "requestPasswordlessRegistration": {
+            "type": "boolean",
+            "title": "request_passwordless_registration"
+          },
+          "otpCode": {
+            "type": "string",
+            "title": "otp_code"
+          }
+        },
+        "title": "ExportHumanUser",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.ExportHumanUser.Email": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "email",
+            "description": "TODO: check if no value is allowed"
+          },
+          "isEmailVerified": {
+            "type": "boolean",
+            "title": "is_email_verified"
+          }
+        },
+        "title": "Email",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.ExportHumanUser.HashedPassword": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "value"
+          },
+          "algorithm": {
+            "type": "string",
+            "title": "algorithm"
+          }
+        },
+        "title": "HashedPassword",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.ExportHumanUser.Phone": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string",
+            "title": "phone",
+            "description": "has to be a global number"
+          },
+          "isPhoneVerified": {
+            "type": "boolean",
+            "title": "is_phone_verified"
+          }
+        },
+        "title": "Phone",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.ExportHumanUser.Profile": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "title": "first_name"
+          },
+          "lastName": {
+            "type": "string",
+            "title": "last_name"
+          },
+          "nickName": {
+            "type": "string",
+            "title": "nick_name"
+          },
+          "displayName": {
+            "type": "string",
+            "title": "display_name"
+          },
+          "preferredLanguage": {
+            "type": "string",
+            "title": "preferred_language"
+          },
+          "gender": {
+            "title": "gender",
+            "$ref": "#/components/schemas/zitadel.user.v1.Gender"
+          }
+        },
+        "title": "Profile",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.FlowType": {
+        "type": "string",
+        "title": "FlowType",
+        "enum": [
+          "FLOW_TYPE_UNSPECIFIED",
+          "FLOW_TYPE_EXTERNAL_AUTHENTICATION"
+        ]
+      },
+      "zitadel.v1.v1.ImportDataOrg": {
+        "type": "object",
+        "properties": {
+          "orgs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.v1.v1.DataOrg"
+            },
+            "title": "orgs"
+          }
+        },
+        "title": "ImportDataOrg",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.SetTriggerActionsRequest": {
+        "type": "object",
+        "properties": {
+          "flowType": {
+            "title": "flow_type",
+            "$ref": "#/components/schemas/zitadel.v1.v1.FlowType"
+          },
+          "triggerType": {
+            "title": "trigger_type",
+            "$ref": "#/components/schemas/zitadel.v1.v1.TriggerType"
+          },
+          "actionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "action_ids"
+          }
+        },
+        "title": "SetTriggerActionsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.v1.v1.TriggerType": {
+        "type": "string",
+        "title": "TriggerType",
+        "enum": [
+          "TRIGGER_TYPE_UNSPECIFIED",
+          "TRIGGER_TYPE_POST_AUTHENTICATION",
+          "TRIGGER_TYPE_PRE_CREATION",
+          "TRIGGER_TYPE_POST_CREATION"
+        ]
+      }
+    }
+  },
+  "security": []
+}

@@ -1,0 +1,493 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.resources.userschema.v3alpha"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "google.protobuf.ListValue": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/google.protobuf.Value"
+            },
+            "title": "values",
+            "description": "Repeated field of dynamically typed values."
+          }
+        },
+        "title": "ListValue",
+        "additionalProperties": false,
+        "description": "`ListValue` is a wrapper around a repeated field of values.\n\n The JSON representation for `ListValue` is JSON array."
+      },
+      "google.protobuf.NullValue": {
+        "type": "string",
+        "title": "NullValue",
+        "enum": [
+          "NULL_VALUE"
+        ],
+        "description": "`NullValue` is a singleton enumeration to represent the null value for the\n `Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`."
+      },
+      "google.protobuf.Struct": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/google.protobuf.Value"
+        },
+        "description": "`Struct` represents a structured data value, consisting of fields\n which map to dynamically typed values. In some languages, `Struct`\n might be supported by a native representation. For example, in\n scripting languages like JS a struct is represented as an\n object. The details of that representation are described together\n with the proto support for the language.\n\n The JSON representation for `Struct` is JSON object."
+      },
+      "google.protobuf.Struct.FieldsEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "title": "value",
+            "$ref": "#/components/schemas/google.protobuf.Value"
+          }
+        },
+        "title": "FieldsEntry",
+        "additionalProperties": false
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "google.protobuf.Value": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "array"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true
+          }
+        ],
+        "description": "`Value` represents a dynamically typed value which can be either\n null, a number, a string, a boolean, a recursive struct value, or a\n list of values. A producer of value is expected to set one of these\n variants. Absence of any variant indicates an error.\n\n The JSON representation for `Value` is JSON value."
+      },
+      "zitadel.object.v3alpha.Owner": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "title": "type",
+            "$ref": "#/components/schemas/zitadel.object.v3alpha.OwnerType"
+          },
+          "id": {
+            "type": "string",
+            "title": "id"
+          }
+        },
+        "title": "Owner",
+        "additionalProperties": false
+      },
+      "zitadel.object.v3alpha.OwnerType": {
+        "type": "string",
+        "title": "OwnerType",
+        "enum": [
+          "OWNER_TYPE_UNSPECIFIED",
+          "OWNER_TYPE_SYSTEM",
+          "OWNER_TYPE_INSTANCE",
+          "OWNER_TYPE_ORG"
+        ]
+      },
+      "zitadel.resources.object.v3alpha.Details": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "created": {
+            "title": "created",
+            "description": "the timestamp of the first event applied to the object.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changed": {
+            "title": "changed",
+            "description": "the timestamp of the last event applied to the object.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "owner": {
+            "title": "owner",
+            "description": "the parent object representing the returned objects context.",
+            "$ref": "#/components/schemas/zitadel.object.v3alpha.Owner"
+          }
+        },
+        "title": "Details",
+        "additionalProperties": false
+      },
+      "zitadel.resources.object.v3alpha.TextFilterMethod": {
+        "type": "string",
+        "title": "TextFilterMethod",
+        "enum": [
+          "TEXT_FILTER_METHOD_EQUALS",
+          "TEXT_FILTER_METHOD_EQUALS_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_STARTS_WITH",
+          "TEXT_FILTER_METHOD_STARTS_WITH_IGNORE_CASE",
+          "TEXT_FILTER_METHOD_CONTAINS"
+        ]
+      },
+      "zitadel.resources.userschema.v3alpha.AndFilter": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.resources.userschema.v3alpha.SearchFilter"
+            },
+            "title": "queries"
+          }
+        },
+        "title": "AndFilter",
+        "additionalProperties": false
+      },
+      "zitadel.resources.userschema.v3alpha.AuthenticatorType": {
+        "type": "string",
+        "title": "AuthenticatorType",
+        "enum": [
+          "AUTHENTICATOR_TYPE_UNSPECIFIED",
+          "AUTHENTICATOR_TYPE_USERNAME",
+          "AUTHENTICATOR_TYPE_PASSWORD",
+          "AUTHENTICATOR_TYPE_WEBAUTHN",
+          "AUTHENTICATOR_TYPE_TOTP",
+          "AUTHENTICATOR_TYPE_OTP_EMAIL",
+          "AUTHENTICATOR_TYPE_OTP_SMS",
+          "AUTHENTICATOR_TYPE_AUTHENTICATION_KEY",
+          "AUTHENTICATOR_TYPE_IDENTITY_PROVIDER"
+        ]
+      },
+      "zitadel.resources.userschema.v3alpha.FieldName": {
+        "type": "string",
+        "title": "FieldName",
+        "enum": [
+          "FIELD_NAME_UNSPECIFIED",
+          "FIELD_NAME_TYPE",
+          "FIELD_NAME_STATE",
+          "FIELD_NAME_REVISION",
+          "FIELD_NAME_CHANGE_DATE",
+          "FIELD_NAME_CREATION_DATE"
+        ]
+      },
+      "zitadel.resources.userschema.v3alpha.GetUserSchema": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "description": "Details provide some base information (such as the last change date) of the schema.",
+            "$ref": "#/components/schemas/zitadel.resources.object.v3alpha.Details"
+          },
+          "config": {
+            "title": "config",
+            "$ref": "#/components/schemas/zitadel.resources.userschema.v3alpha.UserSchema"
+          },
+          "state": {
+            "title": "state",
+            "description": "Current state of the schema.",
+            "$ref": "#/components/schemas/zitadel.resources.userschema.v3alpha.State"
+          },
+          "revision": {
+            "type": "integer",
+            "title": "revision",
+            "description": "Revision is a read only version of the schema, each update of the `schema`-field increases the revision."
+          }
+        },
+        "title": "GetUserSchema",
+        "additionalProperties": false
+      },
+      "zitadel.resources.userschema.v3alpha.IDFilter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id",
+            "description": "Defines the ID of the user schema to filter for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the id filter.",
+            "$ref": "#/components/schemas/zitadel.resources.object.v3alpha.TextFilterMethod"
+          }
+        },
+        "title": "IDFilter",
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.userschema.v3alpha.NotFilter": {
+        "type": "object",
+        "properties": {
+          "filter": {
+            "title": "filter",
+            "$ref": "#/components/schemas/zitadel.resources.userschema.v3alpha.SearchFilter"
+          }
+        },
+        "title": "NotFilter",
+        "additionalProperties": false
+      },
+      "zitadel.resources.userschema.v3alpha.OrFilter": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.resources.userschema.v3alpha.SearchFilter"
+            },
+            "title": "queries"
+          }
+        },
+        "title": "OrFilter",
+        "additionalProperties": false
+      },
+      "zitadel.resources.userschema.v3alpha.PatchUserSchema": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "type": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "title": "type",
+                "description": "Type is a human readable word describing the schema."
+              },
+              "possibleAuthenticators": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/zitadel.resources.userschema.v3alpha.AuthenticatorType"
+                },
+                "title": "possible_authenticators",
+                "description": "Defines the possible types of authenticators.\n\n Removal of an authenticator does not remove the authenticator on a user."
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "schema": {
+                    "title": "schema",
+                    "description": "JSON schema representation defining the user.",
+                    "$ref": "#/components/schemas/google.protobuf.Struct"
+                  }
+                },
+                "title": "schema",
+                "required": [
+                  "schema"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "PatchUserSchema",
+        "required": [
+          "type"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.userschema.v3alpha.SearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "andFilter": {
+                "title": "and_filter",
+                "description": "Limit the result to match all sub queries ('AND').\n Note that if you specify multiple queries, they will be implicitly used as andQueries.\n Use the andFilter in combination with orFilter and notFilter.",
+                "$ref": "#/components/schemas/zitadel.resources.userschema.v3alpha.AndFilter"
+              }
+            },
+            "title": "and_filter",
+            "required": [
+              "andFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "idFilter": {
+                "title": "id_filter",
+                "description": "Limit the result to a specific schema ID.",
+                "$ref": "#/components/schemas/zitadel.resources.userschema.v3alpha.IDFilter"
+              }
+            },
+            "title": "id_filter",
+            "required": [
+              "idFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "notFilter": {
+                "title": "not_filter",
+                "description": "Exclude / Negate the result of the sub filter ('NOT').",
+                "$ref": "#/components/schemas/zitadel.resources.userschema.v3alpha.NotFilter"
+              }
+            },
+            "title": "not_filter",
+            "required": [
+              "notFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "orFilter": {
+                "title": "or_filter",
+                "description": "Union the results of each sub filter ('OR').",
+                "$ref": "#/components/schemas/zitadel.resources.userschema.v3alpha.OrFilter"
+              }
+            },
+            "title": "or_filter",
+            "required": [
+              "orFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "stateFilter": {
+                "title": "state_filter",
+                "description": "Limit the result to a specific state of the schema.",
+                "$ref": "#/components/schemas/zitadel.resources.userschema.v3alpha.StateFilter"
+              }
+            },
+            "title": "state_filter",
+            "required": [
+              "stateFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "typeFilter": {
+                "title": "type_filter",
+                "description": "Limit the result to a specific schema type.",
+                "$ref": "#/components/schemas/zitadel.resources.userschema.v3alpha.TypeFilter"
+              }
+            },
+            "title": "type_filter",
+            "required": [
+              "typeFilter"
+            ]
+          }
+        ],
+        "title": "SearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.resources.userschema.v3alpha.State": {
+        "type": "string",
+        "title": "State",
+        "enum": [
+          "STATE_UNSPECIFIED",
+          "STATE_ACTIVE",
+          "STATE_INACTIVE"
+        ]
+      },
+      "zitadel.resources.userschema.v3alpha.StateFilter": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "title": "state",
+            "description": "Defines the state to filter for.",
+            "$ref": "#/components/schemas/zitadel.resources.userschema.v3alpha.State"
+          }
+        },
+        "title": "StateFilter",
+        "required": [
+          "state"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.userschema.v3alpha.TypeFilter": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "type",
+            "description": "Defines which type to filter for."
+          },
+          "method": {
+            "title": "method",
+            "description": "Defines which text comparison method used for the type filter.",
+            "$ref": "#/components/schemas/zitadel.resources.object.v3alpha.TextFilterMethod"
+          }
+        },
+        "title": "TypeFilter",
+        "required": [
+          "type"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.resources.userschema.v3alpha.UserSchema": {
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "type": {
+                "type": "string",
+                "title": "type",
+                "description": "Type is a human readable word describing the schema."
+              },
+              "possibleAuthenticators": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/zitadel.resources.userschema.v3alpha.AuthenticatorType"
+                },
+                "title": "possible_authenticators",
+                "description": "Defines the possible types of authenticators."
+              }
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "schema": {
+                    "title": "schema",
+                    "description": "JSON schema representation defining the user.",
+                    "$ref": "#/components/schemas/google.protobuf.Struct"
+                  }
+                },
+                "title": "schema",
+                "required": [
+                  "schema"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "UserSchema",
+        "required": [
+          "type"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": []
+}

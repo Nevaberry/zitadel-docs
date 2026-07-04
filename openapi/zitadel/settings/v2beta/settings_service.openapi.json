@@ -1,0 +1,1602 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.settings.v2beta"
+  },
+  "paths": {
+    "/v2/settings/organization": {
+      "post": {
+        "tags": [
+          "zitadel.settings.v2beta.SettingsService"
+        ],
+        "summary": "Set Organization Settings",
+        "description": "Deprecated: please move to the corresponding endpoint under settings service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Sets the settings specific to an organization.\n Organization scopes usernames defines that the usernames have to be unique in the organization scope, can only be changed if the usernames of the users are unique in the scope.\n\n Required permissions:\n   - `iam.policy.write`",
+        "operationId": "zitadel.settings.v2beta.SettingsService.SetOrganizationSettings",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.settings.v2beta.SetOrganizationSettingsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.settings.v2beta.SetOrganizationSettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "zitadel.settings.v2beta.SettingsService"
+        ],
+        "summary": "Delete Organization Settings",
+        "description": "Deprecated: please move to the corresponding endpoint under settings service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Delete the settings specific to an organization.\n\n Required permissions:\n   - `iam.policy.delete`",
+        "operationId": "zitadel.settings.v2beta.SettingsService.DeleteOrganizationSettings",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.settings.v2beta.DeleteOrganizationSettingsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.settings.v2beta.DeleteOrganizationSettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/settings/organization/search": {
+      "post": {
+        "tags": [
+          "zitadel.settings.v2beta.SettingsService"
+        ],
+        "summary": "List Organization Settings",
+        "description": "Deprecated: please move to the corresponding endpoint under settings service v2. This endpoint will be removed with the next major version of ZITADEL.\n\n Returns a list of organization settings.\n\n Required permission:\n   - `iam.policy.read`\n   - `org.policy.read`",
+        "operationId": "zitadel.settings.v2beta.SettingsService.ListOrganizationSettings",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.settings.v2beta.ListOrganizationSettingsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.settings.v2beta.ListOrganizationSettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/policies/security": {
+      "put": {
+        "tags": [
+          "zitadel.settings.v2beta.SettingsService"
+        ],
+        "summary": "Set the security settings",
+        "description": "Deprecated: please move to the corresponding endpoint under settings service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.settings.v2beta.SettingsService.SetSecuritySettings",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/zitadel.settings.v2beta.SetSecuritySettingsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.settings.v2beta.SetSecuritySettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/settings": {
+      "get": {
+        "tags": [
+          "zitadel.settings.v2beta.SettingsService"
+        ],
+        "summary": "Get basic information over the instance",
+        "description": "Deprecated: please move to the corresponding endpoint under settings service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.settings.v2beta.SettingsService.GetGeneralSettings",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.settings.v2beta.GetGeneralSettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/settings/branding": {
+      "get": {
+        "tags": [
+          "zitadel.settings.v2beta.SettingsService"
+        ],
+        "summary": "Get the current active branding settings",
+        "description": "Deprecated: please move to the corresponding endpoint under settings service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.settings.v2beta.SettingsService.GetBrandingSettings",
+        "parameters": [
+          {
+            "name": "ctx.orgId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "org_id"
+            }
+          },
+          {
+            "name": "ctx.instance",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "title": "instance"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.settings.v2beta.GetBrandingSettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/settings/domain": {
+      "get": {
+        "tags": [
+          "zitadel.settings.v2beta.SettingsService"
+        ],
+        "summary": "Get the domain settings",
+        "description": "Deprecated: please move to the corresponding endpoint under settings service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.settings.v2beta.SettingsService.GetDomainSettings",
+        "parameters": [
+          {
+            "name": "ctx.orgId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "org_id"
+            }
+          },
+          {
+            "name": "ctx.instance",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "title": "instance"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.settings.v2beta.GetDomainSettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/settings/legal_support": {
+      "get": {
+        "tags": [
+          "zitadel.settings.v2beta.SettingsService"
+        ],
+        "summary": "Get the legal and support settings",
+        "description": "Deprecated: please move to the corresponding endpoint under settings service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.settings.v2beta.SettingsService.GetLegalAndSupportSettings",
+        "parameters": [
+          {
+            "name": "ctx.orgId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "org_id"
+            }
+          },
+          {
+            "name": "ctx.instance",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "title": "instance"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.settings.v2beta.GetLegalAndSupportSettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/settings/lockout": {
+      "get": {
+        "tags": [
+          "zitadel.settings.v2beta.SettingsService"
+        ],
+        "summary": "Get the lockout settings",
+        "description": "Deprecated: please move to the corresponding endpoint under settings service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.settings.v2beta.SettingsService.GetLockoutSettings",
+        "parameters": [
+          {
+            "name": "ctx.orgId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "org_id"
+            }
+          },
+          {
+            "name": "ctx.instance",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "title": "instance"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.settings.v2beta.GetLockoutSettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/settings/login": {
+      "get": {
+        "tags": [
+          "zitadel.settings.v2beta.SettingsService"
+        ],
+        "summary": "Get the login settings",
+        "description": "Deprecated: please move to the corresponding endpoint under settings service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.settings.v2beta.SettingsService.GetLoginSettings",
+        "parameters": [
+          {
+            "name": "ctx.orgId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "org_id"
+            }
+          },
+          {
+            "name": "ctx.instance",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "title": "instance"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.settings.v2beta.GetLoginSettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/settings/login/idps": {
+      "get": {
+        "tags": [
+          "zitadel.settings.v2beta.SettingsService"
+        ],
+        "summary": "Get the current active identity providers",
+        "description": "Deprecated: please move to the corresponding endpoint under settings service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.settings.v2beta.SettingsService.GetActiveIdentityProviders",
+        "parameters": [
+          {
+            "name": "ctx.orgId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "org_id"
+            }
+          },
+          {
+            "name": "ctx.instance",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "title": "instance"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.settings.v2beta.GetActiveIdentityProvidersResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/settings/password/complexity": {
+      "get": {
+        "tags": [
+          "zitadel.settings.v2beta.SettingsService"
+        ],
+        "summary": "Get the password complexity settings",
+        "description": "Deprecated: please move to the corresponding endpoint under settings service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.settings.v2beta.SettingsService.GetPasswordComplexitySettings",
+        "parameters": [
+          {
+            "name": "ctx.orgId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "org_id"
+            }
+          },
+          {
+            "name": "ctx.instance",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "title": "instance"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.settings.v2beta.GetPasswordComplexitySettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/settings/password/expiry": {
+      "get": {
+        "tags": [
+          "zitadel.settings.v2beta.SettingsService"
+        ],
+        "summary": "Get the password expiry settings",
+        "description": "Deprecated: please move to the corresponding endpoint under settings service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.settings.v2beta.SettingsService.GetPasswordExpirySettings",
+        "parameters": [
+          {
+            "name": "ctx.orgId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "org_id"
+            }
+          },
+          {
+            "name": "ctx.instance",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "title": "instance"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.settings.v2beta.GetPasswordExpirySettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2beta/settings/security": {
+      "get": {
+        "tags": [
+          "zitadel.settings.v2beta.SettingsService"
+        ],
+        "summary": "Get the security settings",
+        "description": "Deprecated: please move to the corresponding endpoint under settings service v2. This endpoint will be removed with the next major version of ZITADEL.",
+        "operationId": "zitadel.settings.v2beta.SettingsService.GetSecuritySettings",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/zitadel.settings.v2beta.GetSecuritySettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "google.protobuf.Duration": {
+        "type": "string",
+        "format": "duration",
+        "description": "A Duration represents a signed, fixed-length span of time represented\n as a count of seconds and fractions of seconds at nanosecond\n resolution. It is independent of any calendar and concepts like \"day\"\n or \"month\". It is related to Timestamp in that the difference between\n two Timestamp values is a Duration and it can be added or subtracted\n from a Timestamp. Range is approximately +-10,000 years.\n\n # Examples\n\n Example 1: Compute Duration from two Timestamps in pseudo code.\n\n     Timestamp start = ...;\n     Timestamp end = ...;\n     Duration duration = ...;\n\n     duration.seconds = end.seconds - start.seconds;\n     duration.nanos = end.nanos - start.nanos;\n\n     if (duration.seconds \u003c 0 \u0026\u0026 duration.nanos \u003e 0) {\n       duration.seconds += 1;\n       duration.nanos -= 1000000000;\n     } else if (duration.seconds \u003e 0 \u0026\u0026 duration.nanos \u003c 0) {\n       duration.seconds -= 1;\n       duration.nanos += 1000000000;\n     }\n\n Example 2: Compute Timestamp from Timestamp + Duration in pseudo code.\n\n     Timestamp start = ...;\n     Duration duration = ...;\n     Timestamp end = ...;\n\n     end.seconds = start.seconds + duration.seconds;\n     end.nanos = start.nanos + duration.nanos;\n\n     if (end.nanos \u003c 0) {\n       end.seconds -= 1;\n       end.nanos += 1000000000;\n     } else if (end.nanos \u003e= 1000000000) {\n       end.seconds += 1;\n       end.nanos -= 1000000000;\n     }\n\n Example 3: Compute Duration from datetime.timedelta in Python.\n\n     td = datetime.timedelta(days=3, minutes=10)\n     duration = Duration()\n     duration.FromTimedelta(td)\n\n # JSON Mapping\n\n In JSON format, the Duration type is encoded as a string rather than an\n object, where the string ends in the suffix \"s\" (indicating seconds) and\n is preceded by the number of seconds, with nanoseconds expressed as\n fractional seconds. For example, 3 seconds with 0 nanoseconds should be\n encoded in JSON format as \"3s\", while 3 seconds and 1 nanosecond should\n be expressed in JSON format as \"3.000000001s\", and 3 seconds and 1\n microsecond should be expressed in JSON format as \"3.000001s\"."
+      },
+      "google.protobuf.Timestamp": {
+        "type": "string",
+        "examples": [
+          "2023-01-15T01:30:15.01Z",
+          "2024-12-25T12:00:00Z"
+        ],
+        "format": "date-time",
+        "description": "A Timestamp represents a point in time independent of any time zone or local\n calendar, encoded as a count of seconds and fractions of seconds at\n nanosecond resolution. The count is relative to an epoch at UTC midnight on\n January 1, 1970, in the proleptic Gregorian calendar which extends the\n Gregorian calendar backwards to year one.\n\n All minutes are 60 seconds long. Leap seconds are \"smeared\" so that no leap\n second table is needed for interpretation, using a [24-hour linear\n smear](https://developers.google.com/time/smear).\n\n The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By\n restricting to that range, we ensure that we can convert to and from [RFC\n 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.\n\n # Examples\n\n Example 1: Compute Timestamp from POSIX `time()`.\n\n     Timestamp timestamp;\n     timestamp.set_seconds(time(NULL));\n     timestamp.set_nanos(0);\n\n Example 2: Compute Timestamp from POSIX `gettimeofday()`.\n\n     struct timeval tv;\n     gettimeofday(\u0026tv, NULL);\n\n     Timestamp timestamp;\n     timestamp.set_seconds(tv.tv_sec);\n     timestamp.set_nanos(tv.tv_usec * 1000);\n\n Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.\n\n     FILETIME ft;\n     GetSystemTimeAsFileTime(\u0026ft);\n     UINT64 ticks = (((UINT64)ft.dwHighDateTime) \u003c\u003c 32) | ft.dwLowDateTime;\n\n     // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z\n     // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.\n     Timestamp timestamp;\n     timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));\n     timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));\n\n Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.\n\n     long millis = System.currentTimeMillis();\n\n     Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)\n         .setNanos((int) ((millis % 1000) * 1000000)).build();\n\n Example 5: Compute Timestamp from Java `Instant.now()`.\n\n     Instant now = Instant.now();\n\n     Timestamp timestamp =\n         Timestamp.newBuilder().setSeconds(now.getEpochSecond())\n             .setNanos(now.getNano()).build();\n\n Example 6: Compute Timestamp from current time in Python.\n\n     timestamp = Timestamp()\n     timestamp.GetCurrentTime()\n\n # JSON Mapping\n\n In JSON format, the Timestamp type is encoded as a string in the\n [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the\n format is \"{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z\"\n where {year} is always expressed using four digits while {month}, {day},\n {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional\n seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),\n are optional. The \"Z\" suffix indicates the timezone (\"UTC\"); the timezone\n is required. A proto3 JSON serializer should always use UTC (as indicated by\n \"Z\") when printing the Timestamp type and a proto3 JSON parser should be\n able to accept both UTC and other timezones (as indicated by an offset).\n\n For example, \"2017-01-15T01:30:15.01Z\" encodes 15.01 seconds past\n 01:30 UTC on January 15, 2017.\n\n In JavaScript, one can convert a Date object to this format using the\n standard\n [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)\n method. In Python, a standard `datetime.datetime` object can be converted\n to this format using\n [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with\n the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use\n the Joda Time's [`ISODateTimeFormat.dateTime()`](\n http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()\n ) to obtain a formatter capable of generating timestamps in this format."
+      },
+      "zitadel.filter.v2beta.InIDsFilter": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ids",
+            "description": "Defines the ids to query for."
+          }
+        },
+        "title": "InIDsFilter",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2beta.PaginationRequest": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "offset",
+            "format": "int64",
+            "description": "Starting point for retrieval, in combination of offset used to query a set list of objects."
+          },
+          "limit": {
+            "type": "integer",
+            "title": "limit",
+            "description": "limit is the maximum amount of objects returned. The default is set to 100\n with a maximum of 1000 in the runtime configuration.\n If the limit exceeds the maximum configured Zitadel will throw an error.\n If no limit is present the default is taken."
+          },
+          "asc": {
+            "type": "boolean",
+            "title": "asc",
+            "description": "Asc is the sorting order. If true the list is sorted ascending, if false\n the list is sorted descending. The default is descending."
+          }
+        },
+        "title": "PaginationRequest",
+        "additionalProperties": false
+      },
+      "zitadel.filter.v2beta.PaginationResponse": {
+        "type": "object",
+        "properties": {
+          "totalResult": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "total_result",
+            "format": "int64",
+            "description": "Absolute number of objects matching the query, regardless of applied limit."
+          },
+          "appliedLimit": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "applied_limit",
+            "format": "int64",
+            "description": "Applied limit from query, defines maximum amount of objects per request, to compare if all objects are returned."
+          }
+        },
+        "title": "PaginationResponse",
+        "additionalProperties": false
+      },
+      "zitadel.object.v2beta.Details": {
+        "type": "object",
+        "properties": {
+          "sequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "sequence",
+            "format": "int64",
+            "description": "sequence represents the order of events. It's always counting\n\n on read: the sequence of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "change_date is the timestamp when the object was changed\n\n on read: the timestamp of the last event reduced by the projection\n\n on manipulation: the timestamp of the event(s) added by the manipulation",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "resourceOwner": {
+            "type": "string",
+            "title": "resource_owner",
+            "description": "resource_owner is the organization or instance_id an object belongs to"
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "creation_date is the timestamp where the first operation on the object was made",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "Details",
+        "additionalProperties": false
+      },
+      "zitadel.object.v2beta.ListDetails": {
+        "type": "object",
+        "properties": {
+          "totalResult": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "total_result",
+            "format": "int64"
+          },
+          "processedSequence": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "processed_sequence",
+            "format": "int64"
+          },
+          "timestamp": {
+            "title": "timestamp",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "ListDetails",
+        "additionalProperties": false
+      },
+      "zitadel.object.v2beta.RequestContext": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "instance": {
+                "type": "boolean",
+                "title": "instance"
+              }
+            },
+            "title": "instance",
+            "required": [
+              "instance"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "orgId": {
+                "type": "string",
+                "title": "org_id"
+              }
+            },
+            "title": "org_id",
+            "required": [
+              "orgId"
+            ]
+          }
+        ],
+        "title": "RequestContext",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.BrandingSettings": {
+        "type": "object",
+        "properties": {
+          "lightTheme": {
+            "title": "light_theme",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.Theme"
+          },
+          "darkTheme": {
+            "title": "dark_theme",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.Theme"
+          },
+          "fontUrl": {
+            "type": "string",
+            "title": "font_url"
+          },
+          "hideLoginNameSuffix": {
+            "type": "boolean",
+            "title": "hide_login_name_suffix",
+            "description": "hides the org suffix on the login form if the scope \\\"urn:zitadel:iam:org:domain:primary:{domainname}\\\" is set"
+          },
+          "disableWatermark": {
+            "type": "boolean",
+            "title": "disable_watermark"
+          },
+          "resourceOwnerType": {
+            "title": "resource_owner_type",
+            "description": "resource_owner_type returns if the setting is managed on the organization or on the instance",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.ResourceOwnerType"
+          },
+          "themeMode": {
+            "title": "theme_mode",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.ThemeMode"
+          }
+        },
+        "title": "BrandingSettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.DeleteOrganizationSettingsRequest": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "Organization ID in which this settings are set."
+          }
+        },
+        "title": "DeleteOrganizationSettingsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.DeleteOrganizationSettingsResponse": {
+        "type": "object",
+        "properties": {
+          "deletionDate": {
+            "title": "deletion_date",
+            "description": "The timestamp of the deletion of the organization settings.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "DeleteOrganizationSettingsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.DomainSettings": {
+        "type": "object",
+        "properties": {
+          "loginNameIncludesDomain": {
+            "type": "boolean",
+            "title": "login_name_includes_domain"
+          },
+          "requireOrgDomainVerification": {
+            "type": "boolean",
+            "title": "require_org_domain_verification"
+          },
+          "smtpSenderAddressMatchesInstanceDomain": {
+            "type": "boolean",
+            "title": "smtp_sender_address_matches_instance_domain"
+          },
+          "resourceOwnerType": {
+            "title": "resource_owner_type",
+            "description": "resource_owner_type returns if the setting is managed on the organization or on the instance",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.ResourceOwnerType"
+          }
+        },
+        "title": "DomainSettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.EmbeddedIframeSettings": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "title": "enabled"
+          },
+          "allowedOrigins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "allowed_origins"
+          }
+        },
+        "title": "EmbeddedIframeSettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetActiveIdentityProvidersRequest": {
+        "type": "object",
+        "properties": {
+          "ctx": {
+            "title": "ctx",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.RequestContext"
+          }
+        },
+        "title": "GetActiveIdentityProvidersRequest",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetActiveIdentityProvidersResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.ListDetails"
+          },
+          "identityProviders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.settings.v2beta.IdentityProvider"
+            },
+            "title": "identity_providers"
+          }
+        },
+        "title": "GetActiveIdentityProvidersResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetBrandingSettingsRequest": {
+        "type": "object",
+        "properties": {
+          "ctx": {
+            "title": "ctx",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.RequestContext"
+          }
+        },
+        "title": "GetBrandingSettingsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetBrandingSettingsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.Details"
+          },
+          "settings": {
+            "title": "settings",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.BrandingSettings"
+          }
+        },
+        "title": "GetBrandingSettingsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetDomainSettingsRequest": {
+        "type": "object",
+        "properties": {
+          "ctx": {
+            "title": "ctx",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.RequestContext"
+          }
+        },
+        "title": "GetDomainSettingsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetDomainSettingsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.Details"
+          },
+          "settings": {
+            "title": "settings",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.DomainSettings"
+          }
+        },
+        "title": "GetDomainSettingsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetGeneralSettingsRequest": {
+        "type": "object",
+        "title": "GetGeneralSettingsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetGeneralSettingsResponse": {
+        "type": "object",
+        "properties": {
+          "defaultOrgId": {
+            "type": "string",
+            "title": "default_org_id"
+          },
+          "defaultLanguage": {
+            "type": "string",
+            "title": "default_language"
+          },
+          "supportedLanguages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "supported_languages"
+          }
+        },
+        "title": "GetGeneralSettingsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetLegalAndSupportSettingsRequest": {
+        "type": "object",
+        "properties": {
+          "ctx": {
+            "title": "ctx",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.RequestContext"
+          }
+        },
+        "title": "GetLegalAndSupportSettingsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetLegalAndSupportSettingsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.Details"
+          },
+          "settings": {
+            "title": "settings",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.LegalAndSupportSettings"
+          }
+        },
+        "title": "GetLegalAndSupportSettingsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetLockoutSettingsRequest": {
+        "type": "object",
+        "properties": {
+          "ctx": {
+            "title": "ctx",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.RequestContext"
+          }
+        },
+        "title": "GetLockoutSettingsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetLockoutSettingsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.Details"
+          },
+          "settings": {
+            "title": "settings",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.LockoutSettings"
+          }
+        },
+        "title": "GetLockoutSettingsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetLoginSettingsRequest": {
+        "type": "object",
+        "properties": {
+          "ctx": {
+            "title": "ctx",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.RequestContext"
+          }
+        },
+        "title": "GetLoginSettingsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetLoginSettingsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.Details"
+          },
+          "settings": {
+            "title": "settings",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.LoginSettings"
+          }
+        },
+        "title": "GetLoginSettingsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetPasswordComplexitySettingsRequest": {
+        "type": "object",
+        "properties": {
+          "ctx": {
+            "title": "ctx",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.RequestContext"
+          }
+        },
+        "title": "GetPasswordComplexitySettingsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetPasswordComplexitySettingsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.Details"
+          },
+          "settings": {
+            "title": "settings",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.PasswordComplexitySettings"
+          }
+        },
+        "title": "GetPasswordComplexitySettingsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetPasswordExpirySettingsRequest": {
+        "type": "object",
+        "properties": {
+          "ctx": {
+            "title": "ctx",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.RequestContext"
+          }
+        },
+        "title": "GetPasswordExpirySettingsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetPasswordExpirySettingsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.Details"
+          },
+          "settings": {
+            "title": "settings",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.PasswordExpirySettings"
+          }
+        },
+        "title": "GetPasswordExpirySettingsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.GetSecuritySettingsRequest": {
+        "type": "object",
+        "title": "GetSecuritySettingsRequest",
+        "additionalProperties": false,
+        "description": "This is an empty request"
+      },
+      "zitadel.settings.v2beta.GetSecuritySettingsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.Details"
+          },
+          "settings": {
+            "title": "settings",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.SecuritySettings"
+          }
+        },
+        "title": "GetSecuritySettingsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.IdentityProvider": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "name": {
+            "type": "string",
+            "title": "name"
+          },
+          "type": {
+            "title": "type",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.IdentityProviderType"
+          }
+        },
+        "title": "IdentityProvider",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.IdentityProviderType": {
+        "type": "string",
+        "title": "IdentityProviderType",
+        "enum": [
+          "IDENTITY_PROVIDER_TYPE_UNSPECIFIED",
+          "IDENTITY_PROVIDER_TYPE_OIDC",
+          "IDENTITY_PROVIDER_TYPE_JWT",
+          "IDENTITY_PROVIDER_TYPE_LDAP",
+          "IDENTITY_PROVIDER_TYPE_OAUTH",
+          "IDENTITY_PROVIDER_TYPE_AZURE_AD",
+          "IDENTITY_PROVIDER_TYPE_GITHUB",
+          "IDENTITY_PROVIDER_TYPE_GITHUB_ES",
+          "IDENTITY_PROVIDER_TYPE_GITLAB",
+          "IDENTITY_PROVIDER_TYPE_GITLAB_SELF_HOSTED",
+          "IDENTITY_PROVIDER_TYPE_GOOGLE",
+          "IDENTITY_PROVIDER_TYPE_SAML"
+        ]
+      },
+      "zitadel.settings.v2beta.LegalAndSupportSettings": {
+        "type": "object",
+        "properties": {
+          "tosLink": {
+            "type": "string",
+            "title": "tos_link"
+          },
+          "privacyPolicyLink": {
+            "type": "string",
+            "title": "privacy_policy_link"
+          },
+          "helpLink": {
+            "type": "string",
+            "title": "help_link"
+          },
+          "supportEmail": {
+            "type": "string",
+            "title": "support_email"
+          },
+          "resourceOwnerType": {
+            "title": "resource_owner_type",
+            "description": "resource_owner_type returns if the setting is managed on the organization or on the instance",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.ResourceOwnerType"
+          },
+          "docsLink": {
+            "type": "string",
+            "title": "docs_link"
+          },
+          "customLink": {
+            "type": "string",
+            "title": "custom_link"
+          },
+          "customLinkText": {
+            "type": "string",
+            "title": "custom_link_text"
+          }
+        },
+        "title": "LegalAndSupportSettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.ListOrganizationSettingsRequest": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationRequest"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "pagination",
+            "description": "List limitations and ordering."
+          },
+          "sortingColumn": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.settings.v2beta.OrganizationSettingsFieldName"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "sorting_column",
+            "description": "The field the result is sorted by. The default is the creation date. Beware that if you change this, your result pagination might be inconsistent."
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.settings.v2beta.OrganizationSettingsSearchFilter"
+            },
+            "title": "filters"
+          }
+        },
+        "title": "ListOrganizationSettingsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.ListOrganizationSettingsResponse": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "title": "pagination",
+            "$ref": "#/components/schemas/zitadel.filter.v2beta.PaginationResponse"
+          },
+          "organizationSettings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.settings.v2beta.OrganizationSettings"
+            },
+            "title": "organization_settings"
+          }
+        },
+        "title": "ListOrganizationSettingsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.LockoutSettings": {
+        "type": "object",
+        "properties": {
+          "maxPasswordAttempts": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "max_password_attempts",
+            "format": "int64"
+          },
+          "resourceOwnerType": {
+            "title": "resource_owner_type",
+            "description": "resource_owner_type returns if the settings is managed on the organization or on the instance",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.ResourceOwnerType"
+          },
+          "maxOtpAttempts": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "max_otp_attempts",
+            "format": "int64"
+          }
+        },
+        "title": "LockoutSettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.LoginSettings": {
+        "type": "object",
+        "properties": {
+          "allowUsernamePassword": {
+            "type": "boolean",
+            "title": "allow_username_password"
+          },
+          "allowRegister": {
+            "type": "boolean",
+            "title": "allow_register"
+          },
+          "allowExternalIdp": {
+            "type": "boolean",
+            "title": "allow_external_idp"
+          },
+          "forceMfa": {
+            "type": "boolean",
+            "title": "force_mfa"
+          },
+          "passkeysType": {
+            "title": "passkeys_type",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.PasskeysType"
+          },
+          "hidePasswordReset": {
+            "type": "boolean",
+            "title": "hide_password_reset"
+          },
+          "ignoreUnknownUsernames": {
+            "type": "boolean",
+            "title": "ignore_unknown_usernames"
+          },
+          "defaultRedirectUri": {
+            "type": "string",
+            "title": "default_redirect_uri"
+          },
+          "passwordCheckLifetime": {
+            "title": "password_check_lifetime",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "externalLoginCheckLifetime": {
+            "title": "external_login_check_lifetime",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "mfaInitSkipLifetime": {
+            "title": "mfa_init_skip_lifetime",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "secondFactorCheckLifetime": {
+            "title": "second_factor_check_lifetime",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "multiFactorCheckLifetime": {
+            "title": "multi_factor_check_lifetime",
+            "$ref": "#/components/schemas/google.protobuf.Duration"
+          },
+          "secondFactors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.settings.v2beta.SecondFactorType"
+            },
+            "title": "second_factors"
+          },
+          "multiFactors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.settings.v2beta.MultiFactorType"
+            },
+            "title": "multi_factors"
+          },
+          "allowDomainDiscovery": {
+            "type": "boolean",
+            "title": "allow_domain_discovery",
+            "description": "If set to true, the suffix (@domain.com) of an unknown username input on the login screen will be matched against the org domains and will redirect to the registration of that organization on success."
+          },
+          "disableLoginWithEmail": {
+            "type": "boolean",
+            "title": "disable_login_with_email"
+          },
+          "disableLoginWithPhone": {
+            "type": "boolean",
+            "title": "disable_login_with_phone"
+          },
+          "resourceOwnerType": {
+            "title": "resource_owner_type",
+            "description": "resource_owner_type returns if the settings is managed on the organization or on the instance",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.ResourceOwnerType"
+          },
+          "forceMfaLocalOnly": {
+            "type": "boolean",
+            "title": "force_mfa_local_only"
+          }
+        },
+        "title": "LoginSettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.MultiFactorType": {
+        "type": "string",
+        "title": "MultiFactorType",
+        "enum": [
+          "MULTI_FACTOR_TYPE_UNSPECIFIED",
+          "MULTI_FACTOR_TYPE_U2F_WITH_VERIFICATION"
+        ]
+      },
+      "zitadel.settings.v2beta.OrganizationScopedUsernamesFilter": {
+        "type": "object",
+        "properties": {
+          "organizationScopedUsernames": {
+            "type": "boolean",
+            "title": "organization_scoped_usernames"
+          }
+        },
+        "title": "OrganizationScopedUsernamesFilter",
+        "additionalProperties": false,
+        "description": "Query for organization settings with specific scopes usernames."
+      },
+      "zitadel.settings.v2beta.OrganizationSettings": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "The unique identifier of the organization the settings belong to."
+          },
+          "creationDate": {
+            "title": "creation_date",
+            "description": "The timestamp of the organization settings creation.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "changeDate": {
+            "title": "change_date",
+            "description": "The timestamp of the last change to the organization settings.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          },
+          "organizationScopedUsernames": {
+            "type": "boolean",
+            "title": "organization_scoped_usernames",
+            "description": "Defines if the usernames have to be unique in the organization context."
+          }
+        },
+        "title": "OrganizationSettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.OrganizationSettingsFieldName": {
+        "type": "string",
+        "title": "OrganizationSettingsFieldName",
+        "enum": [
+          "ORGANIZATION_SETTINGS_FIELD_NAME_UNSPECIFIED",
+          "ORGANIZATION_SETTINGS_FIELD_NAME_ORGANIZATION_ID",
+          "ORGANIZATION_SETTINGS_FIELD_NAME_CREATION_DATE",
+          "ORGANIZATION_SETTINGS_FIELD_NAME_CHANGE_DATE"
+        ]
+      },
+      "zitadel.settings.v2beta.OrganizationSettingsSearchFilter": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "inOrganizationIdsFilter": {
+                "title": "in_organization_ids_filter",
+                "$ref": "#/components/schemas/zitadel.filter.v2beta.InIDsFilter"
+              }
+            },
+            "title": "in_organization_ids_filter",
+            "required": [
+              "inOrganizationIdsFilter"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "organizationScopedUsernamesFilter": {
+                "title": "organization_scoped_usernames_filter",
+                "$ref": "#/components/schemas/zitadel.settings.v2beta.OrganizationScopedUsernamesFilter"
+              }
+            },
+            "title": "organization_scoped_usernames_filter",
+            "required": [
+              "organizationScopedUsernamesFilter"
+            ]
+          }
+        ],
+        "title": "OrganizationSettingsSearchFilter",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.PasskeysType": {
+        "type": "string",
+        "title": "PasskeysType",
+        "enum": [
+          "PASSKEYS_TYPE_NOT_ALLOWED",
+          "PASSKEYS_TYPE_ALLOWED"
+        ]
+      },
+      "zitadel.settings.v2beta.PasswordComplexitySettings": {
+        "type": "object",
+        "properties": {
+          "minLength": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "min_length",
+            "format": "int64"
+          },
+          "requiresUppercase": {
+            "type": "boolean",
+            "title": "requires_uppercase"
+          },
+          "requiresLowercase": {
+            "type": "boolean",
+            "title": "requires_lowercase"
+          },
+          "requiresNumber": {
+            "type": "boolean",
+            "title": "requires_number"
+          },
+          "requiresSymbol": {
+            "type": "boolean",
+            "title": "requires_symbol"
+          },
+          "resourceOwnerType": {
+            "title": "resource_owner_type",
+            "description": "resource_owner_type returns if the settings is managed on the organization or on the instance",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.ResourceOwnerType"
+          }
+        },
+        "title": "PasswordComplexitySettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.PasswordExpirySettings": {
+        "type": "object",
+        "properties": {
+          "maxAgeDays": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "max_age_days",
+            "format": "int64",
+            "description": "Amount of days after which a password will expire. The user will be forced to change the password on the following authentication."
+          },
+          "expireWarnDays": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "title": "expire_warn_days",
+            "format": "int64",
+            "description": "Amount of days after which the user should be notified of the upcoming expiry. Zitadel will not notify the user."
+          },
+          "resourceOwnerType": {
+            "title": "resource_owner_type",
+            "description": "resource_owner_type returns if the settings is managed on the organization or on the instance",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.ResourceOwnerType"
+          }
+        },
+        "title": "PasswordExpirySettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.ResourceOwnerType": {
+        "type": "string",
+        "title": "ResourceOwnerType",
+        "enum": [
+          "RESOURCE_OWNER_TYPE_UNSPECIFIED",
+          "RESOURCE_OWNER_TYPE_INSTANCE",
+          "RESOURCE_OWNER_TYPE_ORG"
+        ]
+      },
+      "zitadel.settings.v2beta.SecondFactorType": {
+        "type": "string",
+        "title": "SecondFactorType",
+        "enum": [
+          "SECOND_FACTOR_TYPE_UNSPECIFIED",
+          "SECOND_FACTOR_TYPE_OTP",
+          "SECOND_FACTOR_TYPE_U2F",
+          "SECOND_FACTOR_TYPE_OTP_EMAIL",
+          "SECOND_FACTOR_TYPE_OTP_SMS"
+        ]
+      },
+      "zitadel.settings.v2beta.SecuritySettings": {
+        "type": "object",
+        "properties": {
+          "embeddedIframe": {
+            "title": "embedded_iframe",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.EmbeddedIframeSettings"
+          },
+          "enableImpersonation": {
+            "type": "boolean",
+            "title": "enable_impersonation"
+          }
+        },
+        "title": "SecuritySettings",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.SetOrganizationSettingsRequest": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "title": "organization_id",
+            "description": "Organization ID in which this settings are set."
+          },
+          "organizationScopedUsernames": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "title": "organization_scoped_usernames",
+            "description": "Force the usernames in the organization to be unique, only possible to set if the existing users already have unique usernames in the organization context."
+          }
+        },
+        "title": "SetOrganizationSettingsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.SetOrganizationSettingsResponse": {
+        "type": "object",
+        "properties": {
+          "setDate": {
+            "title": "set_date",
+            "description": "The timestamp of the set of the organization settings.",
+            "$ref": "#/components/schemas/google.protobuf.Timestamp"
+          }
+        },
+        "title": "SetOrganizationSettingsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.SetSecuritySettingsRequest": {
+        "type": "object",
+        "properties": {
+          "embeddedIframe": {
+            "title": "embedded_iframe",
+            "$ref": "#/components/schemas/zitadel.settings.v2beta.EmbeddedIframeSettings"
+          },
+          "enableImpersonation": {
+            "type": "boolean",
+            "title": "enable_impersonation"
+          }
+        },
+        "title": "SetSecuritySettingsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.SetSecuritySettingsResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "title": "details",
+            "$ref": "#/components/schemas/zitadel.object.v2beta.Details"
+          }
+        },
+        "title": "SetSecuritySettingsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.Theme": {
+        "type": "object",
+        "properties": {
+          "primaryColor": {
+            "type": "string",
+            "title": "primary_color",
+            "description": "hex value for primary color"
+          },
+          "backgroundColor": {
+            "type": "string",
+            "title": "background_color",
+            "description": "hex value for background color"
+          },
+          "warnColor": {
+            "type": "string",
+            "title": "warn_color",
+            "description": "hex value for warning color"
+          },
+          "fontColor": {
+            "type": "string",
+            "title": "font_color",
+            "description": "hex value for font color"
+          },
+          "logoUrl": {
+            "type": "string",
+            "title": "logo_url",
+            "description": "url where the logo is served"
+          },
+          "iconUrl": {
+            "type": "string",
+            "title": "icon_url",
+            "description": "url where the icon is served"
+          }
+        },
+        "title": "Theme",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2beta.ThemeMode": {
+        "type": "string",
+        "title": "ThemeMode",
+        "enum": [
+          "THEME_MODE_UNSPECIFIED",
+          "THEME_MODE_AUTO",
+          "THEME_MODE_LIGHT",
+          "THEME_MODE_DARK"
+        ]
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "zitadel.settings.v2beta.SettingsService",
+      "description": "Deprecated: use settings service v2 instead. This service will be removed in the next major version of ZITADEL."
+    }
+  ]
+}

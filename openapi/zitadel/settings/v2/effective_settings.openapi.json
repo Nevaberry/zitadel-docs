@@ -1,0 +1,136 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.settings.v2"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "zitadel.settings.v2.GetEffectiveSettingsRequest": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "organization_id"
+          },
+          "projectId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "project_id"
+          },
+          "applicationId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "application_id"
+          },
+          "types": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.settings.v2.SettingsType"
+            },
+            "title": "types",
+            "description": "empty or omitted = return all"
+          }
+        },
+        "title": "GetEffectiveSettingsRequest",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2.GetEffectiveSettingsResponse": {
+        "type": "object",
+        "properties": {
+          "links": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.settings.v2.LinkSettings"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "links"
+          }
+        },
+        "title": "GetEffectiveSettingsResponse",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2.Link": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "title": "type",
+            "$ref": "#/components/schemas/zitadel.settings.v2.LinkType"
+          },
+          "url": {
+            "type": "string",
+            "title": "url",
+            "description": "Target URL or mailto address for the link.\n Must be either a valid absolute URL (e.g., \"https://example.com/tos\")\n or a mailto address (e.g., \"mailto:support@example.com\").\n May contain language placeholders ({{.Lang}}) to support localized destinations."
+          },
+          "translationKey": {
+            "type": "string",
+            "title": "translation_key",
+            "description": "Translation key for the link text.\n Required for CUSTOM links; must be empty for well-known types.\n\n Well-known types: labels come from the frontend i18n files, not this field.\n Custom links: this is a translation key resolved via GetHostedLoginTranslation.\n Register display text per language via SetHostedLoginTranslation."
+          },
+          "target": {
+            "title": "target",
+            "$ref": "#/components/schemas/zitadel.settings.v2.LinkTarget"
+          }
+        },
+        "title": "Link",
+        "additionalProperties": false
+      },
+      "zitadel.settings.v2.LinkSettings": {
+        "type": "object",
+        "properties": {
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/zitadel.settings.v2.Link"
+            },
+            "title": "links"
+          }
+        },
+        "title": "LinkSettings",
+        "additionalProperties": false,
+        "description": "Ordered list of links displayed in the login footer.\n The array order determines display order — there is no separate order field.\n Protobuf `repeated` fields preserve insertion order across all languages."
+      },
+      "zitadel.settings.v2.LinkTarget": {
+        "type": "string",
+        "title": "LinkTarget",
+        "enum": [
+          "LINK_TARGET_UNSPECIFIED",
+          "LINK_TARGET_SELF",
+          "LINK_TARGET_BLANK"
+        ]
+      },
+      "zitadel.settings.v2.LinkType": {
+        "type": "string",
+        "title": "LinkType",
+        "enum": [
+          "LINK_TYPE_UNSPECIFIED",
+          "LINK_TYPE_TERMS_OF_SERVICE",
+          "LINK_TYPE_PRIVACY_POLICY",
+          "LINK_TYPE_HELP",
+          "LINK_TYPE_SUPPORT",
+          "LINK_TYPE_DOCS",
+          "LINK_TYPE_CUSTOM"
+        ]
+      },
+      "zitadel.settings.v2.SettingsType": {
+        "type": "string",
+        "title": "SettingsType",
+        "enum": [
+          "SETTINGS_TYPE_UNSPECIFIED",
+          "SETTINGS_TYPE_LINK_SETTINGS"
+        ]
+      }
+    }
+  },
+  "security": []
+}

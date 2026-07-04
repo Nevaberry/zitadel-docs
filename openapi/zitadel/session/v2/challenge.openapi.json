@@ -1,0 +1,265 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zitadel.session.v2"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "google.protobuf.ListValue": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/google.protobuf.Value"
+            },
+            "title": "values",
+            "description": "Repeated field of dynamically typed values."
+          }
+        },
+        "title": "ListValue",
+        "additionalProperties": false,
+        "description": "`ListValue` is a wrapper around a repeated field of values.\n\n The JSON representation for `ListValue` is JSON array."
+      },
+      "google.protobuf.NullValue": {
+        "type": "string",
+        "title": "NullValue",
+        "enum": [
+          "NULL_VALUE"
+        ],
+        "description": "`NullValue` is a singleton enumeration to represent the null value for the\n `Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`."
+      },
+      "google.protobuf.Struct": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/google.protobuf.Value"
+        },
+        "description": "`Struct` represents a structured data value, consisting of fields\n which map to dynamically typed values. In some languages, `Struct`\n might be supported by a native representation. For example, in\n scripting languages like JS a struct is represented as an\n object. The details of that representation are described together\n with the proto support for the language.\n\n The JSON representation for `Struct` is JSON object."
+      },
+      "google.protobuf.Struct.FieldsEntry": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "key"
+          },
+          "value": {
+            "title": "value",
+            "$ref": "#/components/schemas/google.protobuf.Value"
+          }
+        },
+        "title": "FieldsEntry",
+        "additionalProperties": false
+      },
+      "google.protobuf.Value": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "array"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true
+          }
+        ],
+        "description": "`Value` represents a dynamically typed value which can be either\n null, a number, a string, a boolean, a recursive struct value, or a\n list of values. A producer of value is expected to set one of these\n variants. Absence of any variant indicates an error.\n\n The JSON representation for `Value` is JSON value."
+      },
+      "zitadel.session.v2.Challenges": {
+        "type": "object",
+        "properties": {
+          "webAuthN": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.session.v2.Challenges.WebAuthN"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "web_auth_n"
+          },
+          "otpSms": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "otp_sms"
+          },
+          "otpEmail": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "otp_email"
+          }
+        },
+        "title": "Challenges",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.Challenges.WebAuthN": {
+        "type": "object",
+        "properties": {
+          "publicKeyCredentialRequestOptions": {
+            "title": "public_key_credential_request_options",
+            "$ref": "#/components/schemas/google.protobuf.Struct"
+          }
+        },
+        "title": "WebAuthN",
+        "additionalProperties": false,
+        "description": "WebAuthN contains the options for the Assertion Generation (dictionary PublicKeyCredentialRequestOptions).\n Generated helper methods transform the field to JSON, for use in a WebauthN client.\n See also: https://www.w3.org/TR/webauthn/#dictdef-publickeycredentialrequestoptions"
+      },
+      "zitadel.session.v2.RequestChallenges": {
+        "type": "object",
+        "properties": {
+          "webAuthN": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.session.v2.RequestChallenges.WebAuthN"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "web_auth_n",
+            "description": "WebAuthN requests a challenge to be used in the WebAuthN authentication ceremony.\n They can be used for both passkey and U2F authentication.\n They're required for a webauthn check at the SetSession endpoint."
+          },
+          "otpSms": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.session.v2.RequestChallenges.OTPSMS"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "otp_sms",
+            "description": "OTPSMS requests a code to be sent via SMS to the user's primary phone.\n It is required for an OTP check at the SetSession endpoint."
+          },
+          "otpEmail": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/zitadel.session.v2.RequestChallenges.OTPEmail"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "otp_email",
+            "description": "OTPEmail requests a code to be sent via email to the user's primary email address.\n It is required for an OTP check at the SetSession endpoint."
+          }
+        },
+        "title": "RequestChallenges",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.RequestChallenges.OTPEmail": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "returnCode": {
+                "title": "return_code",
+                "$ref": "#/components/schemas/zitadel.session.v2.RequestChallenges.OTPEmail.ReturnCode"
+              }
+            },
+            "title": "return_code",
+            "required": [
+              "returnCode"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "sendCode": {
+                "title": "send_code",
+                "$ref": "#/components/schemas/zitadel.session.v2.RequestChallenges.OTPEmail.SendCode"
+              }
+            },
+            "title": "send_code",
+            "required": [
+              "sendCode"
+            ]
+          }
+        ],
+        "title": "OTPEmail",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.RequestChallenges.OTPEmail.ReturnCode": {
+        "type": "object",
+        "title": "ReturnCode",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.RequestChallenges.OTPEmail.SendCode": {
+        "type": "object",
+        "properties": {
+          "urlTemplate": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "url_template",
+            "description": "Optionally set a url_template, which will be used in the mail sent by Zitadel to guide the user to your verification page.\n If no template is set, the default Zitadel url will be used.\n\n The following placeholders can be used: Code, UserID, LoginName, DisplayName, PreferredLanguage, SessionID"
+          }
+        },
+        "title": "SendCode",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.RequestChallenges.OTPSMS": {
+        "type": "object",
+        "properties": {
+          "returnCode": {
+            "type": "boolean",
+            "title": "return_code",
+            "description": "Request the code to be returned instead of sending an SMS.\n This is useful for testing or in case you want to send the code yourself."
+          }
+        },
+        "title": "OTPSMS",
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.RequestChallenges.WebAuthN": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "title": "domain",
+            "description": "The domain on which the session was created. Will be used in the WebAuthN challenge.\n It must be either the exact domain or a top-level domain of the origin of the request.\n For example if the request is coming from \"login.example.com\", the domain can be\n \"login.example.com\" or \"example.com\", but not \"other.com\" or \"sub.login.example.com\".\n See also: https://www.w3.org/TR/webauthn/#relying-party-identifier"
+          },
+          "userVerificationRequirement": {
+            "title": "user_verification_requirement",
+            "description": "User verification that is required during validation.\n When set to `USER_VERIFICATION_REQUIREMENT_REQUIRED` the behaviour is for passkey authentication.\n Other values will mean U2F.\n See also: https://www.w3.org/TR/webauthn/#enum-userVerificationRequirement\n If either the value is set to USER_VERIFICATION_REQUIREMENT_REQUIRED or the user verification\n is passed as part of the authentication ceremony, the user_verified flag will be set in the resulting webauthn factor.",
+            "$ref": "#/components/schemas/zitadel.session.v2.UserVerificationRequirement"
+          }
+        },
+        "title": "WebAuthN",
+        "required": [
+          "domain",
+          "userVerificationRequirement"
+        ],
+        "additionalProperties": false
+      },
+      "zitadel.session.v2.UserVerificationRequirement": {
+        "type": "string",
+        "title": "UserVerificationRequirement",
+        "enum": [
+          "USER_VERIFICATION_REQUIREMENT_UNSPECIFIED",
+          "USER_VERIFICATION_REQUIREMENT_REQUIRED",
+          "USER_VERIFICATION_REQUIREMENT_PREFERRED",
+          "USER_VERIFICATION_REQUIREMENT_DISCOURAGED"
+        ]
+      }
+    }
+  },
+  "security": []
+}
